@@ -1,0 +1,29 @@
+image: swedishembedded/zephyr-build:latest
+
+stages:
+ - build
+ - release
+
+merge_request_pipeline:
+    stage: build
+    artifacts:
+        paths:
+            # Save all releases
+            - release/*
+        expire_in: 2 yrs
+        when: always
+
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    script:
+        - robot scrum
+
+trunk_pipeline:
+    stage: release
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "schedule"
+        - if: $CI_PIPELINE_SOURCE == "web"
+        - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merged_result"
+        - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"
+    extends:
+        - merge_request_pipeline

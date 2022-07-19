@@ -1,0 +1,10 @@
+#!/bin/bash
+
+git diff --cached | ./scripts/checkpatch.pl --no-tree || {
+    echo ""
+    echo "###################################################"
+    echo "####    Checkpatch failed - commit aborted    #####"
+    echo "###################################################"
+    echo ""
+    exit 1
+}

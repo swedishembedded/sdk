@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# abort on error (note that this is only a fallback. You should still check
+# return codes every single time!)
+set -e
+
+# Configure git hook
+git config core.hooksPath .githooks
+
+# Install the west tool
+pip3 install -U west
+
+# Remove any existing west config (since we are reinitializing)
+if [[ -d ../.west ]]; then
+	rm -rf ../.west
+fi
+
+# Install apt packages (-qy means quet and say yes on all interactive questions)
+sudo apt-get -qy update
+# ... currently no packages here ...
+
+# Initialize the repository
+west init -l .
+west update
+
+# Install python requirements
+pip3 install -r ../zephyr/scripts/requirements-base.txt
+pip3 install -r ../zephyr/scripts/requirements-run-test.txt
+pip3 install -r ../zephyr/scripts/requirements-build-test.txt
+pip3 install -r ../zephyr/scripts/requirements-doc.txt
+
+# Install robot framework
+pip3 install robotframework
