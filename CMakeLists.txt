@@ -1,8 +1,12 @@
 # Top level CMake file
 
+# store project base
+set_property(GLOBAL PROPERTY PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR})
+
 add_subdirectory(drivers)
 add_subdirectory(cmake)
 add_subdirectory(lib)
+add_subdirectory(modules)
 
 # Add the main include directory to list of include paths
 zephyr_include_directories(include)

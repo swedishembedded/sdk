@@ -1,0 +1,6 @@
+config CMOCK
+	bool "Use CMock mocking framework"
+	select TEST
+	depends on UNITY
+	help
+			This option enables CMock testing.

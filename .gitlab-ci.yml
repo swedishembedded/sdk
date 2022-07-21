@@ -1,5 +1,9 @@
 image: swedishembedded/zephyr-build:latest
 
+default:
+  tags:
+    - docker
+
 stages:
  - check
  - build
@@ -13,7 +17,9 @@ check:
     stage: check
     artifacts:
         paths:
-        expire_in: 2 yrs
+            - report.html
+            - log.html
+        expire_in: 1 week
         when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -32,7 +38,8 @@ build:
     artifacts:
         paths:
             - doc/_build/zephyr.pdf
-        expire_in: 2 yrs
+            - build-apps/**/zephyr.elf
+        expire_in: 1 week
         when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -47,18 +54,19 @@ test:
         - build
     artifacts:
         paths:
-        expire_in: 2 yrs
+            - build-tests/coverage*
+        expire_in: 1 week
         when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
-        - echo "Empty"
+        - ./scripts/test
 
 # This is a job that does the "long build"
 # where we start with a fresh ubuntu image
 local_build:
     image: ubuntu:20.04
-    stage: test
+    stage: check
     rules:
         - if: $CI_PIPELINE_SOURCE == "schedule"
     before_script:

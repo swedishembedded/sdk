@@ -1,0 +1,2 @@
+add_subdirectory_ifdef(CONFIG_UNITY unity)
+add_subdirectory_ifdef(CONFIG_CMOCK cmock)

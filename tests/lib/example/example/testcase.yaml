@@ -1,13 +1,11 @@
 tests:
   lib.example.example.unit:
-    # for now we just build
-    build_only: true
     tags: lib/example/example.c
+    extra_configs:
+      - CONFIG_CMOCK=y
     integration_platforms:
       - native_posix
   lib.example.example.integration:
-    # for now we just build
-    build_only: true
     tags: lib/example/example.c
     integration_platforms:
       - native_posix

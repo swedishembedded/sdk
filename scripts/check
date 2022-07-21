@@ -59,12 +59,13 @@ git log --oneline --graph --decorate --abbrev-commit ${COMMIT_RANGE}
 echo -e "---------------------------------------------------"
 
 ./scripts/ci/check_compliance.py \
-    -e Gitlint \
-    -e Identity \
-    -e Nits \
-    -c $COMMIT_RANGE || {
-    echo "Checking compliance failed"
-    exit 1
+	-e Gitlint \
+	-e Identity \
+	-e Nits \
+	-c $COMMIT_RANGE || {
+	echo "Checking compliance failed"
+	echo "Run: ./scripts/fix"
+	exit 1
 }
 
 check_file_formatting(){

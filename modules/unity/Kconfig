@@ -1,0 +1,6 @@
+config UNITY
+	bool "Use Unity unit test framework"
+	select TEST
+	depends on !ZTEST
+	help
+			This enables unity test framework which you should use instead of ZTEST.

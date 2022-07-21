@@ -1,0 +1,15 @@
+
+
+int hello;
+
+
+
+
+void k_thread_foreach_unlocked(k_thread_user_cb_t user_cb, void *user_data);
+void k_thread_user_mode_enter(k_thread_entry_t entry, void *p1, void *p2,
+                                                  void *p3);
+void k_sys_runtime_stats_disable(void);
+
+int foo(int a);
+int foo(int a);
+int foo(int a);

@@ -1,0 +1,37 @@
+/**
+ * This is a multiline comment
+ **/
+/*! This is a comment */
+// This is a comment
+int hello;/** This is a comment **/
+/**'''''''''''''' FOO */
+/*** // */
+/**
+ * @brief system thread that must not abort
+ **/
+/**
+ * @brief FPU registers are managed by context switch
+ *
+ * @details
+ * This option indicates that the thread uses the CPU's floating point
+ * registers. This instructs the kernel to take additional steps to save
+ * and restore the contents of these registers when scheduling the thread.
+ * No effect if @kconfig{CONFIG_FPU_SHARING} is not enabled.
+ */
+extern void k_thread_foreach_unlocked(k_thread_user_cb_t user_cb, void *user_data);
+extern FUNC_NORETURN void k_thread_user_mode_enter(k_thread_entry_t entry, void *p1, void *p2,
+                                                  void *p3);
+extern void k_sys_runtime_stats_disable(void);
+
+static inline __deprecated int foo(int a)
+{
+	return 0;
+}
+static inline int foo(int a)
+{
+	return 0;
+}
+static ALWAYS_INLINE int foo(int a)
+{
+	return 0;
+}

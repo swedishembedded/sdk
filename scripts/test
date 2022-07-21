@@ -1,0 +1,48 @@
+#!/bin/bash
+
+ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+
+set -e
+
+. ${ROOT}/../zephyr/zephyr-env.sh
+
+# Build applications and samples
+$ROOT/../zephyr/scripts/twister \
+	--integration \
+	--coverage \
+	--coverage-platform native_posix \
+	-c \
+	-O build-tests \
+	-v \
+	-i \
+	-A boards \
+	-T tests || {
+	echo "Error while trying to build project"
+	exit 1
+}
+
+./scripts/coverage build-tests
+
+# Check that all files have coverage
+diff \
+	<(find lib drivers -name "*.c" | sort) \
+	<(lcov \
+		--rc lcov_branch_coverage=1 \
+		--list-full-path \
+		--list build-tests/coverage-project.info | \
+			grep $ROOT | \
+			awk -F '|' '{print $1;}' | \
+			xargs realpath --relative-to=$ROOT | \
+			sort
+	) || {
+	echo "Some files in the project do not have coverage data!"
+	exit 1
+}
+
+# Verify that all renode scenarios run
+for FILE in $(find $ROOT/renode -name "*.robot"); do
+	renode-test $FILE || {
+		echo "Renode test failed ($FILE)"
+		exit 1
+	}
+done

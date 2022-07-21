@@ -1,0 +1,5 @@
+:unity:
+    :suite_teardown: >
+       extern int test_suite_teardown(int); return test_suite_teardown(num_failures);
+    :main_name: unity_main
+    :cmdline_args: true

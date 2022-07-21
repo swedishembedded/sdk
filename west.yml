@@ -7,9 +7,19 @@ manifest:
   remotes:
     - name: zephyrproject-rtos
       url-base: https://github.com/zephyrproject-rtos
+    - name: throwtheswitch
+      url-base: https://github.com/ThrowTheSwitch
 
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
       revision: v3.0.0
       import: true
+    - name: cmock
+      path: modules/test/cmock
+      revision: 1b81269e78a5ecc15fd7befa95fe3a1fc19c41ad
+      remote: throwtheswitch
+    - name: unity
+      path: modules/test/cmock/vendor/unity
+      revision: 1958b977019c3ac19bb83350f7b26e60cbeb6c75
+      remote: throwtheswitch

@@ -36,3 +36,9 @@ __pycache__/
 
 # Ignore generated west config
 /.west/config
+
+# Robot framework files
+/logs/
+/results*.robot.xml
+/robot_output.xml
+/snapshots/

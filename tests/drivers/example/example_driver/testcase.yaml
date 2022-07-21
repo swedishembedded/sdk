@@ -1,0 +1,11 @@
+tests:
+  drivers.example.example_driver.unit:
+    tags: drivers/example/example_driver.c
+    extra_configs:
+      - CONFIG_CMOCK=y
+    integration_platforms:
+      - native_posix
+  drivers.example.example_driver.integration:
+    tags: drivers/example/example_driver.c
+    integration_platforms:
+      - native_posix

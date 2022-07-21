@@ -1,11 +1,12 @@
 #pragma once
 
 #include <stdint.h>
+#include <kernel.h>
 
 /** Example object */
 struct example_object {
-	/** Dummy variable */
-	uint8_t dummy;
+	/** Dummy mutex for testing */
+	struct k_mutex mx;
 };
 
 /**

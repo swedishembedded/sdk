@@ -23,7 +23,7 @@ struct example_driver_config {
 /** Driver initialization */
 static int _example_driver_init(const struct device *dev)
 {
-	if (!dev || !dev->data || !dev->config)
+	if (!dev)
 		return -EINVAL;
 	printk("Example driver initialized!\n");
 	LOG_INF("Example driver initialized!");

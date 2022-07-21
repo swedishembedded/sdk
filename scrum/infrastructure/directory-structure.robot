@@ -49,10 +49,12 @@ Drivers have proper structure
 	FOR  ${DRIVER_TYPE}  IN  @{DRIVER_TYPES}
 		File Should Exist  ${ROOT_DIR}/drivers/${DRIVER_TYPE}/CMakeLists.txt
 		File Should Exist  ${ROOT_DIR}/drivers/${DRIVER_TYPE}/Kconfig
-		@{DRIVERS} =	List Directories In Directory	${ROOT_DIR}/drivers/${DRIVER_TYPE}/
+		@{DRIVERS} =	List Files In Directory	${ROOT_DIR}/drivers/${DRIVER_TYPE}/  *.c
 		FOR  ${DRIVER}  IN  @{DRIVERS}
-			# Any per driver checks will go here
-			No Operation
+			# make sure there is a test for each driver
+			${PATH}  ${FILE} =  Split Path  ${DRIVER}
+			${NAME}  ${EXT} =  Split Extension  ${FILE}
+			Directory Should Exist  ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/
 		END
 	END
 

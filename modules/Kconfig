@@ -1,0 +1,4 @@
+menu "Unity/CMock"
+rsource "unity/Kconfig"
+rsource "cmock/Kconfig"
+endmenu

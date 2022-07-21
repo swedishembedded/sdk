@@ -3,14 +3,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+#include <unity.h>
 #include <example/example.h>
+#include <mock_kernel.h>
 
 // this is a unit test so we will include the file directly
 // this is the only place where we do this - it is the optimal solution.
 #include "../../../../../lib/example/example.c"
 
-void main(void)
+void test_example_object_init_should_return_einval_on_invalid_args(void)
 {
-	// empty for now
+	TEST_ASSERT_EQUAL(-EINVAL, example_object_init(NULL));
+}
+
+void test_example(void)
+{
+	struct example_object ex;
+
+	__wrap_k_mutex_init_ExpectAndReturn(&ex.mx, 0);
+	TEST_ASSERT_EQUAL(0, example_object_init(&ex));
 }

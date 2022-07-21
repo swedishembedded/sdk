@@ -6,15 +6,15 @@ set -e
 
 . ${ROOT}/../zephyr/zephyr-env.sh
 
+# Build applications and samples
 $ROOT/../zephyr/scripts/twister \
-	--integration \
+	-p custom_board \
 	-c \
-	-O build-all \
+	-O build-apps \
 	-v \
 	-i \
 	-A boards \
 	-T apps \
-	-T tests \
 	-T samples || {
 	echo "Error while trying to build project"
 	exit 1
