@@ -4,6 +4,8 @@ ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 
 set -e
 
+. ${ROOT}/../zephyr/zephyr-env.sh
+
 $ROOT/../zephyr/scripts/twister \
 	--integration \
 	-c \
@@ -15,4 +17,10 @@ $ROOT/../zephyr/scripts/twister \
 	-T tests \
 	-T samples || {
 	echo "Error while trying to build project"
+	exit 1
+}
+
+make -C doc pdf || {
+	echo "Error building documentation"
+	exit 1
 }

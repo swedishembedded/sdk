@@ -21,17 +21,40 @@ sudo apt install -qy --no-install-recommends \
 	ccache dfu-util device-tree-compiler wget \
 	python3-dev python3-pip python3-setuptools \
 	python3-tk python3-wheel xz-utils file \
+	black clang-format \
 	make gcc gcc-multilib g++-multilib libsdl2-dev > /dev/null
 
+# Dependencies for documentation generation
+sudo apt-get -qy install --no-install-recommends \
+	doxygen doxygen-latex dot2tex  \
+	librsvg2-bin \
+	texlive-latex-base \
+	texlive-latex-extra \
+	latexmk \
+	texlive-fonts-recommended
+
+# Install the west tool
+pip3 install -U west
+
 # Install zephyr sdk
-wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.14.2/zephyr-sdk-0.14.2_linux-x86_64.tar.gz
+wget -q https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.14.2/zephyr-sdk-0.14.2_linux-x86_64.tar.gz
 wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.14.2/sha256.sum | shasum --check --ignore-missing
 tar xf zephyr-sdk-0.14.2_linux-x86_64.tar.gz > /dev/null
 rm zephyr-sdk-0.14.2_linux-x86_64.tar.gz
 pushd zephyr-sdk-0.14.2
-./setup.sh -t all -h
+./setup.sh -t all -h -c
 popd
+sudo -E -- bash -c ' \
+	./zephyr-sdk-0.14.2/setup.sh -c && \
+	chown -R $(whoami):$(whoami) /home/$(whoami}/.cmake \
+'
 rm -rf zephyr-sdk-0.14.2
 
-# Install the west tool
-pip3 install -U west
+# Install python requirements
+pip3 install -r ../zephyr/scripts/requirements.txt
+
+# Install cmake tools for cmake-format
+pip3 install cmakelang
+
+# Install robot framework
+pip3 install robotframework

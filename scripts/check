@@ -70,7 +70,7 @@ echo -e "---------------------------------------------------"
 check_file_formatting(){
 	FILE=$1
 	if [[ $FILE == *.py ]]; then
-		black --check $FILE || {
+		black -q --check $FILE || {
 			echo "Checking formatting of $FILE failed"
 			echo "Run: ./scripts/fix"
 			return 1
@@ -103,3 +103,6 @@ for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[R]" | cut -f 3`; do
 		exit 1
 	}
 done
+
+# Verify that all tasks have been completed
+robot scrum

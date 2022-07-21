@@ -9,7 +9,9 @@
 /README.rst		@mkschreder
 /apps/		@mkschreder
 /boards/		@mkschreder
+/boards/arm/custom_board/		@mkschreder
 /cmake/		@mkschreder
+/doc/		@mkschreder
 /drivers/		@mkschreder
 /dts/		@mkschreder
 /include/		@mkschreder

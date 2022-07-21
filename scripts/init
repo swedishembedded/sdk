@@ -30,3 +30,5 @@ pip3 install cmakelang
 pip3 install robotframework
 
 . ../zephyr/zephyr-env.sh
+
+west zephyr-export

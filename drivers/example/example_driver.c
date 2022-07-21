@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <device.h>
 #include <logging/log.h>
+#include <drivers/example/example_driver.h>
 
 /** Create a logger */
 LOG_MODULE_REGISTER(example_driver);
@@ -15,7 +16,7 @@ struct example_driver {
 
 /** Driver configuration (from device tree) */
 struct example_driver_config {
-	// config variables
+	/** a custom variable from dts */
 	int custom_variable;
 };
 

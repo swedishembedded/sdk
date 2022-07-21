@@ -1,3 +1,5 @@
+image: swedishembedded/zephyr-build:latest
+
 stages:
  - check
  - build
@@ -29,12 +31,13 @@ build:
         - check
     artifacts:
         paths:
+            - doc/_build/zephyr.pdf
         expire_in: 2 yrs
         when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
-        - echo "Empty"
+        - ./scripts/build
 
 # This job runs all system tests on built applications
 test:

@@ -2,7 +2,9 @@
 
 #include <stdint.h>
 
+/** Example object */
 struct example_object {
+	/** Dummy variable */
 	uint8_t dummy;
 };
 

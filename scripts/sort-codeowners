@@ -3,5 +3,5 @@
 ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 
 LC_ALL=C sort -u -o \
-	${ROOT}/CODEOWNERS
+	${ROOT}/CODEOWNERS \
 	${ROOT}/CODEOWNERS
