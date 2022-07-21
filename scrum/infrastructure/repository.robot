@@ -1,9 +1,10 @@
 *** Settings ***
 Library  OperatingSystem
+Library  ${CURDIR}/repository.py
 Resource  ${CURDIR}/readme.robot
 Variables  ${CURDIR}/../variables.py
 
-*** Keywords ***
+*** Test Cases ***
 
 Git repository has been setup
 	Zephyr repository has a west yaml file
@@ -16,7 +17,19 @@ Git repository has been setup
 	Zephyr repository has a precommit hook
 	Zephyr repository has a VERSION file
 	Zephyr repository has an init script that sets up the workspace
-	Zephyr repository has a robot framework script that checks repository structure
+
+Git merge request title is valid
+	Check merge request title
+
+Codeowners file is sorted
+	${result}=  Run Process  ${CURDIR}/../../scripts/ci/check-file-sorted  ${CURDIR}/../../CODEOWNERS
+	IF  ${result.rc} != 0
+		Log To Console  CODEOWNERS file is not sorted
+		Log To Console  ${result.stdout}
+		Fail
+	END
+
+*** Keywords ***
 
 Zephyr repository has a readme file
 	Set Test Variable  ${README}  ${PROJECT_ROOT}/README.rst
@@ -49,6 +62,3 @@ Zephyr repository has a VERSION file
 
 Zephyr repository has an init script that sets up the workspace
 	File Should Exist  ${PROJECT_ROOT}/scripts/init
-
-Zephyr repository has a robot framework script that checks repository structure
-	File Should Exist  ${PROJECT_ROOT}/scrum/infrastructure.robot

@@ -1,8 +1,12 @@
 /CMakeLists.txt		@mkschreder
 /CODEOWNERS		@mkschreder
+/.gitlab/	@mkschreder
 /Kconfig		@mkschreder
 /LICENSE		@mkschreder
+/modules/.empty		@mkschreder
+/platform-env.sh	@mkschreder
 /README.rst		@mkschreder
-/scripts		@mkschreder
-/scrum		@mkschreder
+/scripts/		@mkschreder
+/scrum/		@mkschreder
+/tests/		@mkschreder
 /west.yml		@mkschreder

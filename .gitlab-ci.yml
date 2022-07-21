@@ -1,29 +1,68 @@
-image: swedishembedded/zephyr-build:latest
-
 stages:
+ - check
  - build
+ - test
  - release
+ - deploy
 
-merge_request_pipeline:
-    stage: build
+# This job runs all code checks, unit and integration tests
+check:
+    image: swedishembedded/zephyr-build:latest
+    stage: check
     artifacts:
         paths:
-            # Save all releases
-            - release/*
         expire_in: 2 yrs
         when: always
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    before_script:
+        - ./scripts/init
+    script:
+        - robot scrum
+        - ./scripts/check
 
+# This job builds applications
+build:
+    image: swedishembedded/zephyr-build:latest
+    stage: build
+    dependencies:
+        - check
+    artifacts:
+        paths:
+        expire_in: 2 yrs
+        when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
-        - robot scrum
+        - echo "Empty"
 
-trunk_pipeline:
-    stage: release
+# This job runs all system tests on built applications
+test:
+    image: swedishembedded/zephyr-build:latest
+    stage: test
+    dependencies:
+        - build
+    artifacts:
+        paths:
+        expire_in: 2 yrs
+        when: always
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    script:
+        - echo "Empty"
+
+# This is a job that does the "long build"
+# where we start with a fresh ubuntu image
+local_build:
+    image: ubuntu:20.04
+    stage: test
     rules:
         - if: $CI_PIPELINE_SOURCE == "schedule"
-        - if: $CI_PIPELINE_SOURCE == "web"
-        - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merged_result"
-        - if: $CI_MERGE_REQUEST_EVENT_TYPE == "merge_train"
-    extends:
-        - merge_request_pipeline
+    before_script:
+        - apt-get update -qy
+        - apt-get install -qy sudo
+        - ./scripts/install-sdk
+        - ./scripts/init
+    script:
+        - robot scrum
+        - ./scripts/check

@@ -19,6 +19,7 @@
 /Nits.txt
 /checkpatch.txt
 /compliance.xml
+/Codeowners.txt
 /pylint.txt
 
 # Ignore gdb history

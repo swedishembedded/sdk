@@ -1,0 +1,4 @@
+menuconfig PLACEHOLDER
+	bool "Dummy option"
+	help
+		This is a dummy option to make tests pass

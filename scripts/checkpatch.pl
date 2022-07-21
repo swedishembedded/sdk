@@ -340,6 +340,8 @@ if ($tree) {
 		} elsif ($0 =~ m@(.*)/scripts/[^/]*$@ &&
 						top_of_kernel_tree($1)) {
 			$root = $1;
+		} else {
+			$root = "."
 		}
 	}
 
