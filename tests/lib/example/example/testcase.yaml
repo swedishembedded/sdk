@@ -1,0 +1,9 @@
+tests:
+  lib.example.example.unit:
+    tags: lib/example/example.c
+    integration_platforms:
+      - native_posix
+  lib.example.example.integration:
+    tags: lib/example/example.c
+    integration_platforms:
+      - native_posix

@@ -1,0 +1,4 @@
+config EXAMPLE_DRIVER
+	bool "Example driver"
+	help
+		This is our example driver.

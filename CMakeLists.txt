@@ -1,3 +1,9 @@
+# Top level CMake file
+
+add_subdirectory(drivers)
+add_subdirectory(cmake)
+add_subdirectory(lib)
+
 # Add the main include directory to list of include paths
 zephyr_include_directories(include)
 
@@ -18,6 +24,10 @@ zephyr_compile_options("-Warray-bounds")
 zephyr_compile_options("-Wuninitialized")
 # detects passing null arguments into functions that do not check for it
 zephyr_compile_options("-Wnonnull")
+
+# Disable old style declaration
+# Reason: zephyr pinctrl fails to compile
+zephyr_compile_options("-Wno-old-style-declaration")
 
 # Disable unused parameter warning
 # Reason: zephyr pm functions fail to compile

@@ -1,0 +1,23 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+    Device tree bindings for the example driver.
+
+    Example definition in devicetree:
+
+    example_driver {
+        compatible = "example-driver";
+        custom-variable = <1>;
+        status = "okay";
+    };
+
+compatible: "example-driver"
+
+include: base.yaml
+
+properties:
+  custom-variable:
+    type: int
+    required: true
+    description: A custom variable

@@ -1,0 +1,7 @@
+# Copyright (c) 2022 Martin Schröder
+# SPDX-License-Identifier: Apache-2.0
+
+config EXAMPLE_LIBRARY
+	bool "Example library"
+	help
+		Example library

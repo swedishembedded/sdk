@@ -2,4 +2,6 @@
 
 ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 
-sort -u -o $ROOT/CODEOWNERS $ROOT/CODEOWNERS
+LC_ALL=C sort -u -o \
+	${ROOT}/CODEOWNERS
+	${ROOT}/CODEOWNERS

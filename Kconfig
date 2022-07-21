@@ -1,3 +1,4 @@
-# This file will contain rsource directives for subdirectories
-# For now it is empty
-# rsource "drivers/Kconfig"
+# Source subdirectories
+
+rsource "drivers/Kconfig"
+rsource "lib/Kconfig"

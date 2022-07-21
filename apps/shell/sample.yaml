@@ -1,0 +1,8 @@
+sample:
+  name: Example shell application
+tests:
+  apps.shell.release:
+    build_only: true
+    integration_platforms:
+      - native_posix
+      - custom_board

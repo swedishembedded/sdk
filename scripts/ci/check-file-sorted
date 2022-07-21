@@ -8,9 +8,9 @@ if [[ ! "$1" ]]; then
 fi
 
 # check that file is sorted
-diff <(cat $1 | sort) <(cat $1) || {
-    msg_err "File $1 is not sorted";
-    echo "Run: sort -u -o $1 $1"
+LC_ALL=C sort --check $1 || {
+    echo "File $1 is not sorted";
+    echo "Run: LC_ALL=C sort -u -o $1 $1"
     exit 1
 }
 

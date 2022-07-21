@@ -12,6 +12,7 @@
 /output.xml
 
 # Ignore output of compliance checks
+/Codeowners.txt
 /Gitlint.txt
 /Identity.txt
 /Kconfig.txt

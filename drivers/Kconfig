@@ -1,0 +1,5 @@
+menu "Device Drivers"
+
+rsource "example/Kconfig"
+
+endmenu
