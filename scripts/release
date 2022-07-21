@@ -1,0 +1,73 @@
+#!/bin/bash
+
+ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+set -e
+
+. ${ROOT}/../zephyr/zephyr-env.sh
+. ${ROOT}/VERSION
+
+# Parse arguments (standard way of doing it in bash)
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	-b|--board)
+		PLATFORM="$2"
+		shift
+		shift
+		;;
+	-s|--source)
+		SOURCE_DIRECTORY="$2"
+		shift
+		shift
+		;;
+	*)
+		POS_ARGS+=("$1")
+		shift
+		;;
+	esac
+done
+
+if [[ $SOURCE_DIRECTORY = "" ]]; then
+	echo "No source directory given";
+	exit 1
+fi
+
+if [[ $PLATFORM = "" ]]; then
+	echo "No platform given";
+	exit 1
+fi
+
+# Create build directory
+BUILD_DIRECTORY=build-release/${PLATFORM}/$(\
+	realpath --relative-to=$ROOT $SOURCE_DIRECTORY)
+mkdir -p $BUILD_DIRECTORY
+
+# Get name of output archive
+OUTPUT_ARCHIVE="$(echo \
+		$(realpath \
+		--relative-to=$ROOT/build-release/${PLATFORM} \
+		$BUILD_DIRECTORY) |\
+		tr "\/" "." \
+		)-$(echo \
+		${PLATFORM} | tr '@' '_'\
+		)-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+OUTPUT_ARCHIVE="$ROOT/release/$OUTPUT_ARCHIVE.tar.gz"
+
+mkdir -p $ROOT/release
+
+# Build a release
+west spdx --init -d $BUILD_DIRECTORY
+west build -d $BUILD_DIRECTORY -b $PLATFORM -s $SOURCE_DIRECTORY
+west spdx -d $BUILD_DIRECTORY
+
+# Copy release files
+pushd $BUILD_DIRECTORY
+mkdir -p release
+cp -r spdx release
+cp -r zephyr/zephyr.* release
+cp zephyr/.config release
+cp $ROOT/doc/_build/latex/zephyr.pdf release/reference.pdf
+# Pack release
+tar -czf $OUTPUT_ARCHIVE release/*
+popd
+
+echo "Release archive created: $(realpath --relative-to=$ROOT $OUTPUT_ARCHIVE)"

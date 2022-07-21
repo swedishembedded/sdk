@@ -26,7 +26,7 @@ check:
     before_script:
         - ./scripts/init
     script:
-        - robot scrum
+        - robot -e post-build scrum
         - ./scripts/check
 
 # This job builds applications
@@ -39,6 +39,8 @@ build:
         paths:
             - doc/_build/zephyr.pdf
             - build-apps/**/zephyr.elf
+            - build-release/**/release/
+            - release/*
         expire_in: 1 week
         when: always
     rules:
@@ -61,6 +63,7 @@ test:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
         - ./scripts/test
+        - robot -i post-build scrum
 
 # This is a job that does the "long build"
 # where we start with a fresh ubuntu image

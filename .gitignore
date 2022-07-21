@@ -1,5 +1,6 @@
 # Ignore build artifacts
 /build*/
+/release/
 /twister-out*/
 /html*/
 /latex*/

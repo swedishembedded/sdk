@@ -1,0 +1,36 @@
+#!/bin/bash
+
+usage(){
+	echo "$0 -f <file> -s <sha1sum>"
+}
+
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	-s|--sha1)
+		SHA1SUM=$2
+		shift
+		shift
+		;;
+	-f|--path)
+		FILE="$2"
+		shift
+		shift
+		;;
+	*)
+		POS_ARGS+=("$1")
+		shift
+		;;
+	esac
+done
+
+if [[ "$FILE" = "" ]] || [[ "$SHA1SUM" = "" ]]; then
+	usage
+	exit 1
+fi
+
+git log --format=%H \
+  | xargs -Iz sh -c \
+    "echo -n \"z \"; git show z:$FILE | sha1sum" 2>/dev/null \
+  | grep -m1 $SHA1SUM \
+  | cut -d " " -f 1 \
+  | xargs -Iz git log z -1 --format=%H

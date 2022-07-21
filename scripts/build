@@ -4,6 +4,7 @@ ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 
 set -e
 
+. ${ROOT}/VERSION
 . ${ROOT}/../zephyr/zephyr-env.sh
 
 # Build applications and samples
@@ -20,7 +21,11 @@ $ROOT/../zephyr/scripts/twister \
 	exit 1
 }
 
+# Build documentation
 make -C doc pdf || {
 	echo "Error building documentation"
 	exit 1
 }
+
+# Build releases
+./scripts/release -b custom_board -s apps/shell

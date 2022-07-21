@@ -104,6 +104,3 @@ for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[R]" | cut -f 3`; do
 		exit 1
 	}
 done
-
-# Verify that all tasks have been completed
-robot scrum
