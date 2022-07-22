@@ -248,11 +248,8 @@ apt-get update && \
 apt-get clean -y && \
 	apt-get autoremove --purge -y
 
-#export ZSDK_VERSION
-#sudo -E -- bash -c ' \
-#	/opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -c && \
-#	chown -R $(whoami):$(whoami) /home/$(whoami)/.cmake \
-#	'
+# Install sdk for the user running this script using sudo
+sudo -u $SUDO_USER /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -t all -h -c
 
 # Set the locale
 export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
