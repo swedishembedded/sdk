@@ -67,16 +67,20 @@ test:
 
 # This is a job that does the "long build"
 # where we start with a fresh ubuntu image
-local_build:
-    image: ubuntu:20.04
+build_from_scratch:
+    image: ubuntu:latest
     stage: check
     rules:
+        - if: $CI_PIPELINE_SOURCE == "web"
         - if: $CI_PIPELINE_SOURCE == "schedule"
     before_script:
         - apt-get update -qy
         - apt-get install -qy sudo
-        - ./scripts/install-sdk
-        - ./scripts/init
+        - bash -x ./scripts/install-sdk
+        - bash -x ./scripts/init
     script:
-        - robot scrum
-        - ./scripts/check
+        - robot -e post-build scrum
+        - bash -x ./scripts/check
+        - bash -x ./scripts/build
+        - bash -x ./scripts/test
+        - robot -i post-build scrum

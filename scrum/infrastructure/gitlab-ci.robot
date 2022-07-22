@@ -28,7 +28,7 @@ Gitlab CI has all required jobs
 
 	Gitlab CI has a build job
 	Gitlab CI has a test job
-	Gitlab CI has a local_build job
+	Gitlab CI has a build_from_scratch job
 
 Gitlab CI has a ${job} job
 	Check job exists  ${job}
