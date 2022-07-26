@@ -1,7 +1,6 @@
 *** Settings ***
 Library  OperatingSystem
 Library  String
-Library  testing.py
 
 *** Variables ***
 ${ROOT_DIR}  ${CURDIR}/../../
@@ -10,8 +9,7 @@ ${RELEASES}  ${ROOT_DIR}/release/
 
 *** Test Cases ***
 
-Releases have been built
-	[Tags]  post-build
+Shell application has been built
 	Release of apps/shell is built for custom_board
 
 *** Keywords ***

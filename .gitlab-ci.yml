@@ -26,7 +26,7 @@ check:
     before_script:
         - ./scripts/init
     script:
-        - robot -e post-build scrum
+        - robot scrum
         - ./scripts/check
 
 # This job builds applications
@@ -63,7 +63,7 @@ test:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
         - ./scripts/test
-        - robot -i post-build scrum
+        - robot post-build
 
 # This is a job that does the "long build"
 # where we start with a fresh ubuntu image
@@ -79,8 +79,8 @@ build_from_scratch:
         - bash -x ./scripts/install-sdk
         - bash -x ./scripts/init
     script:
-        - robot -e post-build scrum
+        - robot scrum
         - bash -x ./scripts/check
         - bash -x ./scripts/build
         - bash -x ./scripts/test
-        - robot -i post-build scrum
+        - robot post-build

@@ -19,6 +19,7 @@
 /modules/		@mkschreder
 /modules/.empty		@mkschreder
 /platform-env.sh	@mkschreder
+/post-build/	 @mkschreder
 /renode/		@mkschreder
 /samples/		@mkschreder
 /scripts/		@mkschreder
