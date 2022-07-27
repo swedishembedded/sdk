@@ -1,0 +1,11 @@
+tests:
+  drivers.example.example_sensor.unit:
+    tags: drivers/example/example_sensor.c
+    extra_configs:
+      - CONFIG_CMOCK=y
+    integration_platforms:
+      - native_posix
+  drivers.example.example_sensor.integration:
+    tags: drivers/example/example_sensor.c
+    integration_platforms:
+      - custom_board

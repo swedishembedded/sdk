@@ -1,9 +1,9 @@
 *** Settings ***
-Library  ${CURDIR}/../infrastructure/directory-structure.py
+Library  ${CURDIR}/../../../infrastructure/directory-structure.py
 
 *** Variables ***
 ${APP}  example
-${APP_NAME}  samples/${APP}
+${APP_NAME}  samples/lib/example/${APP}
 
 *** Test Cases ***
 

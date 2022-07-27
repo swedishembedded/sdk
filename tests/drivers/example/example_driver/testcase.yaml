@@ -8,4 +8,4 @@ tests:
   drivers.example.example_driver.integration:
     tags: drivers/example/example_driver.c
     integration_platforms:
-      - native_posix
+      - custom_board

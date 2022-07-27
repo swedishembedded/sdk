@@ -15,16 +15,18 @@ Apps have proper directory structure
 		App directory has proper structure
 		# Each app should have a robot file
 		File Should Exist  ${CURDIR}/../apps/${APP}.robot
+		# Each app should have a renode simulation
+		Directory Should Exist  ${ROOT_DIR}/renode/${APP_NAME}
 	END
 
 Samples have proper directory structure
-	@{APPS} =	List Directories In Directory	${ROOT_DIR}/samples/
-	FOR  ${APP}  IN  @{APPS}
-		Set Test Variable  ${APP_NAME}  samples/${APP}
-		Set Test Variable  ${APP_SOURCE}  ${ROOT_DIR}/${APP_NAME}
-		App directory has proper structure
-		# Each sample should have a robot test to verify it's content
-		File Should Exist  ${CURDIR}/../samples/${APP}.robot
+	@{L1S} =	List Directories In Directory	${ROOT_DIR}/samples/
+	FOR  ${L1}  IN  @{L1S}
+		Directory Should Exist  ${ROOT_DIR}/${L1}
+		@{L2S} =	List Directories In Directory	${ROOT_DIR}/${L1}
+		FOR  ${L2}  IN  @{L2S}
+			Directory Should Exist  ${ROOT_DIR}/${L1}/${L2}
+		END
 	END
 
 Boards have proper directory structure
@@ -55,6 +57,19 @@ Drivers have proper structure
 			${PATH}  ${FILE} =  Split Path  ${DRIVER}
 			${NAME}  ${EXT} =  Split Extension  ${FILE}
 			Directory Should Exist  ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/
+			# make sure there is a scrum task for the driver
+			File Should Exist  ${ROOT_DIR}/scrum/drivers/${DRIVER_TYPE}/${NAME}.robot
+			# make sure driver C file is included
+			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/CMakeLists.txt
+			Should Contain    ${STR}    ${NAME}.c
+			# check if unit test includes the file
+			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/src/unit.c
+			Should Contain    ${STR}    ${NAME}.c
+			# All drivers must have a sample
+			Set Test Variable  ${APP_SOURCE}  ${ROOT_DIR}/samples/drivers/${DRIVER_TYPE}/${NAME}
+			App directory has proper structure
+			# Each sample should have a robot test to verify it's content
+			File Should Exist  ${CURDIR}/../samples/drivers/${DRIVER_TYPE}/${NAME}.robot
 		END
 	END
 
@@ -65,10 +80,30 @@ Libraries have proper structure
 	FOR  ${LIBRARY}  IN  @{LIBRARIES}
 		File Should Exist  ${ROOT_DIR}/lib/${LIBRARY}/CMakeLists.txt
 		File Should Exist  ${ROOT_DIR}/lib/${LIBRARY}/Kconfig
-		@{SOURCES} =	List Directories In Directory	${ROOT_DIR}/lib/${LIBRARY}/
+		@{SOURCES} =	List Files In Directory	${ROOT_DIR}/lib/${LIBRARY}/  *.c
 		FOR  ${SOURCE}  IN  @{SOURCES}
-			# Any per driver checks will go here
-			No Operation
+			# make sure there is a test for each library object
+			${PATH}  ${FILE} =  Split Path  ${SOURCE}
+			${NAME}  ${EXT} =  Split Extension  ${FILE}
+			Directory Should Exist  ${ROOT_DIR}/tests/lib/${LIBRARY}/${NAME}/
+
+			# make sure there is a scrum task for the library object
+			File Should Exist  ${ROOT_DIR}/scrum/lib/${LIBRARY}/${NAME}.robot
+
+			# make sure driver C file is included
+			${STR}    Get File    ${ROOT_DIR}/tests/lib/${LIBRARY}/${NAME}/CMakeLists.txt
+			Should Contain    ${STR}    ${NAME}.c
+
+			# check if unit test includes the file
+			${STR}    Get File    ${ROOT_DIR}/tests/lib/${LIBRARY}/${NAME}/src/unit.c
+			Should Contain    ${STR}    ${NAME}.c
+
+			# All libs must have a sample
+			Set Test Variable  ${APP_SOURCE}  ${ROOT_DIR}/samples/lib/${LIBRARY}/${NAME}
+			App directory has proper structure
+
+			# Each sample should have a robot test to verify it's content
+			File Should Exist  ${CURDIR}/../samples/lib/${LIBRARY}/${NAME}.robot
 		END
 	END
 

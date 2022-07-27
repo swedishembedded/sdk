@@ -1,7 +1,7 @@
 sample:
   name: Example sample
 tests:
-  samples.example.release:
+  samples.lib.example.example.release:
     build_only: true
     integration_platforms:
       - native_posix

@@ -1,0 +1,40 @@
+:name: STM32F4 Discovery
+:description: STM32 Discovery Board
+
+using sysbus
+$name?="STM32F4_Discovery"
+set ROOT_DIR $ORIGIN/../../../../../
+
+i $ROOT_DIR/renode/drivers/example/ExampleSensor.cs
+
+set bin $ROOT_DIR/build-apps/custom_board/drivers/example/example_sensor/samples.drivers.example.example_sensor.release/zephyr/zephyr.elf
+
+mach create $name
+machine LoadPlatformDescription $ROOT_DIR/renode/boards/arm/custom_board.repl
+
+cpu PerformanceInMips 125
+
+logLevel 3
+logLevel 0 sysbus.spi1
+sysbus LogPeripheralAccess sysbus.spi1
+
+showAnalyzer sysbus.usart2
+
+### Set random board UNIQUE ID ###
+
+python "import _random"
+python "rand = _random.Random()"
+
+$id1 = `python "print rand.getrandbits(32)"`
+$id2 = `python "print rand.getrandbits(32)"`
+$id3 = `python "print rand.getrandbits(32)"`
+macro reset
+"""
+    sysbus LoadELF $bin
+
+    sysbus WriteDoubleWord 0x1FFF7A10 $id1
+    sysbus WriteDoubleWord 0x1FFF7A14 $id2
+    sysbus WriteDoubleWord 0x1FFF7A18 $id3
+"""
+
+runMacro $reset

@@ -2,3 +2,8 @@ config EXAMPLE_DRIVER
 	bool "Example driver"
 	help
 		This is our example driver.
+
+config EXAMPLE_SENSOR
+	bool "Example sensor"
+	help
+		This is our example sensor.

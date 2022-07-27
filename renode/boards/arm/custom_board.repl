@@ -1,0 +1,15 @@
+using "platforms/cpus/stm32f4.repl"
+
+UserButton: Miscellaneous.Button @ gpioPortC
+    -> gpioPortA@0
+
+UserLED: Miscellaneous.LED @ gpioPortD
+
+gpioPortD:
+    12 -> UserLED@0
+
+exampleSensor: Sensors.ExampleSensor @ spi1
+    Interrupt -> gpioPortA@4
+
+gpioPortB:
+    6 -> exampleSensor@0

@@ -49,18 +49,21 @@ echo -e "---------------------------------------------------"
 fix_file_formatting(){
 	FILE=$1
 	if [[ $FILE == *.py ]]; then
+		echo "Formatting python script: $FILE"
 		black $FILE || {
 			echo "Fixing formatting of $FILE failed"
 			echo "You'll have to fix this manually"
 			return 1
 		}
 	elif [[ $FILE == *.c ]] || [[ $FILE == *.h ]]; then
+		echo "Formatting source file: $FILE"
 		clang-format -i --style=file -Werror --fallback-style=none $FILE || {
 			echo "Fixing formatting of $FILE failed"
 			echo "You'll have to fix this manually"
 			return 1
 		}
 	elif [[ $FILE == */CMakeLists.txt ]] || [[ $FILE == *.cmake ]]; then
+		echo "Formatting cmake file: $FILE"
 		cmake-format --first-comment-is-literal -i $FILE || {
 			echo "Fixing formatting of $FILE failed"
 			echo "You'll have to fix this manually"
@@ -68,6 +71,20 @@ fix_file_formatting(){
 		}
 	fi
 }
+
+# Check file formatting for added and modified files
+for FILE in `git diff --cached --name-status | grep "^[AM]" | cut -f 2`; do
+	fix_file_formatting $FILE || {
+		exit 1
+	}
+done
+
+# Check file formatting for renamed files
+for FILE in `git diff --cached --name-status | grep "^[R]" | cut -f 3`; do
+	fix_file_formatting $FILE || {
+		exit 1
+	}
+done
 
 # Check file formatting for added and modified files
 for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[AM]" | cut -f 2`; do

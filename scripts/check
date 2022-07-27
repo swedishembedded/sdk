@@ -98,8 +98,22 @@ for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[AM]" | cut -f 2`; do
 	}
 done
 
+# Check file formatting for added and modified files
+for FILE in `git diff --cached --name-status | grep "^[AM]" | cut -f 2`; do
+	check_file_formatting $FILE || {
+		exit 1
+	}
+done
+
 # Check file formatting for renamed files
 for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[R]" | cut -f 3`; do
+	check_file_formatting $FILE || {
+		exit 1
+	}
+done
+
+# Check file formatting for renamed files
+for FILE in `git diff --cached --name-status | grep "^[R]" | cut -f 3`; do
 	check_file_formatting $FILE || {
 		exit 1
 	}

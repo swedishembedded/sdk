@@ -9,6 +9,10 @@ if(CONFIG_CMOCK)
   cmock_generate_mocks(${ZEPHYR_BASE}/include/kernel.h .)
   target_sources(app PRIVATE src/unit.c)
 else()
+  target_sources(
+    app
+    PRIVATE
+      ${CMAKE_CURRENT_LIST_DIR}/../../../../drivers/example/example_driver.c)
   unity_generate_test_runner(src/integration.c)
   target_sources(app PRIVATE src/integration.c)
 endif()

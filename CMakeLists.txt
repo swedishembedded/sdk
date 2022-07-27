@@ -45,6 +45,10 @@ zephyr_compile_options("-Wno-type-limits")
 # Reason: zephyr os/cbprintf does not compile
 zephyr_compile_options("-Wno-sign-compare")
 
+# Disable error on missing field initializers
+# Reason: sync_status in drivers/spi/spi_context.h
+zephyr_compile_options("-Wno-missing-field-initializers")
+
 # Disable error on checking non-literal format (zephyr)
 # Reason: zephyr drivers/serial/uart_native_posix.c does not compile
 zephyr_compile_options("-Wno-format-nonliteral")
