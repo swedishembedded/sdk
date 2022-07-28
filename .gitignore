@@ -38,6 +38,12 @@ __pycache__/
 # Ignore generated west config
 /.west/config
 
+# CScope
+/cscope.files
+/cscope.out
+/cscope.out.in
+/cscope.out.po
+
 # Robot framework files
 /logs/
 /results*.robot.xml
