@@ -5,14 +5,15 @@
 
 .. _zephyr-home-tex:
 
-Example Project Documentation
-#############################
+Swedish Embedded Firmware and Simulation Platform SDK Documentation
+###################################################################
 
 
 .. toctree::
    :maxdepth: 1
    :caption: Contents
 
+   getting-started/index.rst
    guides/index.rst
    boards/index.rst
    drivers/index.rst

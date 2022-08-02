@@ -36,9 +36,9 @@ except ImportError:
 
 # -- Project --------------------------------------------------------------
 
-project = "Example Project Documentation"
-copyright = "2015-2022 Example Project members and individual contributors"
-author = "The Example Project Contributors"
+project = "Swedish Embedded Platform SDK Documentation"
+copyright = "2015-2022 Swedish Embedded Consulting Group AB"
+author = "Martin Schröder"
 
 # parse version from 'VERSION' file
 with open(PROJECT_BASE / "VERSION") as f:
@@ -46,7 +46,7 @@ with open(PROJECT_BASE / "VERSION") as f:
         (
             r"^VERSION_MAJOR\s*=\s*(\d+)$\n"
             + r"^VERSION_MINOR\s*=\s*(\d+)$\n"
-            + r"^VERSION_PATCHLEVEL\s*=\s*(\d+)$\n"
+            + r"^VERSION_PATCH\s*=\s*(\d+)$\n"
         ),
         f.read(),
         re.MULTILINE,
@@ -162,7 +162,7 @@ latex_elements = {
 }
 latex_logo = str(PROJECT_BASE / "doc" / "_static" / "images" / "logo-latex.pdf")
 latex_documents = [
-    ("index-tex", "zephyr.tex", "Example Project Documentation", author, "manual")
+    ("index-tex", "zephyr.tex", "Swedish Embedded Platform SDK", author, "manual")
 ]
 
 # -- Options for zephyr.doxyrunner plugin ---------------------------------

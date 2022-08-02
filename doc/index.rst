@@ -1,19 +1,20 @@
 ..
-    Zephyr Project documentation main file
+    Platform SDK documentation main file
 
 .. _zephyr-home:
 
-Example Project Documentation
-#############################
+Swedish Embedded Platform SDK Documentation
+###########################################
 
 .. only:: release
 
-   Welcome to the Example Project's documentation for version |version|.
+   Welcome to the Swedish Embedded Firmware And Simulation Platform SDK
+   documentation version |version|.
 
 .. only:: (development or daily)
 
-   **Welcome to the Example Project's documentation
-   for the main tree under development** (version |version|).
+   **Welcome to the Swedish Embedded Firmware And Simulation Platform SDK
+   documentation for main tree under development** (versoin |version|).
 
 Sections
 ********
@@ -22,6 +23,7 @@ Sections
    :maxdepth: 1
    :caption: Contents
 
+   getting-started/index.rst
    guides/index.rst
    boards/index.rst
    drivers/index.rst
@@ -35,4 +37,5 @@ Indices and Tables
 .. _Apache 2.0 license:
    https://github.com/zephyrproject-rtos/zephyr/blob/main/LICENSE
 
-.. _GitHub repo: https://github.com/zephyrproject-rtos/zephyr
+.. _GitLab repo: https://gitlab.com/swedishembedded/platform/sdk
+
