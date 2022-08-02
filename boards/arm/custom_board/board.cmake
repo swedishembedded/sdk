@@ -9,5 +9,3 @@ include(${ZEPHYR_BASE}/boards/common/jlink.board.cmake)
 set(SUPPORTED_EMU_PLATFORMS renode)
 # specify default platform for "run" command
 set(EMU_PLATFORM renode)
-# specify path to default script to run simulation
-set(RENODE_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/support/board.resc)

@@ -41,7 +41,7 @@ diff \
 
 # Verify that all renode scenarios run
 for FILE in $(find $ROOT/renode -name "*.robot"); do
-	renode-test $FILE || {
+	renode-test --show-log $FILE || {
 		echo "Renode test failed ($FILE)"
 		exit 1
 	}
