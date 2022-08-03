@@ -14,6 +14,11 @@ if [[ ! -z "${CI_JOB_TOKEN}" ]]; then
 	echo "$TZ" > /etc/timezone
 fi
 
+# If we don't have sudo user (ie in docker) then we assume root
+if [[ -z "${SUDO_USER}" ]]; then
+	export SUDO_USER="root"
+fi
+
 # Based on the docker image script
 # When updating this script, consult the docker script
 ZSDK_VERSION=0.14.2
@@ -93,7 +98,8 @@ apt-get -y update && \
 		valgrind \
 		wget \
 		ovmf \
-		xz-utils
+		xz-utils \
+		bc
 
 # Install multi-lib gcc (x86 only)
 if [ "${HOSTTYPE}" = "x86_64" ]; then \

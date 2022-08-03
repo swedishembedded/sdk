@@ -75,8 +75,6 @@ build_from_scratch:
         - if: $CI_PIPELINE_SOURCE == "web"
         - if: $CI_PIPELINE_SOURCE == "schedule"
     before_script:
-        - apt-get update -qy
-        - apt-get install -qy sudo
         - bash -x ./scripts/install-sdk
         - bash -x ./scripts/init
     script:
