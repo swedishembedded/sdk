@@ -3,6 +3,7 @@ sample:
 tests:
   apps.shell.release:
     build_only: true
+    platform_allow: custom_board
     integration_platforms:
       - native_posix
       - custom_board

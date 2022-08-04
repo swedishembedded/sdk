@@ -17,7 +17,7 @@ manifest:
       import: true
     - name: cmock
       path: modules/test/cmock
-      revision: 1b81269e78a5ecc15fd7befa95fe3a1fc19c41ad
+      revision: f65066f15d8248e6dcb778efb8739904a4512087
       remote: throwtheswitch
     - name: unity
       path: modules/test/cmock/vendor/unity

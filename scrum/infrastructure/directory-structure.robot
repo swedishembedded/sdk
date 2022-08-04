@@ -15,8 +15,6 @@ Apps have proper directory structure
 		App directory has proper structure
 		# Each app should have a robot file
 		File Should Exist  ${CURDIR}/../apps/${APP}.robot
-		# Each app should have a renode simulation
-		Directory Should Exist  ${ROOT_DIR}/renode/${APP_NAME}
 	END
 
 Samples have proper directory structure

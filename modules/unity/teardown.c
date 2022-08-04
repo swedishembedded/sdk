@@ -4,7 +4,7 @@
  * Author: Martin Schröder <martin.schroder@swedishembedded.com>
  **/
 
-#include <zephyr.h>
+#include <sys/printk.h>
 #ifdef CONFIG_BOARD_NATIVE_POSIX
 #include "posix_board_if.h"
 #endif

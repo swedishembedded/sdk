@@ -1,0 +1,34 @@
+:name: MCP23S17 Sample
+:description: Custom MCP23S17 Board
+
+using sysbus
+
+set ROOT_DIR $ORIGIN/../../../../../
+
+i $ROOT_DIR/renode/drivers/gpio/Mcp23S17.cs
+
+$bin?=@$ROOT_DIR/build-apps/custom_board/drivers/gpio/mcp23s17/samples.drivers.gpio.mcp23s17.release/zephyr/zephyr.elf
+
+mach create
+machine LoadPlatformDescription $ORIGIN/custom_board.repl
+
+# Setup pty terminal
+emulation CreateUartPtyTerminal "usart2" $APPLICATION_BINARY_DIR/usart2
+connector Connect sysbus.usart2 usart2
+
+cpu PerformanceInMips 168
+
+logLevel 3
+logLevel 0 sysbus.usart2
+logLevel 0 sysbus.spi1
+logLevel 0 sysbus.spi1.gpioExpander
+sysbus LogPeripheralAccess sysbus.spi1.gpioExpander
+
+showAnalyzer sysbus.usart2
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset

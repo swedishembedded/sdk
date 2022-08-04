@@ -1,0 +1,42 @@
+using "platforms/cpus/stm32f4.repl"
+
+// chip select
+gpioPortB:
+    6 -> gpioExpander@16
+
+A0: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@0
+A1: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@1
+A2: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@2
+A3: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@3
+A4: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@4
+A5: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@5
+A6: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@6
+A7: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@7
+B0: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@8
+B1: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@9
+B2: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@10
+B3: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@11
+B4: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@12
+B5: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@13
+B6: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@14
+B7: Miscellaneous.Button @ gpioExpander
+    -> gpioExpander@15
+
+gpioExpander: GPIOPort.MCP23S17 @ spi1
+    INTA -> gpioPortB@8
+    INTB -> gpioPortB@9

@@ -53,7 +53,7 @@ def driver_has_static_function(name):
     name = "_" + DRIVER_NAME + "_" + name
     success = False
 
-    def walk(node, typename):
+    def walk(node):
         nonlocal success
         if (
             node.kind == CursorKind.FUNCTION_DECL
@@ -66,7 +66,7 @@ def driver_has_static_function(name):
     tu = index.parse(ROOT_DIR + "/drivers/" + DRIVER_TYPE + "/" + DRIVER_NAME + ".c")
 
     for c in tu.cursor.get_children():
-        walk(c, "struct example_sensor")
+        walk(c)
 
     if not success:
         raise BaseException("Driver should have a static function '%s'" % (name))
@@ -78,7 +78,7 @@ def driver_check_supports_multi_instance():
 
     success = False
 
-    def walk(node, typename):
+    def walk(node):
         nonlocal success
         if (
             node.kind == CursorKind.FUNCTION_DECL
@@ -90,7 +90,7 @@ def driver_check_supports_multi_instance():
     tu = index.parse(ROOT_DIR + "/drivers/" + DRIVER_TYPE + "/" + DRIVER_NAME + ".c")
 
     for c in tu.cursor.get_children():
-        walk(c, "struct example_sensor")
+        walk(c)
 
     if not success:
         raise BaseException(
@@ -103,7 +103,7 @@ def driver_check_compatible(text):
     DRIVER_NAME = BuiltIn().get_variable_value("${DRIVER_NAME}")
 
     src = ROOT_DIR + "/drivers/" + DRIVER_TYPE + "/" + DRIVER_NAME + ".c"
-    text = "DT_DRV_COMPAT " + text
+    text = "DT_DRV_COMPAT .*" + text
     proc = subprocess.run(["grep", "-Ri", text, src], capture_output=True)
     if proc.returncode != 0:
         raise BaseException('Page %s does not contain text "%s"' % (src, text))
