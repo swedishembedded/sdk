@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Do this until twister supports robot
+for FILE in $(find . -name "sample.robot"); do
+	SOURCE_DIR=$(dirname "$FILE")
+	for RESC in $(find $SOURCE_DIR/boards/ -name *.resc); do
+		BOARD=$(basename $RESC)
+		BOARD="${BOARD%.*}"
+		west build \
+			-p \
+			-b ${BOARD} \
+			-d build/robot/${BOARD}/${SOURCE_DIR} \
+			-s $SOURCE_DIR \
+			-t run_robot
+	done
+done

@@ -1,0 +1,8 @@
+sample:
+  name: MCP23S17
+tests:
+  samples.drivers.gpio.mcp23s17.release:
+    platform_allow: custom_board
+    integration_platforms:
+      - native_posix
+      - custom_board

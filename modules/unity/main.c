@@ -1,4 +1,4 @@
-#include <zephyr.h>
+#include <sys/printk.h>
 #include <unity.h>
 #ifdef CONFIG_BOARD_NATIVE_POSIX
 #include "posix_board_if.h"

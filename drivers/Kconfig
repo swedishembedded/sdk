@@ -2,4 +2,6 @@ menu "Device Drivers"
 
 rsource "example/Kconfig"
 
+rsource "gpio/Kconfig"
+
 endmenu

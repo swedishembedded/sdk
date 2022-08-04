@@ -49,6 +49,22 @@ build:
     script:
         - ./scripts/build
 
+# Builds and runs robot simulations
+robot:
+    image: swedishembedded/zephyr-build:latest
+    stage: build
+    dependencies:
+        - check
+    artifacts:
+        paths:
+            - build/robot/**/robot_output.xml
+        expire_in: 1 week
+        when: always
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    script:
+        - ./scripts/robot
+
 # This job runs all system tests on built applications
 test:
     image: swedishembedded/zephyr-build:latest

@@ -1,0 +1,12 @@
+tests:
+  drivers.gpio.mcp23s17.unit:
+    tags: drivers/gpio/mcp23s17.c
+    extra_configs:
+      - CONFIG_CMOCK=y
+    platform_allow: native_posix
+    integration_platforms:
+      - native_posix
+  drivers.gpio.mcp23s17.integration:
+    tags: drivers/gpio/mcp23s17.c
+    integration_platforms:
+      - custom_board

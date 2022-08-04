@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 find_program(RENODE renode)
+find_program(RENODE_TEST renode-test)
 
 set(RENODE_COMMANDS "")
 string(APPEND RENODE_COMMANDS
@@ -9,9 +10,9 @@ string(APPEND RENODE_COMMANDS
        "set APPLICATION_BINARY_DIR @${APPLICATION_BINARY_DIR}\;")
 string(APPEND RENODE_COMMANDS "set SDK_BASE @${PROJECT_BASE}\;")
 
-if(EXISTS ${APPLICATION_SOURCE_DIR}/simulation/${BOARD}.resc)
+if(EXISTS ${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc)
   string(APPEND RENODE_COMMANDS
-         "include @${APPLICATION_SOURCE_DIR}/simulation/${BOARD}.resc\;")
+         "include @${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc\;")
 elseif(EXISTS ${BOARD_DIR}/${BOARD}.resc)
   string(APPEND RENODE_COMMANDS "include @${BOARD_DIR}/${BOARD}.resc\;")
 endif()
@@ -20,16 +21,27 @@ string(APPEND RENODE_COMMANDS "s\;")
 
 message(WARNING "${RENODE_COMMANDS}")
 add_custom_target(
-  sim
+  run_sim
   COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}"
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
   DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
   USES_TERMINAL)
 
 add_custom_target(
-  debugserver-sim
+  sim_debugserver
   COMMAND ${RENODE} --console --disable-xwt -e
           "${RENODE_COMMANDS}\;machine StartGdbServer 3333\;"
+  WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
+  DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
+  USES_TERMINAL)
+
+add_custom_target(
+  run_robot
+  COMMAND
+    PROJECT_BASE=${PROJECT_BASE}
+    APPLICATION_BINARY_DIR=${APPLICATION_BINARY_DIR}
+    APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
+    ${RENODE_TEST} --show-log ${APPLICATION_SOURCE_DIR}/sample.robot
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
   DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
   USES_TERMINAL)

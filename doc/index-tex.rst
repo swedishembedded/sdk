@@ -18,3 +18,4 @@ Swedish Embedded Firmware and Simulation Platform SDK Documentation
    boards/index.rst
    drivers/index.rst
    lib/index.rst
+   samples/index.rst

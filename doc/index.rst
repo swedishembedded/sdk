@@ -28,6 +28,7 @@ Sections
    boards/index.rst
    drivers/index.rst
    lib/index.rst
+   samples/index.rst
 
 Indices and Tables
 ******************

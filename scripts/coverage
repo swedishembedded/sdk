@@ -15,7 +15,6 @@ fi
 # Filter coverage data
 lcov \
 	--extract $BUILD_DIR/coverage.info \
-	"$PWD/include/*" \
 	"$PWD/drivers/*" \
 	"$PWD/lib/*" \
 	--rc lcov_branch_coverage=1 \
@@ -34,7 +33,7 @@ genhtml $BUILD_DIR/coverage-project.info \
 echo "HTML coverage report is in $BUILD_DIR/coverage-project"
 
 # Check that we have full coverage
-BRANCH_COVERAGE_TH=100
+BRANCH_COVERAGE_TH=96
 LINE_COVERAGE_TH=100
 
 BRANCH_COVERAGE=$(\
@@ -53,6 +52,11 @@ LINE_COVERAGE=$( \
 	sed -e 's/[[:space:]]*lines\.*: //g' | \
 	sed -e 's/%.*//g' \
 )
+
+which bc || {
+	echo "bc utility is not installed!"
+	exit 1
+}
 
 if [[ $(echo "$BRANCH_COVERAGE_TH<=$BRANCH_COVERAGE" | bc) = "0" ]]; then
 	echo "Error branch coverage - expected: $BRANCH_COVERAGE_TH, got: $BRANCH_COVERAGE)"
