@@ -27,3 +27,7 @@ some highlights of the Nucleo F401RE board:
    :alt: Nucleo F401RE
 
 More information about the board can be found at the `Nucleo F401RE website`_.
+
+.. _Nucleo F401RE website:
+   http://www.st.com/en/evaluation-tools/nucleo-f401re.html
+
