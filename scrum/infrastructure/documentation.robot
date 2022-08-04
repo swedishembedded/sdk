@@ -1,6 +1,7 @@
 *** Settings ***
 Library  OperatingSystem
 
+Library  ${CURDIR}/../DocChecker.py
 Resource  ${CURDIR}/doc/guide.robot
 Resource  ${CURDIR}/doc/reference.robot
 Resource  ${CURDIR}/doc/board.robot
@@ -81,7 +82,10 @@ Subsystems have been documented
 Libraries have been documented
 	@{LIBRARIES} =	List Directories In Directory	${ROOT_DIR}/lib/
 	FOR  ${LIB}  IN  @{LIBRARIES}
-		File Should Exist  ${ROOT_DIR}/doc/lib/${LIB}.rst
+		File Should Exist  ${ROOT_DIR}/doc/lib/${LIB}/index.rst
+		Check Page Contains Text
+			...  ${ROOT_DIR}/doc/lib/index.rst
+			...  ${LIB}/index.rst
 		Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/lib/${LIB}/
 		Chapter follows reference structure
 	END
@@ -91,8 +95,11 @@ Boards have been documented
 	FOR  ${ARCH}  IN  @{ARCHS}
 		@{BOARDS} =	List Directories In Directory	${ROOT_DIR}/boards/${ARCH}/
 		FOR  ${BOARD}  IN  @{BOARDS}
-			File Should Exist  ${ROOT_DIR}/doc/boards/${ARCH}/${BOARD}.rst
-			Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/boards/${ARCH}/${BOARD}/
+			File Should Exist  ${ROOT_DIR}/boards/${ARCH}/${BOARD}/doc/index.rst
+			Check Page Contains Text
+			...  ${ROOT_DIR}/doc/boards/index.rst
+			...  ${ARCH}/${BOARD}/doc/index.rst
+			Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/boards/${ARCH}/${BOARD}/doc/
 			Chapter follows board reference structure
 		END
 	END

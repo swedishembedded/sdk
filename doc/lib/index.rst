@@ -5,4 +5,4 @@ Libraries
    :maxdepth: 1
    :caption: Drivers
 
-   example.rst
+   example/index.rst
