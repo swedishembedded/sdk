@@ -13,7 +13,7 @@ ${UART}                       sysbus.usart2
 Run Shell Sample
     Execute Command           set bin @${PROJECT_ROOT}/build-apps/custom_board/shell/apps.shell.release/zephyr/zephyr.elf
     Execute Command           set ROOT_DIR @${PROJECT_ROOT}
-    Execute Command           include @${CURDIR}/custom_board.resc
+    Execute Command           include @${PROJECT_ROOT}/boards/arm/custom_board/custom_board.resc
 
     Execute Command           showAnalyzer ${UART}
     Create Terminal Tester    ${UART}

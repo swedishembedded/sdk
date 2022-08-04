@@ -1,7 +1,0 @@
-/ {
-	example_driver {
-		compatible = "example-driver";
-		custom-variable = <1>;
-		status = "okay";
-	};
-};

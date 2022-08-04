@@ -14,8 +14,10 @@ machine LoadPlatformDescription $ROOT_DIR/renode/boards/arm/custom_board.repl
 
 cpu PerformanceInMips 125
 
-logLevel 0
+logLevel 3
 showAnalyzer sysbus.usart2
+emulation CreateUartPtyTerminal "term" "/tmp/uart"
+connector Connect sysbus.usart2 term
 
 ### Set random board UNIQUE ID ###
 
@@ -32,7 +34,6 @@ macro reset
     sysbus WriteDoubleWord 0x1FFF7A10 $id1
     sysbus WriteDoubleWord 0x1FFF7A14 $id2
     sysbus WriteDoubleWord 0x1FFF7A18 $id3
-		start
 """
 
 runMacro $reset
