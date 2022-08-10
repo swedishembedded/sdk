@@ -5,4 +5,4 @@ Samples
    :maxdepth: 1
    :caption: Contents
 
-   drivers/gpio/mcp23s17.rst
+   drivers/gpio/mcp23s17/doc/index.rst

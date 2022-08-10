@@ -3,14 +3,13 @@
 
 using sysbus
 
-set ROOT_DIR $ORIGIN/../../../../../
+set PROJECT_BASE $ORIGIN/../../
 
-i $ROOT_DIR/renode/drivers/gpio/Mcp23S17.cs
-
-$bin?=@$ROOT_DIR/build-apps/custom_board/drivers/gpio/mcp23s17/samples.drivers.gpio.mcp23s17.release/zephyr/zephyr.elf
+i $ORIGIN/visualizer/plugin.py
+i $PROJECT_BASE/renode/drivers/gpio/Mcp23S17.cs
 
 mach create
-machine LoadPlatformDescription $ORIGIN/custom_board.repl
+machine LoadPlatformDescription $ORIGIN/testbench.repl
 
 # Setup pty terminal
 #emulation CreateUartPtyTerminal "usart2" $APPLICATION_BINARY_DIR/usart2

@@ -59,12 +59,11 @@ function(cmock_add_linker_wrap_functions FUNCTION_LIST_FILE)
 endfunction()
 
 function(cmock_add_linker_wraps HEADER_PATH)
-  get_property(PROJECT_BASE GLOBAL PROPERTY PROJECT_BASE)
   set(FUNCTION_LIST_FILE "${HEADER_PATH}.flist")
 
   execute_process(
     COMMAND
-      ${PYTHON_EXECUTABLE} ${PROJECT_BASE}/modules/cmock/gen_function_list.py
+      ${PYTHON_EXECUTABLE} $ENV{PROJECT_BASE}/modules/cmock/gen_function_list.py
       --input ${HEADER_PATH} --output ${FUNCTION_LIST_FILE}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     RESULT_VARIABLE RETURN_CODE
@@ -78,9 +77,8 @@ function(cmock_add_linker_wraps HEADER_PATH)
 endfunction()
 
 function(cmock_gen_headers IN_HEADER OUT_HEADER WRAP_HEADER)
-  get_property(PROJECT_BASE GLOBAL PROPERTY PROJECT_BASE)
   execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} ${PROJECT_BASE}/modules/cmock/gen_headers.py
+    COMMAND ${PYTHON_EXECUTABLE} $ENV{PROJECT_BASE}/modules/cmock/gen_headers.py
             --input ${IN_HEADER} --output ${OUT_HEADER} --wrap ${WRAP_HEADER}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     RESULT_VARIABLE RETURN_CODE

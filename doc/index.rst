@@ -25,6 +25,7 @@ Sections
 
    getting-started/index.rst
    guides/index.rst
+   testbench/index.rst
    boards/index.rst
    drivers/index.rst
    lib/index.rst

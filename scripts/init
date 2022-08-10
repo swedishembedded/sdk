@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+
 # abort on error (note that this is only a fallback. You should still check
 # return codes every single time!)
 set -e
@@ -15,6 +17,11 @@ fi
 # Initialize the repository
 west init -l .
 west update
+
+# Apply zephyr patches
+$ROOT/scripts/apply-zephyr-patches || {
+	echo "ERROR: Could not apply zephyr patches"
+}
 
 # Install python requirements
 pip3 install -r ../zephyr/scripts/requirements.txt

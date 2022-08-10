@@ -1,4 +1,4 @@
-image: swedishembedded/zephyr-build:latest
+image: swedishembedded/build:latest
 
 default:
   tags:
@@ -13,7 +13,7 @@ stages:
 
 # This job runs all code checks, unit and integration tests
 check:
-    image: swedishembedded/zephyr-build:latest
+    image: swedishembedded/build:latest
     stage: check
     artifacts:
         paths:
@@ -23,16 +23,15 @@ check:
         when: always
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    before_script:
-        - ./scripts/init
     script:
+        - ./scripts/init
         - ./scripts/gen-tags cscope
         - robot scrum
         - ./scripts/check
 
 # This job builds applications
 build:
-    image: swedishembedded/zephyr-build:latest
+    image: swedishembedded/build:latest
     stage: build
     dependencies:
         - check
@@ -47,27 +46,12 @@ build:
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
+        - ./scripts/init
         - ./scripts/build
-
-# Builds and runs robot simulations
-robot:
-    image: swedishembedded/zephyr-build:latest
-    stage: build
-    dependencies:
-        - check
-    artifacts:
-        paths:
-            - build/robot/**/robot_output.xml
-        expire_in: 1 week
-        when: always
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    script:
-        - ./scripts/robot
 
 # This job runs all system tests on built applications
 test:
-    image: swedishembedded/zephyr-build:latest
+    image: swedishembedded/build:latest
     stage: test
     dependencies:
         - build
@@ -79,6 +63,7 @@ test:
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
+        - ./scripts/init
         - ./scripts/test
         - robot post-build
 

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+
+set -e
+
+. ${ROOT}/../zephyr/zephyr-env.sh
+
+# This script applies patches that we have to chosen zephyr version
+pushd $ZEPHYR_BASE
+GIT_VERSION=$(git describe --tags --abbrev=0)
+
+if [[ -d $ROOT/patches/$GIT_VERSION ]]; then
+	echo "Applying Zephyr patches for $GIT_VERSION..."
+	git config --global user.email "info@swedishembedded.com"
+	git config --global user.name "Swedish Embedded Group"
+	git am --abort || true
+	git am --whitespace=fix $ROOT/patches/$GIT_VERSION/*.patch
+else
+	echo "No zephyr patches to apply for $GIT_VERSION (directory does not exist!)"
+fi
+
+unset GIT_VERSION
+popd

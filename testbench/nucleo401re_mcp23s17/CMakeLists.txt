@@ -1,0 +1,3 @@
+set(TESTBENCH
+    "nucleo401re_mcp23s17"
+    CACHE INTERNAL "TESTBENCH")

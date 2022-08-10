@@ -5,8 +5,8 @@ Example Library
    :maxdepth: 1
    :caption: Drivers
 
-   example/what-is-this.rst
-   example/main-features.rst
-   example/description.rst
-   example/usage.rst
-   example/api-reference.rst
+   what-is-this.rst
+   main-features.rst
+   description.rst
+   usage.rst
+   api-reference.rst
