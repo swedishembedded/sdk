@@ -6,3 +6,5 @@ tests:
     integration_platforms:
       - native_posix
       - custom_board
+    extra_configs:
+      - CONFIG_TESTBENCH_NUCLEO401RE_MCP23S17=y

@@ -8,5 +8,6 @@ tests:
       - native_posix
   drivers.gpio.mcp23s17.integration:
     tags: drivers/gpio/mcp23s17.c
+    build_only: true
     integration_platforms:
       - custom_board

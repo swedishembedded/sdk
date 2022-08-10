@@ -1,0 +1,110 @@
+From 3b021b5507a537f726d24956dcfb291a10081ff9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Schr=C3=B6der?= <mkschreder.uk@gmail.com>
+Date: Wed, 10 Aug 2022 20:40:17 +0200
+Subject: [PATCH 1/2] Add robotbench
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Martin Schröder <mkschreder.uk@gmail.com>
+---
+ cmake/emu/robotbench.cmake                   | 14 +++++++++++
+ scripts/pylib/twister/twisterlib.py          | 26 ++++++++++++++++++--
+ scripts/schemas/twister/platform-schema.yaml |  2 +-
+ 3 files changed, 39 insertions(+), 3 deletions(-)
+ create mode 100644 cmake/emu/robotbench.cmake
+
+diff --git a/cmake/emu/robotbench.cmake b/cmake/emu/robotbench.cmake
+new file mode 100644
+index 0000000000..7e96db3849
+--- /dev/null
++++ b/cmake/emu/robotbench.cmake
+@@ -0,0 +1,14 @@
++find_program(
++  RENODE_TEST
++  renode-test
++  )
++
++add_custom_target(
++  run_robotbench
++  COMMAND
++    APPLICATION_BINARY_DIR=${APPLICATION_BINARY_DIR}
++    APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
++    ${RENODE_TEST} --show-log  ${TESTBENCH_DIR}/testbench.robot
++  WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
++  DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
++  USES_TERMINAL)
+diff --git a/scripts/pylib/twister/twisterlib.py b/scripts/pylib/twister/twisterlib.py
+index 7754532411..a02a3af4ca 100755
+--- a/scripts/pylib/twister/twisterlib.py
++++ b/scripts/pylib/twister/twisterlib.py
+@@ -579,6 +579,21 @@ class BinaryHandler(Handler):
+             env["UBSAN_OPTIONS"] = "log_path=stdout:halt_on_error=1:" + \
+                                   env.get("UBSAN_OPTIONS", "")
+ 
++        # For some reason twister hangs with readline returning empty string unless we do it like this
++        # So we have to call the process manually
++        if self.call_make_run_robotbench:
++            command = [self.generator_cmd, "run_robotbench"]
++            with subprocess.Popen(command, stdout=subprocess.PIPE,
++                                  stderr=subprocess.PIPE, cwd=self.build_dir, env=env) as proc:
++                out, err = proc.communicate(timeout=60);
++                if proc.returncode != 0:
++                    self.set_state("failed", time.time() - start_time)
++                    self.instance.reason = "FAILED"
++                else:
++                    self.set_state("passed", time.time() - start_time)
++                    self.instance.reason = "PASSED"
++                return;
++
+         with subprocess.Popen(command, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, cwd=self.build_dir, env=env) as proc:
+             logger.debug("Spawning BinaryHandler Thread for %s" % self.name)
+@@ -1977,7 +1992,7 @@ class TestInstance(DisablePyTestCollectionMixin):
+ 
+         target_ready = bool(self.testcase.type == "unit" or \
+                         self.platform.type == "native" or \
+-                        self.platform.simulation in ["mdb-nsim", "nsim", "renode", "qemu", "tsim", "armfvp"] or \
++                        self.platform.simulation in ["mdb-nsim", "nsim", "renode", "robotbench", "qemu", "tsim", "armfvp"] or \
+                         filter == 'runnable')
+ 
+         if self.platform.simulation == "nsim":
+@@ -1992,6 +2007,10 @@ class TestInstance(DisablePyTestCollectionMixin):
+             if not find_executable("renode"):
+                 target_ready = False
+ 
++        if self.platform.simulation == "robotbench":
++            if not find_executable("renode-test"):
++                target_ready = False
++
+         if self.platform.simulation == "tsim":
+             if not find_executable("tsim-leon3"):
+                 target_ready = False
+@@ -2424,7 +2443,10 @@ class ProjectBuilder(FilterBuilder):
+             if find_executable("renode"):
+                 instance.handler = BinaryHandler(instance, "renode")
+                 instance.handler.pid_fn = os.path.join(instance.build_dir, "renode.pid")
+-                instance.handler.call_make_run = True
++        elif instance.platform.simulation == "robotbench":
++            if find_executable("renode-test"):
++                instance.handler = BinaryHandler(instance, "robotbench")
++                instance.handler.call_make_run_robotbench = True
+         elif instance.platform.simulation == "tsim":
+             instance.handler = BinaryHandler(instance, "tsim")
+             instance.handler.call_make_run = True
+diff --git a/scripts/schemas/twister/platform-schema.yaml b/scripts/schemas/twister/platform-schema.yaml
+index c677b76572..be3fc003f5 100644
+--- a/scripts/schemas/twister/platform-schema.yaml
++++ b/scripts/schemas/twister/platform-schema.yaml
+@@ -20,7 +20,7 @@ mapping:
+     enum: ["mcu", "qemu", "sim", "unit", "native"]
+   "simulation":
+     type: str
+-    enum: ["qemu", "simics", "xt-sim", "renode", "nsim", "mdb-nsim", "tsim", "armfvp"]
++    enum: ["qemu", "simics", "xt-sim", "renode", "robotbench", "nsim", "mdb-nsim", "tsim", "armfvp"]
+   "arch":
+     type: str
+   "toolchain":
+-- 
+2.25.1
+

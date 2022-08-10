@@ -235,6 +235,8 @@ external_content_contents = [
     (PROJECT_BASE, "boards/**/doc"),
     (PROJECT_BASE, "samples/**/*.rst"),
     (PROJECT_BASE, "samples/**/doc"),
+    (PROJECT_BASE, "testbench/**/*.rst"),
+    (PROJECT_BASE, "testbench/**/doc"),
 ]
 external_content_keep = [
     # "reference/kconfig/*",

@@ -8,6 +8,6 @@ MCP23S17 has support for all use cases.
    :maxdepth: 1
    :caption: Contents
 
-   mcp23s17/main-features.rst
-   mcp23s17/building.rst
-   mcp23s17/interaction.rst
+   main-features.rst
+   building.rst
+   interaction.rst

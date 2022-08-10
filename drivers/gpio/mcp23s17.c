@@ -376,7 +376,7 @@ static int _mcp23s17_port_set_masked_raw(const struct device *dev, uint32_t mask
 
 	gpio = (gpio & ~mask) | (mask & value);
 
-	uint8_t buf[] = { gpio & 0x7, gpio >> 8 };
+	uint8_t buf[] = { gpio, gpio >> 8 };
 
 	if (_mcp23s17_write_regs(dev, REG_PORTA, buf, sizeof(buf)) != 0) {
 		return -EIO;
@@ -415,7 +415,7 @@ static int _mcp23s17_port_toggle_bits(const struct device *dev, uint32_t mask)
 
 	gpio ^= mask;
 
-	uint8_t buf[] = { gpio & 0x7, gpio >> 8 };
+	uint8_t buf[] = { gpio, gpio >> 8 };
 
 	if (_mcp23s17_write_regs(dev, REG_PORTA, buf, sizeof(buf)) != 0) {
 		ret = -EIO;

@@ -20,23 +20,24 @@ A6: Miscellaneous.Button @ gpioExpander
     -> gpioExpander@6
 A7: Miscellaneous.Button @ gpioExpander
     -> gpioExpander@7
-B0: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@8
-B1: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@9
-B2: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@10
-B3: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@11
-B4: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@12
-B5: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@13
-B6: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@14
-B7: Miscellaneous.Button @ gpioExpander
-    -> gpioExpander@15
 
 gpioExpander: GPIOPort.MCP23S17 @ spi1
     INTA -> gpioPortB@8
     INTB -> gpioPortB@9
+    8 -> SW0LED@0
+    9 -> SW1LED@0
+    10 -> SW2LED@0
+    11 -> SW3LED@0
+    12 -> SW4LED@0
+    13 -> SW5LED@0
+    14 -> SW6LED@0
+    15 -> SW7LED@0
+
+SW0LED: Miscellaneous.LED @ gpioExpander
+SW1LED: Miscellaneous.LED @ gpioExpander
+SW2LED: Miscellaneous.LED @ gpioExpander
+SW3LED: Miscellaneous.LED @ gpioExpander
+SW4LED: Miscellaneous.LED @ gpioExpander
+SW5LED: Miscellaneous.LED @ gpioExpander
+SW6LED: Miscellaneous.LED @ gpioExpander
+SW7LED: Miscellaneous.LED @ gpioExpander

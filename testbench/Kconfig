@@ -1,0 +1,10 @@
+choice TESTBENCH
+	prompt "Testbench"
+	default TESTBENCH_NUCLEO401RE_MCP23S17
+
+config TESTBENCH_NUCLEO401RE_MCP23S17
+	bool "Nucleo401re browser based testbench"
+	help
+		"Browser based testbench for testing the firmware"
+
+endchoice

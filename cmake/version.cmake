@@ -25,7 +25,6 @@
 # ``git.cmake``.
 # ~~~
 
-get_property(PROJECT_BASE GLOBAL PROPERTY PROJECT_BASE)
 include(${ZEPHYR_BASE}/cmake/hex.cmake)
 
 if(NOT DEFINED PROJECT_BUILD_VERSION)

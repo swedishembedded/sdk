@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000">
+
+  <link rel="manifest" href="/favicon/site.webmanifest">
+
+  <!-- xtern -->
+  <link rel="stylesheet" href="https://unpkg.com/xterm@4.18.0/css/xterm.css">
+  <script type="text/javascript" src="https://unpkg.com/xterm@4.18.0/lib/xterm.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/svg-inject.js"></script>
+  <script type="text/javascript" src="/js/jquery.svg.js"></script>
+  <script type="text/javascript" src="/js/jquery.svgdom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script type="text/javascript" src="/application.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <nav>
+      <div class="logo-container">
+        <svg class="logo footer" viewBox="0 0 128 128">
+          <image xlink:href="/img/logo.svg"/>
+        </svg>
+      </div>
+      <ul class="nav-links">
+        <li class="links-btn links-btn--active">
+          <a class="links-anchor" href="/">INTERACTIVE SIMULATION VIEWER</a>
+        </li>
+      </ul>
+    </nav>
+    <table class="layout">
+      <tr>
+        <td>
+          <img src="img/board.svg" onload="initBoard(this);"></svg>
+        </td>
+        <td>
+          <h3>USART2</h3>
+          <div id="terminal"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+          <canvas id="chart"></canvas>
+        </td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  <footer>
+    <div class="brand-footer">
+      <svg class="logo logo-footer" viewBox="0 0 128 128">
+        <image xlink:href="/img/logo.svg"/>
+      </svg>
+      <div class="brand-container">
+        <span class="caption">Swedish Embedded Platform SDK</span>
+      </div>
+    </div>
+    <div class="footer-copyright caption">
+      &copy; 2022 Martin Schroeder
+    </div>
+  </footer>
+
+  <script>
+  </script>
+</body>
+
+</html>

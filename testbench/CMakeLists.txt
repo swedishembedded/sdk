@@ -1,5 +1,3 @@
-# SPDX-License-Identifier: Apache-2.0
-
 find_program(RENODE renode)
 find_program(RENODE_TEST renode-test)
 
@@ -9,26 +7,44 @@ string(APPEND RENODE_COMMANDS
 string(APPEND RENODE_COMMANDS
        "set APPLICATION_BINARY_DIR @${APPLICATION_BINARY_DIR}\;")
 string(APPEND RENODE_COMMANDS "set SDK_BASE @${PROJECT_BASE}\;")
+string(APPEND RENODE_COMMANDS "set PROJECT_BASE @${PROJECT_BASE}\;")
+string(APPEND RENODE_COMMANDS "set BOARD @${BOARD}\;")
+string(APPEND RENODE_COMMANDS "set BOARD_DIR @${BOARD_DIR}\;")
+string(APPEND RENODE_COMMANDS
+       "set APPLICATION_SOURCE_DIR @${APPLICATION_SOURCE_DIR}\;")
 
-if(EXISTS ${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc)
+if(EXISTS ${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.resc)
   string(APPEND RENODE_COMMANDS
-         "include @${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc\;")
+         "include @${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.resc\;")
 elseif(EXISTS ${BOARD_DIR}/${BOARD}.resc)
   string(APPEND RENODE_COMMANDS "include @${BOARD_DIR}/${BOARD}.resc\;")
 endif()
 
+add_subdirectory_ifdef(CONFIG_TESTBENCH_NUCLEO401RE_MCP23S17
+                       nucleo401re_mcp23s17)
+
+set(TESTBENCH_DIR
+    "${CMAKE_CURRENT_LIST_DIR}/${TESTBENCH}"
+    CACHE INTERNAL "TESTBENCH_DIR")
+
 string(APPEND RENODE_COMMANDS "s\;")
 
-message(WARNING "${RENODE_COMMANDS}")
 add_custom_target(
-  run_sim
+  testbench
   COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}"
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
   DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
   USES_TERMINAL)
 
 add_custom_target(
-  sim_debugserver
+  testbench_xwt
+  COMMAND ${RENODE} -e "${RENODE_COMMANDS}"
+  WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
+  DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
+  USES_TERMINAL)
+
+add_custom_target(
+  testbench_debugserver
   COMMAND ${RENODE} --console --disable-xwt -e
           "${RENODE_COMMANDS}\;machine StartGdbServer 3333\;"
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
@@ -42,6 +58,18 @@ add_custom_target(
     APPLICATION_BINARY_DIR=${APPLICATION_BINARY_DIR}
     APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
     ${RENODE_TEST} --show-log ${APPLICATION_SOURCE_DIR}/sample.robot
+  WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
+  DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
+  USES_TERMINAL)
+
+add_custom_target(
+  robotbench
+  COMMAND
+    PROJECT_BASE=${PROJECT_BASE}
+    APPLICATION_BINARY_DIR=${APPLICATION_BINARY_DIR}
+    APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
+    ${RENODE_TEST} --show-log
+    ${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.robot
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
   DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
   USES_TERMINAL)

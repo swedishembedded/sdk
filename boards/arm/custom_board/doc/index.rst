@@ -5,8 +5,8 @@ Custom Board
 	:maxdepth: 1
 	:caption: Guides
 
-	custom_board/overview.rst
-	custom_board/hardware.rst
-	custom_board/programming.rst
-	custom_board/testing.rst
-	custom_board/references.rst
+	overview.rst
+	hardware.rst
+	programming.rst
+	testing.rst
+	references.rst

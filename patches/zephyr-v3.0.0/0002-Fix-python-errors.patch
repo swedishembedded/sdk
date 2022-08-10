@@ -1,0 +1,36 @@
+From 83ee3e086d47282d819a7c478f06b02afcba9d8e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Martin=20Schr=C3=B6der?= <mkschreder.uk@gmail.com>
+Date: Wed, 10 Aug 2022 22:38:25 +0200
+Subject: [PATCH 2/2] Fix python errors
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Martin Schröder <mkschreder.uk@gmail.com>
+---
+ scripts/pylib/twister/twisterlib.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/pylib/twister/twisterlib.py b/scripts/pylib/twister/twisterlib.py
+index a02a3af4ca..ed86963c60 100755
+--- a/scripts/pylib/twister/twisterlib.py
++++ b/scripts/pylib/twister/twisterlib.py
+@@ -478,6 +478,7 @@ class BinaryHandler(Handler):
+         super().__init__(instance, type_str)
+ 
+         self.call_west_flash = False
++        self.call_make_run_robotbench = False
+ 
+         # Tool options
+         self.valgrind = False
+@@ -2443,6 +2444,7 @@ class ProjectBuilder(FilterBuilder):
+             if find_executable("renode"):
+                 instance.handler = BinaryHandler(instance, "renode")
+                 instance.handler.pid_fn = os.path.join(instance.build_dir, "renode.pid")
++                instance.handler.call_make_run = True
+         elif instance.platform.simulation == "robotbench":
+             if find_executable("renode-test"):
+                 instance.handler = BinaryHandler(instance, "robotbench")
+-- 
+2.25.1
+

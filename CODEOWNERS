@@ -18,12 +18,14 @@
 /lib/		@mkschreder
 /modules/		@mkschreder
 /modules/.empty		@mkschreder
+/patches/		@mkschreder
 /platform-env.sh	@mkschreder
 /post-build/	 @mkschreder
 /renode/		@mkschreder
 /samples/		@mkschreder
 /scripts/		@mkschreder
 /scrum/		@mkschreder
+/testbench/   @mkschreder
 /tests/		@mkschreder
 /west.yml		@mkschreder
 /zephyr/	@mkschreder
