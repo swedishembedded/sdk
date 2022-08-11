@@ -1,0 +1,20 @@
+:name: STM32F401RE Nucleo Board
+:description: Default board simulation
+
+using sysbus
+
+set PROJECT_BASE $ORIGIN/../../
+
+mach create
+machine LoadPlatformDescription $ORIGIN/custom_board.repl
+
+cpu PerformanceInMips 168
+
+showAnalyzer sysbus.usart2
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset

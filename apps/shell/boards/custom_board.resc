@@ -1,0 +1,20 @@
+:name: Shell application on custom_board
+:description: Default application specific simulation
+
+using sysbus
+
+set PROJECT_BASE $ORIGIN/../../
+
+mach create
+machine LoadPlatformDescription $ORIGIN/custom_board.repl
+
+cpu PerformanceInMips 168
+
+showAnalyzer sysbus.usart2
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset
