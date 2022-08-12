@@ -1,4 +1,18 @@
 Testing
 *******
 
-Run the sample application and verify that all peripherals are working.
+This board does support a testbench. This testbench supports simulated mcp23s17
+peripheral connected to the board.
+
+You can run the testbench example as follows:
+
+.. code-block:: console
+
+	west build -p -b custom_board samples/drivers/gpio/mcp23s17 -t testbench
+
+Then point your browser to localhost:8000 to view the testbench interface.
+
+.. image:: img/testbench.jpg
+
+To interact with the USART use "uart_connect sybus.usart2" in the monitor
+window.

@@ -109,7 +109,7 @@ rst_epilog = """
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_theme_options = {"logo_only": True, "prev_next_buttons_location": None}
-html_title = "Zephyr Project Documentation"
+html_title = "Swedish Embedded Platform SDK Documentation"
 html_logo = str(PROJECT_BASE / "doc" / "_static" / "images" / "logo.svg")
 html_favicon = str(PROJECT_BASE / "doc" / "_static" / "images" / "favicon.png")
 html_static_path = [str(PROJECT_BASE / "doc" / "_static")]
@@ -180,8 +180,8 @@ doxyrunner_outdir_var = "DOXY_OUT"
 
 # -- Options for Breathe plugin -------------------------------------------
 
-breathe_projects = {"Zephyr": str(doxyrunner_outdir / "xml")}
-breathe_default_project = "Zephyr"
+breathe_projects = {"Swedish Embedded Platform SDK": str(doxyrunner_outdir / "xml")}
+breathe_default_project = "Swedish Embedded Platform SDK"
 breathe_domain_by_extension = {"h": "c", "c": "c"}
 breathe_show_enumvalue_initializer = True
 breathe_default_members = ("members",)
@@ -262,7 +262,7 @@ graphviz_dot_args = [
 
 extlinks = {
     "jira": ("https://jira.zephyrproject.org/browse/%s", ""),
-    "github": ("https://github.com/zephyrproject-rtos/zephyr/issues/%s", ""),
+    "github": ("https://github.com/swedishembedded/sdk/issues/%s", ""),
 }
 
 linkcheck_timeout = 30

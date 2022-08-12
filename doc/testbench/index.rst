@@ -76,8 +76,14 @@ software, a RobotFramework report is generated. This report can be included with
 the release as a way of showing what functionality has been tested in the case
 of that particular build.
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents
+
+   nucleo401re_mcp23s17/doc/index.rst
+
 Running testbench in Twister
-----------------------------
+****************************
 
 Testbenches can be run in twister. This requires that you have defined
 simulation type for your board and set it to "robotbench" in your board yml:
@@ -97,9 +103,3 @@ You can then run this kind of simulation by simply executing twister:
 
 This presupposes that custom_board has been configured to use robotbench as
 simulation and that your project has been configured to use a testbench.
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents
-
-   nucleo401re_mcp23s17/doc/index.rst

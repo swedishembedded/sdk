@@ -3,6 +3,11 @@
 #include <stdint.h>
 #include <kernel.h>
 
+/*!
+ * @defgroup example-library-api Example Library API
+ * @{
+ **/
+
 /** Example object */
 struct example_object {
 	/** Dummy mutex for testing */
@@ -17,3 +22,7 @@ struct example_object {
  * \retval 0 success
  **/
 int example_object_init(struct example_object *self);
+
+/*!
+ * @}
+ **/

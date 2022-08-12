@@ -3,11 +3,10 @@
 
 using sysbus
 
-set PROJECT_BASE $ORIGIN/../../
-
 mach create
 machine LoadPlatformDescription $ORIGIN/custom_board.repl
 
+logLevel 3
 cpu PerformanceInMips 168
 
 showAnalyzer sysbus.usart2

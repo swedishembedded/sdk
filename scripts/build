@@ -22,8 +22,8 @@ $ROOT/../zephyr/scripts/twister \
 }
 
 # Build documentation
-make -C doc pdf || {
-	echo "Error building documentation"
+${ROOT}/scripts/build-doc || {
+	echo "ERROR: documentation build failed. There are warnings."
 	exit 1
 }
 

@@ -1,5 +1,6 @@
-What is this
-************
+Simple driver example
+*********************
 
-This is an example driver from "example" subsystem. It doesn't really do much
-but shows you how you can structure your code and docs.
+This is a simple example driver that shows how to implement the simplest driver
+interface. For more complete examples check out the "zephyr" folder under your
+workspace.
