@@ -8,6 +8,7 @@ set -e
 
 . ${ROOT}/VERSION
 . ${ROOT}/../zephyr/zephyr-env.sh
+west zephyr-export
 
 # Build applications and samples
 $ROOT/../zephyr/scripts/twister \
@@ -30,4 +31,4 @@ ${ROOT}/scripts/build-doc || {
 }
 
 # Build releases
-./scripts/release -b custom_board -s apps/shell
+${ROOT}/scripts/release -b custom_board -s apps/shell

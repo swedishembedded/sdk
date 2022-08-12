@@ -1,9 +1,9 @@
 /.clang-format		@mkschreder
 /.gitattributes  @mkschreder
 /.githooks/  @mkschreder
+/.github/		@mkschreder
 /.gitlab-ci.yml		@mkschreder
 /.gitlab/		@mkschreder
-/.gitlab/	@mkschreder
 /CMakeLists.txt		@mkschreder
 /CODEOWNERS		@mkschreder
 /Kconfig		@mkschreder

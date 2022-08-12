@@ -99,7 +99,7 @@ This will load and run the new STM32 binary on the basic simulation setup
 provided by the custom board definition (under
 boards/arm/custom_board/custom_board.resc):
 
-.. image:: img/hello-world-boardbench.jpg
+.. image:: img/hello-world-boardbench.png
 
 You can now start a GDB server inside the simulation and connect to it if you
 want:
