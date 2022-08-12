@@ -1,7 +1,7 @@
 *** Settings ***
 Library  OperatingSystem
+Library  Process
 Library  ${CURDIR}/repository.py
-Resource  ${CURDIR}/readme.robot
 Variables  ${CURDIR}/../variables.py
 
 *** Test Cases ***
@@ -10,7 +10,6 @@ Git repository has been setup
 	Zephyr repository has a west yaml file
 	Zephyr repository has a top level CMake file
 	Zephyr repository has a top level Kconfig file
-	Zephyr repository has a readme file
 	Zephyr repository has a license file
 	Zephyr repository has a gitignore file
 	Zephyr repository has a CODEOWNERS file
@@ -30,11 +29,6 @@ Codeowners file is sorted
 	END
 
 *** Keywords ***
-
-Zephyr repository has a readme file
-	Set Test Variable  ${README}  ${PROJECT_ROOT}/README.rst
-	File Should Exist  ${README}
-	Readme should follow sales letter structure
 
 Zephyr repository has a top level CMake file
 	File Should Exist  ${PROJECT_ROOT}/CMakeLists.txt
