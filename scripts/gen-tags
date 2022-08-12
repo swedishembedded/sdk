@@ -1,11 +1,6 @@
 #!/bin/bash
-# Generate tags or cscope files
-# Usage tags.sh <mode>
-#
-# mode may be any of: tags, TAGS, cscope
-#
-# Uses the following environment variables:
-# ARCH, SOC, BOARD, ZEPHYR_BASE
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
 
 set -e
 

@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0
+/**
+ * Copyright 2022 Martin Schröder
+ **/
+
 #include <string.h>
 #include <kernel.h>
 #include <example/example.h>

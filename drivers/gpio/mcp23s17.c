@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: Apache-2.0
+/**
+ * Copyright 2020 Geanix ApS
+ * Copyright 2022 Martin Schröder <info@swedishembedded.com>
+ **/
+
 #define DT_DRV_COMPAT microchip_mcp23s17v2
 
 #include <device.h>

@@ -1,9 +1,7 @@
+.. SPDX-License-Identifier: Apache-2.0
+.. Copyright 2022 Martin Schröder <info@swedishembedded.com>
+
 :orphan:
-
-..
-    Example Project documentation main file
-
-.. _zephyr-home-tex:
 
 Swedish Embedded Firmware and Simulation Platform SDK Documentation
 ###################################################################

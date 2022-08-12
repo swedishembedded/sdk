@@ -1,7 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
 /**
- * SPDX-License-Identifier: Apache-2.0
- * Copyright (c) 2022 Swedish Embedded Consulting Group AB
- * Author: Martin Schröder <martin.schroder@swedishembedded.com>
+ * Copyright 2022 Martin Schröder <info@swedishembedded.com>
  **/
 
 #include <sys/printk.h>
