@@ -76,7 +76,7 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
   add_custom_target(
     boardbench
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}" -e
-            "${BENCH_COMMANDS}"
+            "${BENCH_COMMANDS}" -e "start\;"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -89,7 +89,7 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
   add_custom_target(
     boardbench_debugserver
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
-            "machine StartGdbServer 3333\;" -e "${BENCH_COMMANDS}"
+            "${BENCH_COMMANDS}" -e "machine StartGdbServer 3333\;"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)

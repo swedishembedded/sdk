@@ -13,10 +13,10 @@ Swedish Embedded Firmware and Simulation Platform SDK Documentation
    :maxdepth: 1
    :caption: Contents
 
-   getting-started/index.rst
-   guides/index.rst
-   testbench/index.rst
+   introduction/index.rst
+   workflow/index.rst
    boards/index.rst
    drivers/index.rst
    lib/index.rst
+   testbench/index.rst
    samples/index.rst

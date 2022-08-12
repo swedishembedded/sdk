@@ -1,5 +1,5 @@
-Custom Board
-############
+NucleoF401RE Custom Board
+#########################
 
 .. toctree::
 	:maxdepth: 1
@@ -8,5 +8,6 @@ Custom Board
 	overview.rst
 	hardware.rst
 	programming.rst
+	debugging.rst
 	testing.rst
 	references.rst

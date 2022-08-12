@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+
+set -e
+
+. ${ROOT}/VERSION
+. ${ROOT}/../zephyr/zephyr-env.sh
+
+# Build documentation
+make -C doc/ pdf 2>&1 | \
+	grep -v "Not copying tabs assets" | \
+	grep WARNING && {
+	echo "ERROR: documentation build failed. There are warnings."
+	exit 1
+}
+
+[[ -f doc/_build/latex/zephyr.pdf ]] && {
+	VERSION="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
+	DOC=$ROOT/doc/_build/latex/Swedish-Embedded-Platform-SDK-v$VERSION.pdf
+	mv $ROOT/doc/_build/latex/zephyr.pdf $DOC
+	echo "Documentation ready in $DOC"
+}
+

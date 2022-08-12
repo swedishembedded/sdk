@@ -1,4 +1,5 @@
 Description
 ***********
 
-This is an example library currently doing nothing.
+This library basicly does nothing, but shows you how to add shared code to your
+project.

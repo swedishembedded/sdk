@@ -1,4 +1,4 @@
-What is this
-************
+Simple Example Library
+**********************
 
-This is an example library.
+This is a very simple example library that shows how to add shared library code.

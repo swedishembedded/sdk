@@ -1,4 +1,4 @@
 Usage
 *****
 
-This library has no usage data.
+To use this library simply include example/example.h in your application.

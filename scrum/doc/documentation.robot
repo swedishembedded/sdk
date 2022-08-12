@@ -2,9 +2,9 @@
 Library  OperatingSystem
 
 Library  ${CURDIR}/../DocChecker.py
-Resource  ${CURDIR}/doc/guide.robot
-Resource  ${CURDIR}/doc/reference.robot
-Resource  ${CURDIR}/doc/board.robot
+Resource  ${CURDIR}/guide.robot
+Resource  ${CURDIR}/reference.robot
+Resource  ${CURDIR}/board.robot
 
 *** Variables ***
 ${ROOT_DIR}  ${CURDIR}/../../
@@ -17,7 +17,6 @@ Documentation generation has been setup
 Documentation is in good order
 	Doxygen main page has been written
 	PDF header has been created
-	Guides have well structured chapters
 	Drivers have been documented
 	Libraries have been documented
 	Boards have been documented
@@ -42,14 +41,6 @@ Doxygen main page has been written
 
 PDF header has been created
 	File Should Exist  ${ROOT_DIR}/doc/_static/latex/title.tex
-
-Guides have well structured chapters
-	@{GUIDES} =	List Directories In Directory	${ROOT_DIR}/doc/guides/
-	FOR  ${GUIDE}  IN  @{GUIDES}
-		File Should Exist  ${ROOT_DIR}/doc/guides/${GUIDE}.rst
-		Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/guides/${GUIDE}/
-		Chapter follows guide structure
-	END
 
 Drivers have been documented
 	@{DRIVER_CLASSES} =	List Directories In Directory	${ROOT_DIR}/drivers/

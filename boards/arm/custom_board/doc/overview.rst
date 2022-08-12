@@ -1,33 +1,16 @@
 Overview
 ********
 
-The Nucleo F401RE board features an ARM Cortex-M4 based STM32F401RE MCU
-with a wide range of connectivity support and configurations Here are
-some highlights of the Nucleo F401RE board:
+The main custom board is based on Nucleo F401RE board.
 
-- STM32 microcontroller in QFP64 package
-- Two types of extension resources:
+It has all of the features of the original Nucleo F401RE board, with the added
+possibility to simulate this board and debug it in simulation.
 
-  - Arduino Uno V3 connectivity
-  - ST morpho extension pin headers for full access to all STM32 I/Os
+For more details about this board, visit `Nucleo F401RE website`_.
 
-- On-board ST-LINK/V2-1 debugger/programmer with SWD connector
-- Flexible board power supply:
-
-  - USB VBUS or external source(3.3V, 5V, 7 - 12V)
-  - Power management access point
-
-- Three LEDs: USB communication (LD1), user LED (LD2), power LED (LD3)
-- Two push-buttons: USER and RESET
-
-.. image:: img/nucleo_f401re.png
-   :width: 720px
-   :align: center
-   :height: 720px
-   :alt: Nucleo F401RE
-
-More information about the board can be found at the `Nucleo F401RE website`_.
+This board was the first board to be added to the SDK and so it is a bit of a
+"demo" board. Many examples build for this board and the main testbench is based
+on this board.
 
 .. _Nucleo F401RE website:
    http://www.st.com/en/evaluation-tools/nucleo-f401re.html
-

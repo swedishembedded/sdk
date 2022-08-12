@@ -9,6 +9,8 @@ This driver also has a simulation counterpart which you can enable as follows:
 	exampleSensor: Sensors.ExampleSensor @ spi1
 	   Interrupt -> gpioPortA@4
 
+See "renode/drivers/example/ExampleSensor.cs" for details.
+
 Also we need to wire the CS pin to sensor GPIO 0:
 
 	gpioPortB:
