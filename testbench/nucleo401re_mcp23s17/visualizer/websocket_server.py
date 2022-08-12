@@ -1,5 +1,5 @@
+# SPDX-License-Identifier: MIT
 # Author: Johan Hanssen Seferidis
-# License: MIT
 
 import sys
 import struct

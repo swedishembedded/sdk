@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+
 find_program(RENODE renode)
 find_program(RENODE_TEST renode-test)
 
