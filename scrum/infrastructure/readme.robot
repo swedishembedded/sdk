@@ -1,17 +1,50 @@
 *** Settings ***
 Library  Process
+Library  OperatingSystem
+Library  ${CURDIR}/repository.py
+Variables  ${CURDIR}/../variables.py
+
+*** Test Cases ***
+
+Readme communicates what project is about
+	Embedded firmware development, simulation and testing SDK
+	Easy to get started
+	Extensive hardware support
+	Powerful CI infrastructure
+	Simulation and visualization
+	Learn more
 
 *** Keywords ***
 
-Readme should follow sales letter structure
-	Readme should have a niche specific headline
-	Readme should contain proof and evidence
-	Readme should make it clear who this is for
-	Readme should describe the core concept
-	Readme should describe the process and steps
-	Readme should specify who the offer is for
-	Readme should outline benefits and outcomes
-	Readme should make an offer with call to action
+Embedded firmware development, simulation and testing SDK
+	Rst Should Contain H1 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Embedded Firmware Development, Simulation and Testing SDK
+
+Easy to get started
+	Rst Should Contain H2 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Easy to get started
+
+Extensive hardware support
+	Rst Should Contain H2 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Extensive hardware support
+
+Powerful CI infrastructure
+	Rst Should Contain H2 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Powerful CI infrastructure
+
+Simulation and visualization
+	Rst Should Contain H2 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Simulation and visualization
+
+Learn more
+	Rst Should Contain H2 Headline
+	...  ${ROOT_DIR}/README.rst
+	...  Learn more
 
 Rst Should Contain H1 Headline
 	[Arguments]  ${RST}  ${HEADLINE}
