@@ -2,18 +2,19 @@
 
 manifest:
   self:
-    path: zephyr-getting-started
+    path: sdk
 
   remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/zephyrproject-rtos
+    - name: swedishembedded
+      url-base: https://github.com/swedishembedded
     - name: throwtheswitch
       url-base: https://github.com/ThrowTheSwitch
-
+    - name: renode
+      url-base: https://github.com/renode
   projects:
     - name: zephyr
-      remote: zephyrproject-rtos
-      revision: v3.0.0
+      remote: swedishembedded
+      revision: v3.0.0-swe
       import: true
     - name: cmock
       path: modules/test/cmock
@@ -23,3 +24,8 @@ manifest:
       path: modules/test/cmock/vendor/unity
       revision: 1958b977019c3ac19bb83350f7b26e60cbeb6c75
       remote: throwtheswitch
+    - name: renode
+      path: renode
+      revision: v1.13.1
+      submodules: true
+      remote: renode
