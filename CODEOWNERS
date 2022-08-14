@@ -20,7 +20,6 @@
 /lib/		@mkschreder
 /modules/		@mkschreder
 /modules/.empty		@mkschreder
-/patches/		@mkschreder
 /platform-env.sh	@mkschreder
 /post-build/	 @mkschreder
 /renode/		@mkschreder
