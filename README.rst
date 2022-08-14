@@ -5,6 +5,8 @@
 Embedded Firmware Development, Simulation and Testing SDK
 *********************************************************
 
+.. image:: doc/img/cover.png
+
 **Swedish Embedded Platform SDK** is a comprehensive platform for firmware
 development. It provides:
 
