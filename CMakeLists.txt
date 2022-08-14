@@ -1,7 +1,7 @@
 # Top level CMake file
 
 # store project base in current scope
-set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR})
+set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "SDK base directory")
 # put it also in the env scope
 set(ENV{PROJECT_BASE} ${CMAKE_CURRENT_LIST_DIR})
 

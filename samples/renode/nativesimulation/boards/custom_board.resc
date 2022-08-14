@@ -1,0 +1,28 @@
+:name: Renode cosimulation sample
+:description: Custom cosimulation board
+
+using sysbus
+
+i $ORIGIN/../plugin/SharedLibraryPeripheral.cs
+
+mach create
+machine LoadPlatformDescription $ORIGIN/custom_board.repl
+
+shared LibraryPath $ORIGIN/../plugin/peripheral.so
+
+showAnalyzer sysbus.usart2
+
+logLevel 3
+
+logLevel 0 sysbus.shared
+logLevel 0 sysbus.usart2
+
+sysbus.shared WriteDoubleWord 1 1234
+sysbus.shared ReadDoubleWord 1
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset
