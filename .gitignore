@@ -6,6 +6,7 @@
 /latex*/
 /CMakeCache.txt
 /doc/_build/
+*.so
 
 # Ignore test artifacts
 /log.html
