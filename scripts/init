@@ -22,11 +22,6 @@ west update
 
 export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 
-# Apply zephyr patches
-$ROOT/scripts/apply-zephyr-patches || {
-	echo "ERROR: Could not apply zephyr patches"
-}
-
 # Install python requirements
 pip3 install -r ../zephyr/scripts/requirements.txt
 
