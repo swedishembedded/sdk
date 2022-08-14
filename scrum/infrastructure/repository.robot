@@ -17,9 +17,6 @@ Git repository has been setup
 	Zephyr repository has a VERSION file
 	Zephyr repository has an init script that sets up the workspace
 
-Git merge request title is valid
-	Check merge request title
-
 Codeowners file is sorted
 	${result}=  Run Process  ${CURDIR}/../../scripts/ci/check-file-sorted  ${CURDIR}/../../CODEOWNERS
 	IF  ${result.rc} != 0
