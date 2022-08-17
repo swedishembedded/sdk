@@ -57,7 +57,9 @@ fix_file_formatting(){
 			echo "You'll have to fix this manually"
 			return 1
 		}
-	elif [[ $FILE == *.c ]] || [[ $FILE == *.h ]]; then
+	elif [[ $FILE == *.c ]] ||
+		[[ $FILE == *.cpp ]] ||
+		[[ $FILE == *.h ]]; then
 		echo "Formatting source file: $FILE"
 		clang-format -i --style=file -Werror --fallback-style=none $FILE || {
 			echo "Fixing formatting of $FILE failed"

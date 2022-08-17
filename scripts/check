@@ -78,7 +78,9 @@ check_file_formatting(){
 			echo "Run: ./scripts/fix"
 			return 1
 		}
-	elif [[ $FILE == *.c ]] || [[ $FILE == *.h ]]; then
+	elif [[ $FILE == *.c ]] ||
+		[[ $FILE == *.cpp ]] ||
+		[[ $FILE == *.h ]]; then
 		clang-format --dry-run --style=file -Werror --fallback-style=none $FILE || {
 			echo "Checking formatting of $FILE failed"
 			echo "Run: ./scripts/fix"
