@@ -6,10 +6,10 @@ using sysbus
 mach create
 machine LoadPlatformDescription $ORIGIN/custom_board.repl
 
-logLevel 3
-cpu PerformanceInMips 168
-
 showAnalyzer sysbus.usart2
+
+logLevel 3
+logLevel 0 sysbus.usart2
 
 macro reset
 """

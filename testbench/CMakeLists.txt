@@ -78,14 +78,15 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
   set(BENCH_COMMANDS "include @${BOARD_DIR}/${BOARD}.resc\;")
   add_custom_target(
     boardbench
-    COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}" -e
+    COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
             "${BENCH_COMMANDS}" -e "start\;"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
   add_custom_target(
     boardbench_xwt
-    COMMAND ${RENODE} -e "${RENODE_COMMANDS}" -e "${BENCH_COMMANDS}"
+    COMMAND ${RENODE} -e "${RENODE_COMMANDS}" -e "${BENCH_COMMANDS}" -e
+            "start\;"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)

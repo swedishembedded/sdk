@@ -32,6 +32,16 @@ Using this image you can build and run an application very quickly:
 
 .. image:: doc/img/docker-demo.gif
 
+.. code-block:: bash
+
+    docker pull swedishembedded/develop:latest
+    # Run in privileged so we can flash over USB JTAG
+    docker run -t -i --privileged \
+        -v /dev/bus/usb:/dev/bus/usb \
+        swedishembedded/develop:latest
+    SDK> workspace demo
+    SDK> west build -b stm32f429i_disc1 -s ../zephyr/samples/basic/blinky -t flash
+
 Extensive hardware support
 ##########################
 
@@ -73,6 +83,24 @@ The simulation framework supports multi-node simulation meaning that you can
 test complete aggregations of devices using the Swedish Embedded Platform SDK
 upon every commit being created in your repository.
 
+Integrated Control Toolbox
+##########################
+
+[Swedish Embedded Control Toolbox](https://github.com/swedishembedded/control)
+is integrated into this SDK, meaning that you have access to fast
+implementations of control system design and system identification algorithms.
+If you are using Swedish Embedded SDK for developing industrial automation
+systems then the control toolkit is very useful.
+
+- **Filtering** - pure C Kalman filter and the new Square Root Unscented Kalman
+  Filter implementations.
+- **System Identification** - so you can identify models of your system dynamics
+  in realtime directly inside your firmware without any external dependencies.
+- **Controller Design** - functions for implementing model based controllers for
+  dynamic systems.
+
+Find out more at: https://github.com/swedishembedded/control
+
 Simulation and visualization
 ############################
 
@@ -91,6 +119,18 @@ Visualization testbenches can be created to visualize your PCB and interact with
 virtual controls:
 
 .. image:: doc/img/visualization.png
+
+You can also cosimulate your peripherals using standalone executables. The way
+this works is that we map a simulation executable into the address space of your
+MCU so that when anything is written or read to and from that memory, the
+read/write request is handled by a standalone program connected to the
+simulator. You can have as many standalone executables as you have peripherals.
+
+This allows you to implement simulated peripherals that support user interaction
+(you can of course run automatic simulations as well - but sometimes user
+interaction is userful).
+
+.. image:: samples/lib/control/basic/doc/screenshot.png
 
 Learn more
 ##########
