@@ -9,4 +9,5 @@ Samples
    :caption: Contents
 
    drivers/gpio/mcp23s17/doc/index.rst
+   lib/control/basic/doc/index.rst
    renode/nativesimulation/doc/index.rst

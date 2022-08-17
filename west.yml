@@ -11,6 +11,8 @@ manifest:
       url-base: https://github.com/ThrowTheSwitch
     - name: renode
       url-base: https://github.com/renode
+    - name: imgui
+      url-base: https://github.com/ocornut
   projects:
     - name: zephyr
       remote: swedishembedded
@@ -29,3 +31,11 @@ manifest:
       revision: v1.13.1
       submodules: true
       remote: renode
+    - name: control
+      path: control
+      revision: main
+      remote: swedishembedded
+    - name: imgui
+      path: imgui
+      revision: master
+      remote: imgui

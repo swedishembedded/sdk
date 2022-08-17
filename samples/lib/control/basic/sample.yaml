@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+
+sample:
+  name: Control library sample
+tests:
+  samples.lib.control.basic:
+    platform_allow: custom_board
+    build_only: true
+    integration_platforms:
+      - custom_board
