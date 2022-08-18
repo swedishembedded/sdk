@@ -7,17 +7,20 @@ project(sample)
 
 target_sources(app PRIVATE src/main.c)
 
+# TODO: this needs to be made generic
+set(LIB_CONTROL_ROOT ${PROJECT_BASE}/../modules/lib/control/)
+set(LIB_IMGUI_ROOT ${PROJECT_BASE}/../modules/lib/imgui/)
+
 add_custom_target(
   peripheral
   COMMAND
     g++ `sdl2-config --cflags` -I${PROJECT_BASE}/include/
-    -I${PROJECT_BASE}/../control/include -I${PROJECT_BASE}/../imgui/
-    -I${PROJECT_BASE}/../imgui/backends/ -Wall -Wextra -Werror -o
-    peripheral/peripheral.elf peripheral/main.cpp
-    ${PROJECT_BASE}/../imgui/imgui*.cpp
-    ${PROJECT_BASE}/../imgui/backends/imgui_impl_sdl.cpp
-    ${PROJECT_BASE}/../imgui/backends/imgui_impl_opengl3.cpp `sdl2-config
-    --libs` -lGL -ldl
+    -I${LIB_CONTROL_ROOT}/include -I${LIB_IMGUI_ROOT}
+    -I${LIB_IMGUI_ROOT}/backends/ -Wall -Wextra -Werror -o
+    peripheral/peripheral.elf peripheral/main.cpp ${LIB_IMGUI_ROOT}/imgui*.cpp
+    ${LIB_IMGUI_ROOT}/backends/imgui_impl_sdl.cpp
+    ${LIB_IMGUI_ROOT}/backends/imgui_impl_opengl3.cpp `sdl2-config --libs` -lGL
+    -ldl
   WORKING_DIRECTORY ${APPLICATION_SOURCE_DIR})
 
 add_dependencies(app peripheral)

@@ -32,10 +32,10 @@ manifest:
       submodules: true
       remote: renode
     - name: control
-      path: control
+      path: modules/lib/control
       revision: main
       remote: swedishembedded
     - name: imgui
-      path: imgui
+      path: modules/lib/imgui
       revision: master
       remote: imgui
