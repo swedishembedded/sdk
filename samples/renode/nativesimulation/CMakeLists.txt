@@ -13,6 +13,7 @@ add_custom_target(
     gcc -I${PROJECT_BASE}/include/
     -I${PROJECT_BASE}/../renode/src/Infrastructure/src/Emulator/Cores/renode/include/
     -fPIC -shared -o plugin/peripheral.so plugin/peripheral.c
+    ${PROJECT_BASE}/lib/renode/renode.c
   WORKING_DIRECTORY ${APPLICATION_SOURCE_DIR})
 
 add_dependencies(app peripheral)

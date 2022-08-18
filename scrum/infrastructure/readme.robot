@@ -1,7 +1,6 @@
 *** Settings ***
 Library  Process
 Library  OperatingSystem
-Library  ${CURDIR}/repository.py
 Variables  ${CURDIR}/../variables.py
 
 *** Test Cases ***

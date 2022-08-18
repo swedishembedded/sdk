@@ -3,8 +3,6 @@
 
 using sysbus
 
-i $ORIGIN/../plugin/SocketPeripheral.cs
-
 mach create
 machine LoadPlatformDescription $ORIGIN/custom_board.repl
 
