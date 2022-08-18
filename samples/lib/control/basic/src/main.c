@@ -17,6 +17,8 @@
 
 #include <kernel.h>
 #include <stdio.h>
+#include <string.h>
+#include <float.h>
 #include <control/controller.h>
 
 #define ADIM 2
@@ -31,31 +33,20 @@ enum plant_register {
 	PLANT_REG_R = 3,
 };
 
-#define PLANT_BASE ((volatile uint32_t *)0x70000000)
-#define PLANT_Y0 *(PLANT_BASE + PLANT_REG_Y)
-#define PLANT_U0 *(PLANT_BASE + PLANT_REG_U)
-#define PLANT_COMPUTE *(PLANT_BASE + PLANT_REG_COMPUTE)
-#define PLANT_R *(PLANT_BASE + PLANT_REG_R)
+struct plant_controls {
+	float u;
+	float y;
+	uint32_t compute;
+	float r;
+} __attribute__((packed)) __attribute__((aligned(4)));
+
+static volatile struct plant_controls *plant = ((volatile struct plant_controls *)0x70000000);
+
+#include <lqi-design.h>
 
 void main(void)
 {
 	printk("Control library LQI sample\n");
-
-	// State transition matrix of the plant
-	float A[ADIM * ADIM] = { 0.89559, 0.37735, -0.37735, 0.51825 };
-	// Input transition matrix
-	float B[ADIM * RDIM] = { 0.20881, 0.75469 };
-	// Plant output transition matrix
-	float C[YDIM * ADIM] = { 1, 0 };
-
-	// Kalman steady state matrix K
-	float K[ADIM * YDIM] = { 0.58006, -0.22391 };
-
-	// Control law L
-	float L[RDIM * ADIM] = { 1.56766, 0.85103 };
-
-	// Integral law Li
-	float Li[RDIM] = { 0.50135 };
 
 	// Initial states - Normally set to zero
 	float x[ADIM] = { 0 };
@@ -64,10 +55,13 @@ void main(void)
 	// Input signal, reference signal, output signal and state vector x and xi
 	float qi = 0.1; // <-- Tune this in between 0->1, but qi =/= 1.
 	float u[RDIM] = { 0 }; // <-- This is our input value we want to have
-	float r[RDIM] = { 10 }; // <-- This is what we want to see.
+	float r[RDIM] = { 0 }; // <-- This is what we want to see.
 	float y[YDIM] = { 0 }; // <-- This is our measurement. Set it.
 
 	while (1) {
+		r[0] = plant->r;
+		y[0] = plant->y;
+
 		//Control LQI
 		lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINDUP);
 
@@ -75,13 +69,10 @@ void main(void)
 		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
 
 		// Write control input to the plant
-		PLANT_U0 = (uint32_t)(u[0] * 0xFFFF);
-		// Read measurement from the plant
-		y[0] = ((float)PLANT_Y0 / 0xFFFF);
-		r[0] = ((float)PLANT_R / 0xFFFF);
+		plant->u = u[0];
 
 		// This is used to trigger "tick" in the plant (since we are simulating)
-		PLANT_COMPUTE = 1;
+		plant->compute = 1;
 
 		// Print control input and output of the plant
 		// The plant should stabilize at 'r'

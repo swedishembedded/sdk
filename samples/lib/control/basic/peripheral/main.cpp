@@ -62,6 +62,12 @@ enum plant_register {
 	PLANT_REG_R = 3,
 };
 
+#define ADIM 2
+#define RDIM 1
+#define YDIM 1
+
+#include <lqi-design.h>
+
 int main(int argc, char **argv)
 {
 	if (argc != 4) {
@@ -113,9 +119,6 @@ int main(int argc, char **argv)
 	struct protocol_packet res;
 
 	float x[] = { 0.0, 0.0 };
-	float A[] = { 0.89559, 0.37735, -0.37735, 0.51825 };
-	float B[] = { 0.20881, 0.75469 };
-	float C[] = { 1.0, 0.0 };
 	float u[] = { 0.0 };
 	float r[] = { 10.0 };
 	float y[] = { 0.0 };
@@ -180,7 +183,7 @@ int main(int argc, char **argv)
 			break;
 		case MSG_TYPE_WRITE:
 			if (req.addr == PLANT_REG_U) {
-				u[0] = (float)req.value / 0xFFFF;
+				memcpy(&u[0], &req.value, sizeof(u[0]));
 				res.type = MSG_TYPE_OK;
 			} else if (req.addr == PLANT_REG_COMPUTE) {
 				float Ax[] = { A[0] * x[0] + A[1] * x[1],
@@ -196,10 +199,10 @@ int main(int argc, char **argv)
 			break;
 		case MSG_TYPE_READ:
 			if (req.addr == PLANT_REG_Y) {
-				res.value = y[0] * 0xFFFF;
+				memcpy(&res.value, &y[0], sizeof(res.value));
 				res.type = MSG_TYPE_OK;
 			} else if (req.addr == PLANT_REG_R) {
-				res.value = r[0] * 0xFFFF;
+				memcpy(&res.value, &r[0], sizeof(res.value));
 				res.type = MSG_TYPE_OK;
 			}
 			break;
@@ -232,8 +235,8 @@ int main(int argc, char **argv)
 
 		ImGui::Text("This is the plant controlled by firmware");
 		ImGui::PushItemWidth(400);
-		ImGui::SliderFloat("Plant output (y)", &y[0], 0.0f, 25.0f);
-		ImGui::SliderFloat("Plant reference (r)", &r[0], 0.0f, 25.0f);
+		ImGui::SliderFloat("Plant output (y)", &y[0], -25.0f, 25.0f);
+		ImGui::SliderFloat("Plant reference (r)", &r[0], -25.0f, 25.0f);
 
 		ImGui::End();
 
