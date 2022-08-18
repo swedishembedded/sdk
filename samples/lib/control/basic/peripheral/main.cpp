@@ -24,10 +24,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <cstdlib>
 #include <netdb.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+
+#include <renode/renode.h>
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -35,25 +38,6 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
-
-struct protocol_packet {
-	uint32_t type;
-	uint64_t addr;
-	uint64_t value;
-} __attribute__((packed, aligned(1)));
-
-enum protocol_message_type {
-	MSG_TYPE_INVALID = 0,
-	MSG_TYPE_TICK_CLOCK = 1,
-	MSG_TYPE_WRITE = 2,
-	MSG_TYPE_READ = 3,
-	MSG_TYPE_RESET = 4,
-	MSG_TYPE_IRQ = 5,
-	MSG_TYPE_ERROR = 6,
-	MSG_TYPE_OK = 7,
-	MSG_TYPE_DISCONNECT = 8,
-	MSG_TYPE_HANDSHAKE = 9,
-};
 
 enum plant_register {
 	PLANT_REG_U = 0,
@@ -77,46 +61,18 @@ int main(int argc, char **argv)
 	int mainPort = atoi(argv[1]);
 	int irqPort = atoi(argv[2]);
 	const char *address = argv[3];
+	struct renode *renode = renode_new();
 
 	printf("Connecting to %s %d %d\n", address, mainPort, irqPort);
 
-	int mainSocket = socket(AF_INET, SOCK_STREAM, 0);
-	if (mainSocket == -1) {
-		perror("Failed to create socket\n");
-		return 1;
-	}
-
-	struct sockaddr_in addr;
-
-	bzero(&addr, sizeof(addr));
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(address);
-	addr.sin_port = htons(mainPort);
-
-	if (connect(mainSocket, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
-		perror("Connection failed");
-		fprintf(stderr, "Could not connect to %s:%d (%d)\n", address, mainPort, errno);
-		close(mainSocket);
-		return 1;
-	}
-
-	int irqSocket = socket(AF_INET, SOCK_STREAM, 0);
-
-	if (irqSocket == -1) {
-		perror("Failed to create socket\n");
-		return 1;
-	}
-
-	addr.sin_port = htons(irqPort);
-
-	if (connect(irqSocket, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
-		fprintf(stderr, "Could not connec to %s:%d\n", address, irqPort);
-		return 1;
+	if (renode_connect(renode, mainPort, irqPort, address) != 0) {
+		fprintf(stderr, "Could not connect to renode (IP: %s)\n", address);
+		return -1;
 	}
 
 	printf("Connected to %s %d %d\n", address, mainPort, irqPort);
-	struct protocol_packet req;
-	struct protocol_packet res;
+	struct renode_packet req;
+	struct renode_packet res;
 
 	float x[] = { 0.0, 0.0 };
 	float u[] = { 0.0 };
@@ -169,9 +125,8 @@ int main(int argc, char **argv)
 
 	bool done = false;
 	while (!done) {
-		(void)irqSocket;
-		if (recv(mainSocket, &req, sizeof(req), 0) != sizeof(req)) {
-			fprintf(stderr, "Failed to receive handshake\n");
+		if (renode_wait_request(renode, &req) != 0) {
+			fprintf(stderr, "Failed to receive packet\n");
 			break;
 		}
 
@@ -210,8 +165,8 @@ int main(int argc, char **argv)
 			exit(0);
 		}
 
-		if (send(mainSocket, &res, sizeof(res), 0) < 0) {
-			fprintf(stderr, "Failed to send handshake packet");
+		if (renode_send_response(renode, &res) != 0) {
+			fprintf(stderr, "Failed to send packet");
 			break;
 		}
 
@@ -257,4 +212,7 @@ int main(int argc, char **argv)
 	SDL_GL_DeleteContext(gl_context);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+
+	renode_disconnect(renode);
+	renode_free(&renode);
 }

@@ -1,0 +1,8 @@
+# Copyright (c) 2022 Martin Schröder
+# SPDX-License-Identifier: Apache-2.0
+
+config RENODE
+	bool "Renode integration functionality"
+	help
+		This provides ability of the application to communicate with renode machine.
+		It is intended primarily for simulation development.

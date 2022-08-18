@@ -1,12 +1,15 @@
 .. SPDX-License-Identifier: Apache-2.0
 .. Copyright 2022 Martin Schröder <info@swedishembedded.com>
 
-Libraries
-#########
+Renode Integration Library
+##########################
 
 .. toctree::
    :maxdepth: 1
    :caption: Drivers
 
-   renode/index.rst
-   example/index.rst
+   what-is-this.rst
+   main-features.rst
+   description.rst
+   usage.rst
+   api-reference.rst

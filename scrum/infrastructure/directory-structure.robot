@@ -1,5 +1,6 @@
 *** Settings ***
 Library  OperatingSystem
+Library  Process
 Library  directory-structure.py
 
 *** Variables ***
@@ -96,12 +97,13 @@ Libraries have proper structure
 			${STR}    Get File    ${ROOT_DIR}/tests/lib/${LIBRARY}/${NAME}/src/unit.c
 			Should Contain    ${STR}    ${NAME}.c
 
-			# All libs must have a sample
 			Set Test Variable  ${APP_SOURCE}  ${ROOT_DIR}/samples/lib/${LIBRARY}/${NAME}
-			App directory has proper structure
+			${res} =    run process    ls    ${APP_SOURCE}
+			# If a sample exists, check it
+			Run Keyword If  ${res.rc} == 0  App directory has proper structure
 
 			# Each sample should have a robot test to verify it's content
-			File Should Exist  ${CURDIR}/../samples/lib/${LIBRARY}/${NAME}.robot
+			Run Keyword If  ${res.rc} == 0  File Should Exist  ${CURDIR}/../samples/lib/${LIBRARY}/${NAME}.robot
 		END
 	END
 
