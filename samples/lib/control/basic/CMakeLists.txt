@@ -12,15 +12,25 @@ set(LIB_CONTROL_ROOT ${PROJECT_BASE}/../modules/lib/control/)
 set(LIB_IMGUI_ROOT ${PROJECT_BASE}/../modules/lib/imgui/)
 
 add_custom_target(
+  lqi_design
+  COMMAND octave ${APPLICATION_SOURCE_DIR}/lqi-design.m >
+          ${APPLICATION_BINARY_DIR}/lqi-design.h
+  WORKING_DIRECTORY ${APPLICATION_SOURCE_DIR})
+
+zephyr_include_directories(${APPLICATION_BINARY_DIR})
+
+add_custom_target(
   peripheral
   COMMAND
     g++ `sdl2-config --cflags` -I${PROJECT_BASE}/include/
     -I${LIB_CONTROL_ROOT}/include -I${LIB_IMGUI_ROOT}
-    -I${LIB_IMGUI_ROOT}/backends/ -Wall -Wextra -Werror -o
-    peripheral/peripheral.elf peripheral/main.cpp ${LIB_IMGUI_ROOT}/imgui*.cpp
-    ${LIB_IMGUI_ROOT}/backends/imgui_impl_sdl.cpp
+    -I${APPLICATION_BINARY_DIR}/ -I${LIB_IMGUI_ROOT}/backends/ -Wall -Wextra
+    -Werror -o peripheral/peripheral.elf peripheral/main.cpp
+    ${LIB_IMGUI_ROOT}/imgui*.cpp ${LIB_IMGUI_ROOT}/backends/imgui_impl_sdl.cpp
     ${LIB_IMGUI_ROOT}/backends/imgui_impl_opengl3.cpp `sdl2-config --libs` -lGL
     -ldl
+  DEPENDS ${APPLICATION_BINARY_DIR}/lqi-design.h
   WORKING_DIRECTORY ${APPLICATION_SOURCE_DIR})
 
+add_dependencies(peripheral lqi_design)
 add_dependencies(app peripheral)
