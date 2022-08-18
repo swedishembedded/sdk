@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <string.h>
 
+#include <renode/protocol.h>
 #include <renode_imports.h>
 
 #define EXPORT __attribute__((visibility("default")))
@@ -22,23 +23,6 @@ extern void protocol_wait_request(void *ptr);
 EXTERNAL_AS(action_intptr, HandleResponse, protocol_respond);
 EXTERNAL_AS(action_intptr, HandleIRQMessage, protocol_irq_request);
 EXTERNAL_AS(action_intptr, Receive, protocol_wait_request);
-
-struct protocol_packet {
-	uint32_t type;
-	uint64_t addr;
-	uint64_t value;
-} __attribute__((packed, aligned(1)));
-
-enum protocol_message_type {
-	MSG_TYPE_INVALID = 0,
-	MSG_TYPE_TICK_CLOCK = 1,
-	MSG_TYPE_WRITE = 2,
-	MSG_TYPE_READ = 3,
-	MSG_TYPE_RESET = 4,
-	MSG_TYPE_IRQ = 5,
-	MSG_TYPE_ERROR = 6,
-	MSG_TYPE_OK = 7,
-};
 
 enum register_id {
 	REG_IN = 1,
@@ -62,8 +46,8 @@ void peripheral_reset(struct peripheral *self)
 	printf("Reset\n");
 }
 
-void peripheral_transfer(struct peripheral *self, const struct protocol_packet *req,
-			 struct protocol_packet *res)
+void peripheral_transfer(struct peripheral *self, const struct renode_packet *req,
+			 struct renode_packet *res)
 {
 	switch (req->type) {
 	case MSG_TYPE_WRITE: {
@@ -90,9 +74,9 @@ EXPORT void initialize_native(void)
 	peripheral_init(&inst);
 }
 
-EXPORT void handle_request(const struct protocol_packet *req)
+EXPORT void handle_request(const struct renode_packet *req)
 {
-	struct protocol_packet res;
+	struct renode_packet res;
 
 	memset(&res, 0, sizeof(res));
 	res.type = MSG_TYPE_ERROR;

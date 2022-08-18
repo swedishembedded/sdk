@@ -1,0 +1,2 @@
+i $PROJECT_BASE/renode/SharedLibraryPeripheral.cs
+i $PROJECT_BASE/renode/SocketPeripheral.cs

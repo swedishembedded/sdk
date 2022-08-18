@@ -48,6 +48,9 @@ zephyr_compile_options("-Wno-type-limits")
 # Reason: zephyr os/cbprintf does not compile
 zephyr_compile_options("-Wno-sign-compare")
 
+# Disable qualifiers (zephyr net_if.h)
+zephyr_compile_options("-Wno-ignored-qualifiers")
+
 # Disable error on missing field initializers
 # Reason: sync_status in drivers/spi/spi_context.h
 zephyr_compile_options("-Wno-missing-field-initializers")

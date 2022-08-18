@@ -40,7 +40,7 @@ public enum MessageType {
 	Error,
 	/** Acknowledge/ok response */
 	OK,
-	/** Disconnection message */
+	/** Disconnect message */
 	Disconnect,
 	/** Handshake message */
 	Handshake,
@@ -123,7 +123,8 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 		irqMonitor = new Thread(IRQMonitor) { IsBackground = true,
 						      Name = "SocketPeripheral.IRQMonitor" };
 		irqMonitor.Start();
-		this.Log(LogLevel.Info, "Listening on ports {0} {1}", mainSocket.ListenerPort, irqSocket.ListenerPort);
+		this.Log(LogLevel.Info, "Listening on ports {0} {1}", mainSocket.ListenerPort,
+			 irqSocket.ListenerPort);
 	}
 
 	/** Shared library path */
@@ -145,7 +146,8 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 					irqSocket.ResetConnections();
 					KillPeripheralProcess();
 
-					this.Log(LogLevel.Error,
+					this.Log(
+						LogLevel.Error,
 						$"Connection to the socket peripheral ({value}) failed!");
 				} else {
 					// If connected successfully, listening sockets can be closed
@@ -153,7 +155,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 					irqSocket.CloseListener();
 
 					this.Log(LogLevel.Debug,
-							  "Connected to the verilated peripheral!");
+						 "Connected to the verilated peripheral!");
 				}
 			} catch (Exception e) {
 				this.Log(LogLevel.Error, "Error starting peripheral {0}", e);
@@ -189,8 +191,8 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 
 	private bool TryHandshake()
 	{
-		if(Send(new ProtocolMessage(MessageType.Handshake, 0, 0)) &&
-			 Recv(out var result) && result.Type == MessageType.Handshake){
+		if (Send(new ProtocolMessage(MessageType.Handshake, 0, 0)) &&
+		    Recv(out var result) && result.Type == MessageType.Handshake) {
 			return true;
 		}
 		this.Log(LogLevel.Error, "No handshake received");
@@ -220,10 +222,10 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 
 	public void WriteDoubleWord(long offset, uint value)
 	{
-			Send(new ProtocolMessage(MessageType.WriteToBus, (ulong)offset / 4, value));
-			if (Recv(out var msg) && msg.Type == MessageType.OK)
-				return;
-			this.Log(LogLevel.Error, "Failed to write data");
+		Send(new ProtocolMessage(MessageType.WriteToBus, (ulong)offset / 4, value));
+		if (Recv(out var msg) && msg.Type == MessageType.OK)
+			return;
+		this.Log(LogLevel.Error, "Failed to write data");
 	}
 
 	public void Reset()
@@ -246,19 +248,17 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 				if (mainSocket.Connected) {
 					this.DebugLog(
 						"Trying to close it gracefully by sending 'Disconnect' message...");
-					Send(
-						new ProtocolMessage(MessageType.Disconnect, 0, 0));
+					Send(new ProtocolMessage(MessageType.Disconnect, 0, 0));
 					mainSocket.CancelCommunication();
 					exited = peripheralProcess.WaitForExit(500);
 				}
 
 				if (exited) {
-					this.DebugLog(
-						"Verilated peripheral exited gracefully.");
+					this.DebugLog("Verilated peripheral exited gracefully.");
 				} else {
 					KillPeripheralProcess();
 					this.Log(LogLevel.Warning,
-							  "Verilated peripheral had to be killed.");
+						 "Verilated peripheral had to be killed.");
 				}
 			}
 			peripheralProcess.Dispose();

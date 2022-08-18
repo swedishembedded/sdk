@@ -2,3 +2,4 @@
 # Copyright 2022 Martin Schröder <info@swedishembedded.com>
 
 add_subdirectory(example)
+add_subdirectory(renode)
