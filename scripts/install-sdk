@@ -253,6 +253,11 @@ apt-get update && \
 	apt-get -qy install --no-install-recommends \
 	imagemagick
 
+# Dependencies for control and simulation
+apt-get update && \
+	apt-get -qy install --no-install-recommends \
+	octave
+
 # Clean up stale packages
 apt-get clean -y && \
 	apt-get autoremove --purge -y

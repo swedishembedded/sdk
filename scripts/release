@@ -43,6 +43,7 @@ BUILD_DIRECTORY=build-release/${PLATFORM}/$(\
 	realpath --relative-to=$ROOT $SOURCE_DIRECTORY)
 mkdir -p $BUILD_DIRECTORY
 
+VERSION=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 # Get name of output archive
 OUTPUT_ARCHIVE="$(echo \
 		$(realpath \
@@ -51,7 +52,7 @@ OUTPUT_ARCHIVE="$(echo \
 		tr "\/" "." \
 		)-$(echo \
 		${PLATFORM} | tr '@' '_'\
-		)-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+		)-${VERSION}"
 OUTPUT_ARCHIVE="$ROOT/release/$OUTPUT_ARCHIVE.tar.gz"
 
 mkdir -p $ROOT/release
@@ -67,7 +68,7 @@ mkdir -p release
 cp -r spdx release
 cp -r zephyr/zephyr.* release
 cp zephyr/.config release
-cp $ROOT/doc/_build/latex/Swedish-Embedded*.pdf release/reference.pdf
+cp $ROOT/doc/_build/latex/Swedish-Embedded-Platform-SDK-v$VERSION.pdf release/reference.pdf
 # Pack release
 tar -czf $OUTPUT_ARCHIVE release/*
 popd

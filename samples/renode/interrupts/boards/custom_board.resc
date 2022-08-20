@@ -1,0 +1,24 @@
+:name: Renode interrupt control sample
+:description: This sample shows interrupt based interaction
+
+using sysbus
+
+mach create
+machine LoadPlatformDescription $ORIGIN/custom_board.repl
+
+device PeripheralPath $ORIGIN/../peripheral/peripheral.elf
+
+showAnalyzer sysbus.usart2
+
+logLevel 3
+
+: Uncomment this line to show debug messages
+:logLevel 0 sysbus.device
+logLevel 0 sysbus.usart2
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset

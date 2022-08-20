@@ -107,3 +107,19 @@ int renode_send_response(struct renode *self, struct renode_packet *res)
 	}
 	return 0;
 }
+
+int renode_irq_notify(struct renode *self)
+{
+	struct renode_packet res;
+
+	res.type = MSG_TYPE_IRQ;
+
+	int r = send(self->irqSocket, &res, sizeof(res), 0);
+
+	if (r < 0) {
+		return -EIO;
+	} else if (r != sizeof(res)) {
+		return -EINVAL;
+	}
+	return 0;
+}

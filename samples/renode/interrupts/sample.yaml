@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+
+sample:
+  name: Socket peripheral interrupt sample
+tests:
+  samples.lib.renode.interrupts:
+    platform_allow: custom_board
+    build_only: true
+    integration_platforms:
+      - custom_board
