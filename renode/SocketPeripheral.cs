@@ -114,6 +114,8 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 	private readonly int timeout = 5000;
 	private readonly string address = "127.0.0.1";
 
+	public GPIO IRQ { get; }
+
 	public SocketPeripheral(Machine machine)
 	{
 		mainSocket = new SocketComunicator(this, timeout, this.address);
@@ -122,7 +124,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 		peripheralActive = new CancellationTokenSource();
 		irqMonitor = new Thread(IRQMonitor) { IsBackground = true,
 						      Name = "SocketPeripheral.IRQMonitor" };
-		irqMonitor.Start();
+		IRQ = new GPIO();
 		this.Log(LogLevel.Info, "Listening on ports {0} {1}", mainSocket.ListenerPort,
 			 irqSocket.ListenerPort);
 	}
@@ -153,6 +155,9 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 					// If connected successfully, listening sockets can be closed
 					mainSocket.CloseListener();
 					irqSocket.CloseListener();
+
+					// start IRQ monitor
+					irqMonitor.Start();
 
 					this.Log(LogLevel.Debug,
 						 "Connected to the verilated peripheral!");
@@ -211,7 +216,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 
 	public uint ReadDoubleWord(long offset)
 	{
-		Send(new ProtocolMessage(MessageType.ReadFromBus, (ulong)offset / 4, 0));
+		Send(new ProtocolMessage(MessageType.ReadFromBus, (ulong)offset, 0));
 		if (Recv(out var message)) {
 			this.Log(LogLevel.Debug, "Received message {0} {1} {2}", message.Type,
 				 message.Address, message.Data);
@@ -222,7 +227,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 
 	public void WriteDoubleWord(long offset, uint value)
 	{
-		Send(new ProtocolMessage(MessageType.WriteToBus, (ulong)offset / 4, value));
+		Send(new ProtocolMessage(MessageType.WriteToBus, (ulong)offset, value));
 		if (Recv(out var msg) && msg.Type == MessageType.OK)
 			return;
 		this.Log(LogLevel.Error, "Failed to write data");
@@ -232,42 +237,53 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 	{
 		Send(new ProtocolMessage(MessageType.Reset, 0, 0));
 		Recv(out var msg);
+		IRQ.Set();
 	}
 
 	public void Dispose()
 	{
-		irqSocket.CancelCommunication();
-		//pauseMRES?.Dispose();
-		if (peripheralProcess != null) {
-			// Ask peripheralProcess to close, kill if it doesn't
-			if (!peripheralProcess.HasExited) {
-				this.DebugLog(
-					$"Verilated peripheral '{peripheralFilePath}' is still working...");
-				var exited = false;
+		try {
+			Send(new ProtocolMessage(MessageType.Disconnect, 0, 0));
 
-				if (mainSocket.Connected) {
+			irqMonitor.Abort();
+
+			irqSocket.CancelCommunication();
+			irqSocket.Dispose();
+			peripheralActive.Cancel();
+
+			//pauseMRES?.Dispose();
+			if (peripheralProcess != null) {
+				// Ask peripheralProcess to close, kill if it doesn't
+				if (!peripheralProcess.HasExited) {
 					this.DebugLog(
-						"Trying to close it gracefully by sending 'Disconnect' message...");
-					Send(new ProtocolMessage(MessageType.Disconnect, 0, 0));
-					mainSocket.CancelCommunication();
-					exited = peripheralProcess.WaitForExit(500);
-				}
+						$"Peripheral '{peripheralFilePath}' is still working...");
+					var exited = false;
 
-				if (exited) {
-					this.DebugLog("Verilated peripheral exited gracefully.");
-				} else {
-					KillPeripheralProcess();
-					this.Log(LogLevel.Warning,
-						 "Verilated peripheral had to be killed.");
+					if (mainSocket.Connected) {
+						this.DebugLog(
+							"Trying to close it gracefully by sending 'Disconnect' message...");
+						Send(new ProtocolMessage(MessageType.Disconnect, 0,
+									 0));
+						mainSocket.CancelCommunication();
+						exited = peripheralProcess.WaitForExit(500);
+					}
+
+					if (exited) {
+						this.DebugLog(
+							"Verilated peripheral exited gracefully.");
+					} else {
+						KillPeripheralProcess();
+						this.Log(LogLevel.Warning,
+							 "Verilated peripheral had to be killed.");
+					}
 				}
+				peripheralProcess.Dispose();
 			}
-			peripheralProcess.Dispose();
+
+			mainSocket.Dispose();
+		} catch (Exception ex) {
+			this.Log(LogLevel.Error, "{0}", ex);
 		}
-
-		mainSocket.Dispose();
-		irqSocket.Dispose();
-
-		peripheralActive.Cancel();
 	}
 
 	private void IRQMonitor()
@@ -275,11 +291,14 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 		this.Log(LogLevel.Debug, "IRQMonitor init");
 		try {
 			while (!peripheralActive.Token.IsCancellationRequested) {
-				//var message = irqMessages.Take(peripheralActive.Token);
-				//this.Log(LogLevel.Debug, "IRQ message received");
+				irqSocket.TryReceiveMessage(out var message);
+				this.Log(LogLevel.Debug, "IRQ message received");
+				IRQ.Set();
+				IRQ.Unset();
 				//HandleIRQ(message);
 			}
-		} catch (OperationCanceledException) {
+			this.Log(LogLevel.Info, "IRQ Monitor exiting");
+		} catch (Exception ex) {
 			this.Log(LogLevel.Info, "IRQMonitor Cancelled!");
 			return;
 		}

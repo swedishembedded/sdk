@@ -133,3 +133,39 @@ void test_renode_send_response_should_return_zero_on_success(void)
 
 	renode_free(&s);
 }
+
+void test_renode_irq_notify_should_return_eio_on_io_fail(void)
+{
+	struct renode *s = renode_new();
+	struct renode_packet req;
+
+	__wrap_send_ExpectAndReturn(0, NULL, sizeof(req), 0, -1);
+	__wrap_send_IgnoreArg_buf();
+	TEST_ASSERT_EQUAL(-EIO, renode_irq_notify(s));
+
+	renode_free(&s);
+}
+
+void test_renode_irq_notify_should_return_einval_on_wrong_write_length(void)
+{
+	struct renode *s = renode_new();
+	struct renode_packet req;
+
+	__wrap_send_ExpectAndReturn(0, NULL, sizeof(req), 0, 0);
+	__wrap_send_IgnoreArg_buf();
+	TEST_ASSERT_EQUAL(-EINVAL, renode_irq_notify(s));
+
+	renode_free(&s);
+}
+
+void test_renode_irq_notify_should_return_zero_on_success(void)
+{
+	struct renode *s = renode_new();
+	struct renode_packet req;
+
+	__wrap_send_ExpectAndReturn(0, NULL, sizeof(req), 0, sizeof(req));
+	__wrap_send_IgnoreArg_buf();
+	TEST_ASSERT_EQUAL(0, renode_irq_notify(s));
+
+	renode_free(&s);
+}

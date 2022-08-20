@@ -64,6 +64,15 @@ int renode_wait_request(struct renode *self, struct renode_packet *req);
  **/
 int renode_send_response(struct renode *self, struct renode_packet *res);
 
+/**
+ * \brief Sends an interrupt notification.
+ * \details Currently you can only raise a request and application should then
+ * check what needs to be done by reading interrupt flags.
+ * \param self renode instance
+ * \returns 0 on success and negative error on failure
+ **/
+int renode_irq_notify(struct renode *self);
+
 /*!
  * @}
  **/

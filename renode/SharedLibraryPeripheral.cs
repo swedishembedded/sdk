@@ -115,7 +115,6 @@ public class SharedLibraryPeripheral : IDoubleWordPeripheral, IDisposable, INumb
 		irqMonitor = new Thread(IRQMonitor) { IsBackground = true,
 						      Name = "SharedLibrary.IRQMonitor" };
 		nativeLock = new object();
-		irqMonitor.Start();
 	}
 
 	/** Shared library path */
@@ -139,6 +138,7 @@ public class SharedLibraryPeripheral : IDoubleWordPeripheral, IDisposable, INumb
 						Marshal.SizeOf(typeof(ProtocolMessage)));
 					// Call shared library reset method
 					resetPeripheral();
+					irqMonitor.Start();
 				} catch (Exception e) {
 					this.Log(LogLevel.Error, "Error starting peripheral {0}",
 						 e);
