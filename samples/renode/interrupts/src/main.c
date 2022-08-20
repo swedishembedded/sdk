@@ -2,6 +2,9 @@
 /**
  * Copyright 2022 Martin Schröder <info@swedishembedded.com>
  *
+ * Consulting: https://swedishembedded.com/go
+ * Training: https://swedishembedded.com/tag/training
+ *
  * This example shows how to send interrupt notifications back to the firmware.
  **/
 

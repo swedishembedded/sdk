@@ -1,6 +1,8 @@
 % SPDX-License-Identifier: MIT
 % Copyright 2017 Daniel Mårtensson
 % Copyright 2022 Martin Schröder
+% Consulting: https://swedishembedded.com/go
+% Training: https://swedishembedded.com/tag/training
 %
 % This file is used to automatically create lqi-design.h file
 %
