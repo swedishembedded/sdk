@@ -29,28 +29,84 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <pthread.h>
 
 #include <renode/renode.h>
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
+#include <implot.h>
+
 #include <stdio.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
 
-enum plant_register {
-	PLANT_REG_U = 0,
-	PLANT_REG_Y = 4,
-	PLANT_REG_COMPUTE = 8,
-	PLANT_REG_R = 12,
+#include "virtual_device.h"
+
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+
+struct device_state {
+	pthread_mutex_t lock;
+	struct virtual_device data;
 };
 
-#define ADIM 2
-#define RDIM 1
-#define YDIM 1
+struct application {
+	struct renode *renode;
+	struct device_state state;
+	bool done;
+};
 
-#include <lqi-design.h>
+void *_communication_thread(void *data)
+{
+	struct application *self = (struct application *)data;
+	while (true) {
+		struct renode *renode = self->renode;
+		struct renode_packet req;
+		struct renode_packet res;
+
+		if (renode_wait_request(renode, &req) != 0) {
+			fprintf(stderr, "Failed to receive packet\n");
+			break;
+		}
+
+		pthread_mutex_lock(&self->state.lock);
+
+		uint8_t *data = (uint8_t *)&self->state.data;
+		res.type = MSG_TYPE_ERROR;
+
+		switch (req.type) {
+		case MSG_TYPE_HANDSHAKE:
+			res.type = MSG_TYPE_HANDSHAKE;
+			break;
+		case MSG_TYPE_WRITE:
+			memcpy(data + req.addr, &req.value, sizeof(uint32_t));
+			res.type = MSG_TYPE_OK;
+			break;
+		case MSG_TYPE_READ:
+			memcpy(&res.value, data + req.addr, sizeof(uint32_t));
+			res.type = MSG_TYPE_OK;
+			// interrupt flags are reset when they are read
+			if (req.addr == offsetof(struct virtual_device, INTF)) {
+				self->state.data.INTF = 0;
+			}
+			break;
+		case MSG_TYPE_DISCONNECT:
+			exit(0);
+			//pthread_mutex_unlock(&self->state.lock);
+			//self->done = true;
+			return NULL;
+		}
+
+		pthread_mutex_unlock(&self->state.lock);
+
+		if (renode_send_response(renode, &res) != 0) {
+			fprintf(stderr, "Failed to send packet");
+			break;
+		}
+	}
+	return NULL;
+}
 
 int main(int argc, char **argv)
 {
@@ -61,24 +117,22 @@ int main(int argc, char **argv)
 	int mainPort = atoi(argv[1]);
 	int irqPort = atoi(argv[2]);
 	const char *address = argv[3];
-	struct renode *renode = renode_new();
+	struct application app;
+	struct application *self = &app;
+
+	memset(&app, 0, sizeof(app));
+
+	pthread_mutex_init(&self->state.lock, NULL);
+	self->renode = renode_new();
 
 	printf("Connecting to %s %d %d\n", address, mainPort, irqPort);
 
-	if (renode_connect(renode, mainPort, irqPort, address) != 0) {
+	if (renode_connect(self->renode, mainPort, irqPort, address) != 0) {
 		fprintf(stderr, "Could not connect to renode (IP: %s)\n", address);
 		return -1;
 	}
 
 	printf("Connected to %s %d %d\n", address, mainPort, irqPort);
-	struct renode_packet req;
-	struct renode_packet res;
-
-	float x[] = { 0.0, 0.0 };
-	float u[] = { 0.0 };
-	float r[] = { 10.0 };
-	float y[] = { 0.0 };
-
 	// Setup SDL
 	// (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,
 	// d updating to latest version of SDL is recommended!)
@@ -109,6 +163,7 @@ int main(int argc, char **argv)
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	ImPlot::CreateContext();
 	ImGuiIO &io = ImGui::GetIO();
 	(void)io;
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -123,62 +178,18 @@ int main(int argc, char **argv)
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-	bool done = false;
-	while (!done) {
-		if (renode_wait_request(renode, &req) != 0) {
-			fprintf(stderr, "Failed to receive packet\n");
-			break;
-		}
-
-		res.type = MSG_TYPE_ERROR;
-
-		switch (req.type) {
-		case MSG_TYPE_HANDSHAKE:
-			res.type = MSG_TYPE_HANDSHAKE;
-			break;
-		case MSG_TYPE_WRITE:
-			if (req.addr == PLANT_REG_U) {
-				memcpy(&u[0], &req.value, sizeof(u[0]));
-				res.type = MSG_TYPE_OK;
-			} else if (req.addr == PLANT_REG_COMPUTE) {
-				float Ax[] = { A[0] * x[0] + A[1] * x[1],
-					       A[2] * x[0] + A[3] * x[1] };
-				float Bu[] = { B[0] * u[0], B[1] * u[0] };
-				float Cx[] = { C[0] * x[0] + C[1] * x[1] };
-
-				x[0] = Ax[0] + Bu[0];
-				x[1] = Ax[1] + Bu[1];
-				y[0] = Cx[0];
-				res.type = MSG_TYPE_OK;
-			}
-			break;
-		case MSG_TYPE_READ:
-			if (req.addr == PLANT_REG_Y) {
-				memcpy(&res.value, &y[0], sizeof(res.value));
-				res.type = MSG_TYPE_OK;
-			} else if (req.addr == PLANT_REG_R) {
-				memcpy(&res.value, &r[0], sizeof(res.value));
-				res.type = MSG_TYPE_OK;
-			}
-			break;
-		case MSG_TYPE_DISCONNECT:
-			exit(0);
-		}
-
-		if (renode_send_response(renode, &res) != 0) {
-			fprintf(stderr, "Failed to send packet");
-			break;
-		}
-
+	pthread_t thread;
+	pthread_create(&thread, NULL, _communication_thread, self);
+	while (!self->done) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			if (event.type == SDL_QUIT)
-				done = true;
+				self->done = true;
 			if (event.type == SDL_WINDOWEVENT &&
 			    event.window.event == SDL_WINDOWEVENT_CLOSE &&
 			    event.window.windowID == SDL_GetWindowID(window))
-				done = true;
+				self->done = true;
 		}
 
 		// Start the Dear ImGui frame
@@ -186,14 +197,28 @@ int main(int argc, char **argv)
 		ImGui_ImplSDL2_NewFrame();
 		ImGui::NewFrame();
 
+		pthread_mutex_lock(&self->state.lock);
+
 		ImGui::Begin("Plant", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 
 		ImGui::Text("This is the plant controlled by firmware");
+
+		if (ImGui::Button("Interrupt Button 1")) {
+			self->state.data.INTF |= (1 << 0);
+			renode_irq_notify(self->renode);
+		}
+
+		if (ImGui::Button("Interrupt Button 2")) {
+			self->state.data.INTF |= (1 << 1);
+			renode_irq_notify(self->renode);
+		}
+
 		ImGui::PushItemWidth(400);
-		ImGui::SliderFloat("Plant output (y)", &y[0], -25.0f, 25.0f);
-		ImGui::SliderFloat("Plant reference (r)", &r[0], -25.0f, 25.0f);
+		ImGui::PopItemWidth();
 
 		ImGui::End();
+
+		pthread_mutex_unlock(&self->state.lock);
 
 		// Rendering
 		ImGui::Render();
@@ -204,7 +229,11 @@ int main(int argc, char **argv)
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		SDL_GL_SwapWindow(window);
 	}
-	// Cleanup
+
+	renode_disconnect(self->renode);
+	renode_free(&self->renode);
+
+	ImPlot::DestroyContext();
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -213,6 +242,5 @@ int main(int argc, char **argv)
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
-	renode_disconnect(renode);
-	renode_free(&renode);
+	return 0;
 }

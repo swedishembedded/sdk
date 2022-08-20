@@ -16,6 +16,7 @@
  **/
 
 #include <kernel.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <float.h>
@@ -26,13 +27,7 @@
 #define YDIM 1
 #define ANTI_WINDUP 0
 
-enum plant_register {
-	PLANT_REG_U = 0,
-	PLANT_REG_Y = 1,
-	PLANT_REG_COMPUTE = 2,
-	PLANT_REG_R = 3,
-};
-
+/** Plant registers mapped by the simulation */
 struct plant_controls {
 	float u;
 	float y;

@@ -13,6 +13,8 @@ manifest:
       url-base: https://github.com/renode
     - name: imgui
       url-base: https://github.com/ocornut
+    - name: epezent
+      url-base: https://github.com/epezent/
   projects:
     - name: zephyr
       remote: swedishembedded
@@ -39,3 +41,7 @@ manifest:
       path: modules/lib/imgui
       revision: master
       remote: imgui
+    - name: implot
+      path: modules/lib/implot
+      revision: master
+      remote: epezent
