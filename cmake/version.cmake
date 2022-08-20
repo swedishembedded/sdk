@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Copyright Nordic Semiconductor
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
 
 # ~~~
 # .rst:

@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
+# Copyright Zephyr RTOS Contributors
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
 
 cmake_minimum_required(VERSION 3.20.0)
 project(Zephyr-Kernel-Doc LANGUAGES)

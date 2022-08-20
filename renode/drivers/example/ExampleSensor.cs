@@ -1,8 +1,9 @@
+// SPDX-License-Identifier: Apache-2.0
 //
-// Copyright (c) 2010-2018 Antmicro
+// Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
 //
-// This file is licensed under the MIT License.
-// Full license text is available in 'licenses/MIT.txt'.
+// Consulting: https://swedishembedded.com/go
+// Training: https://swedishembedded.com/tag/training
 //
 using Antmicro.Renode.Exceptions;
 using Antmicro.Renode.Core;

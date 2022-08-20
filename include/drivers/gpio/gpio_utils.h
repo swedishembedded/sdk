@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 /**
  * Copyright (c) 2016 Intel Corporation.
- *
+ * Consulting: https://swedishembedded.com/go
+ * Training: https://swedishembedded.com/tag/training
  **/
 
 /**

@@ -1,5 +1,7 @@
 # Copyright (c) 2019, Nordic Semiconductor ASA
 # SPDX-License-Identifier: Apache-2.0
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
 
 # pylint configuration for the PyLint check in check_compliance.py.
 #

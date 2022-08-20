@@ -27,6 +27,7 @@ check:
         - ./scripts/init
         - ./scripts/gen-tags cscope
         - robot scrum
+        - ./scripts/ci/check-links
         - ./scripts/check
 
 # This job builds applications

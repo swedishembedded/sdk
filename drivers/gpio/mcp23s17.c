@@ -2,6 +2,8 @@
 /**
  * Copyright 2020 Geanix ApS
  * Copyright 2022 Martin Schröder <info@swedishembedded.com>
+ * Consulting: https://swedishembedded.com/go
+ * Training: https://swedishembedded.com/tag/training
  **/
 
 #define DT_DRV_COMPAT microchip_mcp23s17v2

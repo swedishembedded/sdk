@@ -1,5 +1,9 @@
+/* SPDX-License-Identifier: Apache-2.0 */
 /**
+ * Copyright 2022 Martin Schröder <info@swedishembedded.com>
  * This file should be included into every unit test before the unit under test!
+ * Consulting: https://swedishembedded.com/go
+ * Training: https://swedishembedded.com/tag/training
  **/
 
 #ifndef CMOCK_UNIT_H_

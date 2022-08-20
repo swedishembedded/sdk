@@ -1,5 +1,7 @@
 # Copyright (c) 2022 Martin Schröder
 # SPDX-License-Identifier: Apache-2.0
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
 
 config RENODE
 	bool "Renode integration functionality"
