@@ -1,8 +1,9 @@
-/*
- * Copyright (c) 2021 Antmicro <www.antmicro.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+// SPDX-License-Identifier: Apache-2.0
+/**
+ * Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+ * Consulting: https://swedishembedded.com/go
+ * Training: https://swedishembedded.com/tag/training
+ **/
 
 #include <kernel.h>
 #include <example/example.h>

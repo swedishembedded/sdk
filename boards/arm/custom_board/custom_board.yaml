@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright Nordic Semiconductor
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
+
 identifier: custom_board
 name: Custom ST Nucleo F401RE
 type: mcu

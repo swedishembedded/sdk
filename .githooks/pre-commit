@@ -8,3 +8,5 @@ git diff --cached | ./scripts/checkpatch.pl --no-tree || {
     echo ""
     exit 1
 }
+
+./scripts/ci/check-links

@@ -1,9 +1,7 @@
-//
-// Copyright (c) 2010-2021 Antmicro
-//
-// This file is licensed under the MIT License.
-// Full license text is available in 'licenses/MIT.txt'.
-//
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+// Consulting: https://swedishembedded.com/go
+// Training: https://swedishembedded.com/tag/training
 
 using System;
 using System.Collections.Generic;

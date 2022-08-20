@@ -2,6 +2,8 @@
 
 # Copyright (c) 2018,2020 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
 
 import collections
 import sys
