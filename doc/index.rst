@@ -30,11 +30,13 @@ Sections
 
    introduction/index.rst
    workflow/index.rst
+   control/index.rst
    boards/index.rst
    drivers/index.rst
    lib/index.rst
    testbench/index.rst
    samples/index.rst
+   release-notes/index.rst
 
 Indices and Tables
 ******************

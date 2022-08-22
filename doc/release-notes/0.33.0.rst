@@ -1,0 +1,38 @@
+.. SPDX-License-Identifier: Apache-2.0
+.. Copyright 2022 Martin Schröder <info@swedishembedded.com>
+   Consulting: https://swedishembedded.com/go
+   Training: https://swedishembedded.com/tag/training
+
+Version 0.33.0 (22-Aug-2022)
+############################
+
+- Control Systems Toolbox: Motion profile generation support. This adds motion
+  profile generation support such that you can now solve for position, velocity
+  and acceleration setpoints based on a planned motion profile. Useful for
+  position and velocity control.
+- Control Systems Toolbox: Add ability to build a standalone library. The
+  toolbox now supports being built as a standalone library. A debian package is
+  also generated.
+- Control Systems Toolbox: Added to the SDK. The SDK now has a control systems
+  toolbox that makes it possible to design controllers for dynamic systems and
+  run these controllers on embedded hardware. The toolbox is implemented in GNU
+  octave for the controller design part and in plain C for embedded hardware -
+  making it possible to design complex control algorithms for embedded systems.
+- Swedish Embedded Platform SDK: Add custom device interrupt example. The native
+  bridge now supports socket based devices and these also support interrupts.
+  The new example shows how to raise interrupt requests from standalone
+  processes that simulate peripherals and communicate with the emulation over a
+  TCP socket.
+- Swedish Embedded Platform SDK: Add code generation to control systems demo.
+  The control system toolbox adds possibility to design controllers using gnu
+  octave. This example shows how to design a controller and generate C include
+  file from the code in the .m file. This allows designing controller in octave
+  and then exporting it to C.
+- Swedish Embedded Platform SDK: Control library integration. The control
+  systems toolbox has been added as a west subproject.
+- Swedish Embedded Platform SDK: Disable issue number requirement. There is no
+  longer a requirement to have issue number in the merge request title. This
+  ensures that github issue numbers do not get in the way of gitlab issue
+  numbers. If the same issue numbers are used in the title it easily becomes
+  misleading since issue numbers from gitlab start linking to issue numbers from
+  gitlab.
