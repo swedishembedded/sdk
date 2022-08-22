@@ -49,11 +49,11 @@ public enum MessageType {
 }
 
 /** Communication protocol with the shared library */
-[StructLayout(LayoutKind.Sequential, Pack = 2)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct ProtocolMessage {
 	public ProtocolMessage(MessageType typeId, ulong address, ulong data)
 	{
-		this.Type = typeId;
+		this.Type = (UInt32)typeId;
 		this.Address = address;
 		this.Data = data;
 	}
@@ -90,9 +90,9 @@ public struct ProtocolMessage {
 		}
 	}
 
-	public MessageType Type { get; set; }
-	public ulong Address { get; set; }
-	public ulong Data { get; set; }
+	public UInt32 Type { get; set; }
+	public UInt64 Address { get; set; }
+	public UInt64 Data { get; set; }
 }
 
 public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPIOOutput {
@@ -199,7 +199,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 	private bool TryHandshake()
 	{
 		if (Send(new ProtocolMessage(MessageType.Handshake, 0, 0)) &&
-		    Recv(out var result) && result.Type == MessageType.Handshake) {
+		    Recv(out var result) && result.Type == (UInt32)MessageType.Handshake) {
 			return true;
 		}
 		this.Log(LogLevel.Error, "No handshake received");
@@ -230,7 +230,7 @@ public class SocketPeripheral : IDoubleWordPeripheral, IDisposable, INumberedGPI
 	public void WriteDoubleWord(long offset, uint value)
 	{
 		Send(new ProtocolMessage(MessageType.WriteToBus, (ulong)offset, value));
-		if (Recv(out var msg) && msg.Type == MessageType.OK)
+		if (Recv(out var msg) && msg.Type == (UInt32)MessageType.OK)
 			return;
 		this.Log(LogLevel.Error, "Failed to write data");
 	}

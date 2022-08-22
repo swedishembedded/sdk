@@ -1,0 +1,4 @@
+using "platforms/cpus/stm32f4.repl"
+
+device: SocketPeripheral @ sysbus <0x70000000, +0x800>
+    IRQ -> gpioPortB@8
