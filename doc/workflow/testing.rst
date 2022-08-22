@@ -44,7 +44,8 @@ This generates several headers with mocks.
 
 Inside your unit.c file you then define your tests:
 
-.. code-blocl:: c
+.. code-block:: c
+
 	#include <mock_kernel.h>
 	#include <mock_gpio.h>
 	#include <mock_spi.h>

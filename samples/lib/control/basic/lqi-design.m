@@ -23,7 +23,7 @@
 % NOTICE THAT rdim = ydim. Always!
 
 dir = fileparts(mfilename('fullpath'));
-path(strcat(dir, "/../../../../../control/octave/control"), path);
+path(strcat(dir, "/../../../../../modules/lib/control/octave/control"), path);
 
 % This function write a matrix as an C-array
 function WriteMatrix(fileID, topic, matrix)
