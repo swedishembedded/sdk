@@ -132,7 +132,18 @@ This allows you to implement simulated peripherals that support user interaction
 (you can of course run automatic simulations as well - but sometimes user
 interaction is userful).
 
-.. image:: samples/lib/control/basic/doc/screenshot.png
+.. image:: samples/lib/control/dcmotor/doc/screenshot.png
+
+To build the above example you need to do two things:
+
+- Install control toolkit locally from https://github.com/swedishembedded/control (cmake && make install).
+- Install instruments from https://github.com/swedishembedded/instruments (cmake && make install). This will give you /usr/bin/instrument-dcmotor.
+
+After that you can build and run the sample:
+
+..
+    west build -p -b custom_board samples/lib/control/dcmotor/
+    west build -t appbench
 
 Learn more
 ##########

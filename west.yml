@@ -25,11 +25,15 @@ manifest:
       remote: renode
     - name: control
       path: modules/lib/control
-      revision: main
+      revision: v0.34.0
+      remote: swedishembedded
+    - name: instruments
+      path: tools/instruments
+      revision: v0.34.0
       remote: swedishembedded
     - name: testing
       path: modules/test/testing
-      revision: main
+      revision: v0.34.0
       remote: swedishembedded
     - name: imgui
       path: modules/lib/imgui
