@@ -5,5 +5,4 @@
 
 rsource "drivers/Kconfig"
 rsource "lib/Kconfig"
-rsource "modules/Kconfig"
 rsource "testbench/Kconfig"

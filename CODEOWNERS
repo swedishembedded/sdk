@@ -1,5 +1,4 @@
 /.clang-format		@mkschreder
-/.gitattributes  @mkschreder
 /.githooks/  @mkschreder
 /.github/		@mkschreder
 /.gitlab-ci.yml		@mkschreder
@@ -18,8 +17,6 @@
 /dts/		@mkschreder
 /include/		@mkschreder
 /lib/		@mkschreder
-/modules/		@mkschreder
-/modules/.empty		@mkschreder
 /platform-env.sh	@mkschreder
 /post-build/	 @mkschreder
 /renode/		@mkschreder

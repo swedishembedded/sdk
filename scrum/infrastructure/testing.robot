@@ -13,9 +13,8 @@ ${ROOT_DIR}  ${CURDIR}/../../
 *** Test Cases ***
 
 Testing infrastructure has been fully setup
-	Check unity enabled
+	Check unit testing module enabled
 	Unity directory structure has been setup
-	Check cmock enabled
 	Cmock directory structure has been setup
 	There is a Kconfig option to enable unit testing
 	There is a unity config
@@ -35,15 +34,15 @@ Unity is placed in expected location
 	Directory Should Exist  ${ROOT_DIR}/../modules/test/cmock/vendor/unity/
 
 Unity config has been created
-	File Should Exist  ${ROOT_DIR}/modules/unity/unity_cfg.yaml
-	File Should Exist  ${ROOT_DIR}/modules/unity/unity_config.h
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/unity_cfg.yaml
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/unity_config.h
 
 Unity twister compliant teardown has been created
-	File Should Exist  ${ROOT_DIR}/modules/unity/teardown.c
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/teardown.c
 
 Unity cmake and kconfig have been created
-	File Should Exist  ${ROOT_DIR}/modules/unity/Kconfig
-	File Should Exist  ${ROOT_DIR}/modules/unity/CMakeLists.txt
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/Kconfig
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/CMakeLists.txt
 
 CMock directory structure has been setup
 	CMock is placed in expected location
@@ -56,18 +55,18 @@ CMock cmake and kconfig have been created
 	File Should Exist  ${ROOT_DIR}/modules/cmock/CMakeLists.txt
 
 There is a Kconfig option to enable unit testing
-	${CONFIG} =  Grep File  ${ROOT_DIR}/modules/cmock/Kconfig  CMOCK
+	${CONFIG} =  Grep File  ${ROOT_DIR}/../modules/test/testing/cmock/Kconfig  CMOCK
 	Should Not Be Empty  ${CONFIG}
 
 There is a unity config
-	File Should Exist  ${ROOT_DIR}/modules/unity/unity_cfg.yaml
+	File Should Exist  ${ROOT_DIR}/../modules/test/testing/unity/unity_cfg.yaml
 
 There is a zephyr specific teardown that works with twister
-	${STR} =  Grep File  ${ROOT_DIR}/modules/unity/teardown.c  test_suite_teardown
+	${STR} =  Grep File  ${ROOT_DIR}/../modules/test/testing/unity/teardown.c  test_suite_teardown
 	Should Not Be Empty  ${STR}
 
 There is support for unity command line arguments in tests
-	${STR} =  Grep File  ${ROOT_DIR}/modules/unity/main.c  native_get_test_cmd_line_args
+	${STR} =  Grep File  ${ROOT_DIR}/../modules/test/testing/unity/main.c  native_get_test_cmd_line_args
 	Should Not Be Empty  ${STR}
 
 There is a code coverage check
