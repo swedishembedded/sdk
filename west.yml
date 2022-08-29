@@ -35,6 +35,7 @@ manifest:
       path: modules/test/testing
       revision: v0.34.0
       remote: swedishembedded
+      import: true
     - name: imgui
       path: modules/lib/imgui
       revision: master
