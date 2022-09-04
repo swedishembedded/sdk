@@ -18,6 +18,10 @@ if [[ -d ../.west ]]; then
 	rm -rf ../.west
 fi
 
+# Print out manifest
+echo "Using west manifest: "
+cat $ROOT/west.yml
+
 # Initialize the repository
 west init -l .
 west update
