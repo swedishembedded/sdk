@@ -10,6 +10,7 @@ logLevel 3
 cpu PerformanceInMips 168
 
 showAnalyzer sysbus.usart2
+logLevel 0 sysbus.usart2
 
 macro reset
 """

@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <float.h>
-#include <control/controller.h>
+#include <control/dynamics.h>
 #include <instruments/dcmotor.h>
 
 static volatile struct dcmotor_instrument *vdev =
@@ -124,7 +124,7 @@ void main(void)
 
 	while (1) {
 		float u[RDIM] = { 0 };
-		float r[RDIM] = { 0 };
+		//float r[RDIM] = { 0 };
 		float y[YDIM] = { -(vdev->reference - vdev->omega) };
 
 		if (vdev->controller == CONTROLLER_PID) {
@@ -134,9 +134,8 @@ void main(void)
 			float L[RDIM * ADIM] = { vdev->lqi.L[0], vdev->lqi.L[1] };
 			float Li[RDIM] = { vdev->lqi.Li };
 
-			float qi = 0.1;
 			//Control LQI
-			lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, 0);
+			lqi(u, L, x, Li, xi, y, ADIM, YDIM, RDIM, 0);
 			u[0] -= (vdev->Kff * y[0]);
 		}
 
@@ -150,7 +149,7 @@ void main(void)
 		vdev->control = u[0];
 
 		// Execute state estimator regardless of controller
-		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
+		kalman(x, A, x, B, u, K, y, C, ADIM, YDIM, RDIM);
 
 		vdev->tick = 1;
 		k_sleep(K_MSEC(10));

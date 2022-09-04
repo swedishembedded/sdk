@@ -23,6 +23,21 @@ development. It provides:
 - **Application development**: infrastructure for easily importing this SDK into
   your application and using it to build your next product.
 
+.. image:: doc/introduction/sdk-overview.png
+
+Related Projects
+################
+
++==
+|Project|URL|
++==
+|SE Control Systems Toolbox|https://github.com/swedishembedded/control|
++==
+|SE Instruments Toolbox|https://github.com/swedishembedded/instruments|
++==
+|CMock & Unity Testing|https://github.com/swedishembedded/testing|
++==
+
 Easy to get started
 ###################
 
