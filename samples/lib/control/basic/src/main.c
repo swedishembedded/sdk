@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <float.h>
-#include <control/controller.h>
+#include <control/dynamics.h>
 
 #define ADIM 2
 #define RDIM 1
@@ -51,20 +51,17 @@ void main(void)
 	float xi[1] = { 0 };
 
 	// Input signal, reference signal, output signal and state vector x and xi
-	float qi = 0.1; // <-- Tune this in between 0->1, but qi =/= 1.
-	float u[RDIM] = { 0 }; // <-- This is our input value we want to have
-	float r[RDIM] = { 0 }; // <-- This is what we want to see.
-	float y[YDIM] = { 0 }; // <-- This is our measurement. Set it.
+	float u[RDIM] = { 0 }; // <-- This is our controller output
+	float y[YDIM] = { 0 }; // <-- This is error input
 
 	while (1) {
-		r[0] = plant->r;
-		y[0] = plant->y;
+		y[0] = -(plant->r - plant->y);
 
 		//Control LQI
-		lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINDUP);
+		lqi(u, L, x, Li, xi, y, ADIM, YDIM, RDIM, 0);
 
 		// Estimate the state x
-		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
+		kalman(x, A, x, B, u, K, y, C, ADIM, YDIM, RDIM);
 
 		// Write control input to the plant
 		plant->u = u[0];

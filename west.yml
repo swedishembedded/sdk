@@ -9,10 +9,6 @@ manifest:
       url-base: https://github.com/swedishembedded
     - name: renode
       url-base: https://github.com/renode
-    - name: imgui
-      url-base: https://github.com/ocornut
-    - name: epezent
-      url-base: https://github.com/epezent/
   projects:
     - name: zephyr
       remote: swedishembedded
@@ -25,7 +21,7 @@ manifest:
       remote: renode
     - name: control
       path: modules/lib/control
-      revision: v0.34.0
+      revision: v0.35.0
       remote: swedishembedded
     - name: instruments
       path: tools/instruments
@@ -36,11 +32,3 @@ manifest:
       revision: v0.34.0
       remote: swedishembedded
       import: true
-    - name: imgui
-      path: modules/lib/imgui
-      revision: master
-      remote: imgui
-    - name: implot
-      path: modules/lib/implot
-      revision: master
-      remote: epezent

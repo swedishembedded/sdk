@@ -4,12 +4,12 @@
 # Training: https://swedishembedded.com/tag/training
 
 *** Settings ***
+Variables  ${CURDIR}/../../scrum/variables.py
+
 Library  OperatingSystem
 Library  String
 
 *** Variables ***
-${ROOT_DIR}  ${CURDIR}/../../
-${VERSION}  0.34.0
 ${RELEASES}  ${ROOT_DIR}/release/
 
 *** Test Cases ***
