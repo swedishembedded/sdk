@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <float.h>
-#include "../peripheral/virtual_device.h"
+#include <instruments/keypad.h>
 
-static volatile struct virtual_device *vdev = ((volatile struct virtual_device *)0x70000000);
+static volatile struct keypad_instrument *vdev = ((volatile struct keypad_instrument *)0x70000000);
 
 #define IRQ_PIN 8
 
@@ -29,7 +29,7 @@ static struct application app;
 static void _irq_handler(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
 	// read interrupt flags
-	uint32_t intf = vdev->INTF;
+	uint32_t intf = vdev->keys_changed;
 
 	printk("IRQ triggered (INTF: %08x)\n", intf);
 }
