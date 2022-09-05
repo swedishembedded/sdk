@@ -6,7 +6,7 @@ using sysbus
 mach create
 machine LoadPlatformDescription $ORIGIN/custom_board.repl
 
-device PeripheralPath $ORIGIN/../peripheral/peripheral.elf
+device PeripheralPath @/usr/bin/instrument-keypad
 
 showAnalyzer sysbus.usart2
 
