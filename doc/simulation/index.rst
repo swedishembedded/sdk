@@ -3,8 +3,8 @@
    Consulting: https://swedishembedded.com/go
    Training: https://swedishembedded.com/tag/training
 
-Renode Integration Library
-##########################
+Renode Simulation
+#################
 
 .. toctree::
    :maxdepth: 1
@@ -12,6 +12,3 @@ Renode Integration Library
 
    what-is-this.rst
    main-features.rst
-   description.rst
-   usage.rst
-   api-reference.rst

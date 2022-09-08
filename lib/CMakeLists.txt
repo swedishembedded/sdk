@@ -4,4 +4,3 @@
 # Training: https://swedishembedded.com/tag/training
 
 add_subdirectory(example)
-add_subdirectory(renode)
