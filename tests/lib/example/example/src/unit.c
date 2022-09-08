@@ -5,9 +5,10 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
+#include "mock_kernel.h"
+
 #include <unity.h>
 #include <example/example.h>
-#include <mock_kernel.h>
 
 // this is a unit test so we will include the file directly
 // this is the only place where we do this - it is the optimal solution.

@@ -124,3 +124,5 @@ for FILE in `git diff --cached --name-status | grep "^[R]" | cut -f 3`; do
 		exit 1
 	}
 done
+
+robot scrum
