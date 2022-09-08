@@ -5,13 +5,13 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
+#include "mock_kernel.h"
+#include "mock_gpio.h"
+#include "mock_spi.h"
+
 #include <unity.h>
 #include <example/example.h>
 #include <device.h>
-#include <mock_kernel.h>
-#include <mock_gpio.h>
-#include <mock_spi.h>
-
 #include <cmock_unit.h>
 #include "../../../../../drivers/gpio/mcp23s17.c"
 

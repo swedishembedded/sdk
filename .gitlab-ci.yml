@@ -1,4 +1,6 @@
-image: swedishembedded/build:latest
+image:
+    name: swedishembedded/build:latest
+    pull_policy: if-not-present
 
 default:
   tags:
@@ -13,7 +15,6 @@ stages:
 
 # This job runs all code checks, unit and integration tests
 check:
-    image: swedishembedded/build:latest
     stage: check
     artifacts:
         paths:
@@ -26,13 +27,11 @@ check:
     script:
         - ./scripts/init
         - ./scripts/gen-tags cscope
-        - robot scrum
         - ./scripts/ci/check-links
         - ./scripts/check
 
 # This job builds applications
 build:
-    image: swedishembedded/build:latest
     stage: build
     dependencies:
         - check
@@ -52,7 +51,6 @@ build:
 
 # This job runs all system tests on built applications
 test:
-    image: swedishembedded/build:latest
     stage: test
     dependencies:
         - build
@@ -66,7 +64,6 @@ test:
     script:
         - ./scripts/init
         - ./scripts/test
-        - robot post-build
 
 # This is a job that does the "long build"
 # where we start with a fresh ubuntu image
@@ -84,4 +81,3 @@ build_from_scratch:
         - bash -x ./scripts/check
         - bash -x ./scripts/build
         - bash -x ./scripts/test
-        - robot post-build

@@ -5,10 +5,11 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
+#include "mock_kernel.h"
+
 #include <unity.h>
 #include <example/example.h>
 #include <device.h>
-#include <mock_kernel.h>
 
 #include <cmock_unit.h>
 #include "../../../../../drivers/example/example_driver.c"

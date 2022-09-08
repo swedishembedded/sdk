@@ -6,8 +6,7 @@
 cmake_minimum_required(VERSION 3.20.0)
 project(Zephyr-Kernel-Doc LANGUAGES)
 
-set(NO_BOILERPLATE TRUE)
-find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE} ..)
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE} .. COMPONENTS doc)
 set(PROJECT_BASE "${CMAKE_CURRENT_LIST_DIR}/../")
 
 file(TO_CMAKE_PATH "${ZEPHYR_BASE}" ZEPHYR_BASE)
@@ -49,8 +48,6 @@ if(NOT LATEX_PDFLATEX_FOUND OR NOT LATEXMK)
   message(
     WARNING "LaTeX components not found. PDF build will not be available.")
 endif()
-
-include(${ZEPHYR_BASE}/cmake/python.cmake)
 
 # Find west to (optionally) process modules for Kconfig
 find_program(WEST west)
@@ -110,9 +107,6 @@ set_target_properties(doxygen PROPERTIES ADDITIONAL_CLEAN_FILES "${DOXY_OUT}")
 set(KCONFIG_BINARY_DIR ${CMAKE_BINARY_DIR}/Kconfig)
 list(INSERT MODULE_EXT_ROOT 0 ${ZEPHYR_BASE})
 file(MAKE_DIRECTORY ${KCONFIG_BINARY_DIR})
-
-include(${ZEPHYR_BASE}/cmake/extensions.cmake)
-include(${ZEPHYR_BASE}/cmake/zephyr_module.cmake)
 
 foreach(module_name ${ZEPHYR_MODULE_NAMES})
   zephyr_string(SANITIZE TOUPPER MODULE_NAME_UPPER ${module_name})

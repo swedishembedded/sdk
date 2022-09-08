@@ -5,13 +5,13 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
+#include "mock_kernel.h"
+#include "mock_gpio.h"
+#include "mock_spi.h"
+
 #include <unity.h>
 #include <example/example.h>
 #include <device.h>
-#include <mock_kernel.h>
-#include <mock_gpio.h>
-#include <mock_spi.h>
-
 #include <cmock_unit.h>
 #include "../../../../../drivers/example/example_sensor.c"
 
@@ -54,9 +54,6 @@ void test_example_sensor_irq_work_should_give_sem_on_success(void)
 
 void test_example_sensor_gpio_callback_should_submit_irq_work(void)
 {
-	__wrap_spi_transceive_dt_ExpectAndReturn(&conf.spi, NULL, NULL, 0);
-	__wrap_spi_transceive_dt_IgnoreArg_tx_bufs();
-	__wrap_spi_transceive_dt_IgnoreArg_rx_bufs();
 	__wrap_k_work_submit_ExpectAndReturn(&ex.work, 0);
 	_example_sensor_gpio_callback(NULL, &ex.gpio_cb, 0);
 }
