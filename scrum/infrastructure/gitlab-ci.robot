@@ -28,9 +28,6 @@ Gitlab merge request template has been added
 
 Gitlab CI has all required jobs
 	Gitlab CI has a check job
-	Job runs robot tests  check
-	Job runs post build robot tests  test
-
 	Gitlab CI has a build job
 	Gitlab CI has a test job
 	Gitlab CI has a build_from_scratch job

@@ -387,6 +387,7 @@ static int _mcp23s17_port_set_masked_raw(const struct device *dev, uint32_t mask
 	uint8_t buf[] = { gpio, gpio >> 8 };
 
 	if (_mcp23s17_write_regs(dev, REG_PORTA, buf, sizeof(buf)) != 0) {
+		k_mutex_unlock(&self->lock);
 		return -EIO;
 	}
 

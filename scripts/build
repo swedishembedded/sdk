@@ -34,3 +34,6 @@ ${ROOT}/scripts/build-doc || {
 
 # Build releases
 ${ROOT}/scripts/release -b custom_board -s apps/shell
+
+# Run post build checks
+robot post-build

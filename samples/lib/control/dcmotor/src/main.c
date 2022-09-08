@@ -74,7 +74,7 @@ void main(void)
 		return;
 	}
 
-	ret = pwm_pin_set_nsec(pwm, 1, 1000, 500, 0);
+	ret = pwm_set(pwm, 1, 1000, 500, 0);
 	if (ret < 0) {
 		printk("Error %d: failed to set pulse width\n", ret);
 		return;

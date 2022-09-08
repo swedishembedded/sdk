@@ -9,9 +9,9 @@ project(test)
 
 if(CONFIG_CMOCK)
   unity_generate_test_runner(src/unit.c)
-  cmock_generate_mocks(${ZEPHYR_BASE}/include/kernel.h .)
-  cmock_generate_mocks(${ZEPHYR_BASE}/include/drivers/gpio.h .)
-  cmock_generate_mocks(${ZEPHYR_BASE}/include/drivers/spi.h .)
+  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/kernel.h .)
+  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/drivers/gpio.h .)
+  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/drivers/spi.h .)
   target_sources(app PRIVATE src/unit.c)
 else()
   target_sources(

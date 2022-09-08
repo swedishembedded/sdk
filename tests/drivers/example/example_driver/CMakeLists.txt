@@ -9,7 +9,8 @@ project(test)
 
 if(CONFIG_CMOCK)
   unity_generate_test_runner(src/unit.c)
-  cmock_generate_mocks(${ZEPHYR_BASE}/include/kernel.h .)
+  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/device.h .)
+  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/kernel.h .)
   target_sources(app PRIVATE src/unit.c)
 else()
   target_sources(
