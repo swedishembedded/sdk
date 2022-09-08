@@ -4,4 +4,3 @@
 # Training: https://swedishembedded.com/tag/training
 
 rsource "example/Kconfig"
-rsource "renode/Kconfig"

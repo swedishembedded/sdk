@@ -10,5 +10,4 @@ Libraries
    :maxdepth: 1
    :caption: Drivers
 
-   renode/index.rst
    example/index.rst

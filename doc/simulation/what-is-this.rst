@@ -3,7 +3,7 @@
    Consulting: https://swedishembedded.com/go
    Training: https://swedishembedded.com/tag/training
 
-API Reference
-*************
+Renode co-simulation allows you to create testbenches and simulate your
+production firmware realistically.
 
-.. doxygengroup:: renode-library-api
+.. image:: img/cosimulation.png
