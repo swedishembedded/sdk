@@ -21,4 +21,5 @@ Swedish Embedded Firmware and Simulation Platform SDK Documentation
    lib/index.rst
    testbench/index.rst
    samples/index.rst
+   simulation/index.rst
    release-notes/index.rst
