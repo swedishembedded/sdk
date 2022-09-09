@@ -3,6 +3,7 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
+rsource "cmake/Kconfig"
 rsource "drivers/Kconfig"
 rsource "lib/Kconfig"
 rsource "testbench/Kconfig"

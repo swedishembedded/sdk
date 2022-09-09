@@ -5,16 +5,20 @@
  * Training: https://swedishembedded.com/tag/training
  */
 
-#include <kernel.h>
-#include <drivers/gpio.h>
-#include <drivers/pwm.h>
-#include <drivers/adc.h>
+#include <control/dynamics.h>
+
+#include <float.h>
+
+#include <instruments/dcmotor.h>
+
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <float.h>
-#include <control/dynamics.h>
-#include <instruments/dcmotor.h>
+
+#include <zephyr/drivers/adc.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/pwm.h>
+#include <zephyr/kernel.h>
 
 static volatile struct dcmotor_instrument *vdev =
 	((volatile struct dcmotor_instrument *)0x70000000);
@@ -51,8 +55,11 @@ struct application {
 
 static struct application app;
 
-static void _irq_handler(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
+static void irq_handler(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	(void)dev;
+	(void)cb;
+	(void)pins;
 	// read interrupt flags
 	uint32_t intf = vdev->INTF;
 
@@ -96,7 +103,7 @@ void main(void)
 		return;
 	}
 
-	gpio_init_callback(&app.irq_cb, _irq_handler, BIT(IRQ_PIN));
+	gpio_init_callback(&app.irq_cb, irq_handler, BIT(IRQ_PIN));
 	if (gpio_add_callback(dev, &app.irq_cb) != 0) {
 		printk("Error setting callback for GPIO\n");
 		return;
@@ -107,12 +114,12 @@ void main(void)
 #define RDIM 1
 #define YDIM 1
 
-	float A[ADIM * ADIM] = { 0.989936, 0.082495, -0.001650, 0.833196 };
+	float A[ADIM * ADIM] = { 0.989936f, 0.082495f, -0.001650f, 0.833196f };
 	//float A[ADIM * ADIM] = { 0.99, 0.09016, -0.001803, 0.8186 };
 	//float B[ADIM * RDIM] = { 0.009334, 0.1813 };
-	float B[ADIM * RDIM] = { 0.016499, 0.166639 };
+	float B[ADIM * RDIM] = { 0.016499f, 0.166639f };
 	float C[YDIM * ADIM] = { 1, 0 };
-	float K[ADIM * YDIM] = { 0.106218, 0.052683 };
+	float K[ADIM * YDIM] = { 0.106218f, 0.052683f };
 	//float L[RDIM * ADIM] = { 2.4522, 1.0691 };
 
 	float x[ADIM] = { 0, 0 };

@@ -8,13 +8,16 @@
  * This example shows how to send interrupt notifications back to the firmware.
  **/
 
-#include <kernel.h>
-#include <drivers/gpio.h>
+#include <float.h>
+
+#include <instruments/keypad.h>
+
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <float.h>
-#include <instruments/keypad.h>
+
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/kernel.h>
 
 static volatile struct keypad_instrument *vdev = ((volatile struct keypad_instrument *)0x70000000);
 
@@ -26,8 +29,11 @@ struct application {
 
 static struct application app;
 
-static void _irq_handler(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
+static void irq_handler(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	(void)dev;
+	(void)cb;
+	(void)pins;
 	// read interrupt flags
 	uint32_t intf = vdev->keys_changed;
 
@@ -54,7 +60,7 @@ void main(void)
 		return;
 	}
 
-	gpio_init_callback(&app.irq_cb, _irq_handler, BIT(IRQ_PIN));
+	gpio_init_callback(&app.irq_cb, irq_handler, BIT(IRQ_PIN));
 	if (gpio_add_callback(dev, &app.irq_cb) != 0) {
 		printk("Error setting callback for GPIO\n");
 		return;

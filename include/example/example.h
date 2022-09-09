@@ -8,7 +8,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <kernel.h>
+#include <zephyr/kernel.h>
 
 /*!
  * @defgroup example-library-api Example Library API

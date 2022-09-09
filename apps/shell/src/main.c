@@ -5,8 +5,9 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <kernel.h>
 #include <example/example.h>
+
+#include <zephyr/kernel.h>
 
 void main(void)
 {

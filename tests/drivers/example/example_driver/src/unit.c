@@ -7,11 +7,11 @@
 
 #include "mock_kernel.h"
 
-#include <unity.h>
-#include <example/example.h>
-#include <device.h>
-
 #include <cmock_unit.h>
+#include <device.h>
+#include <example/example.h>
+#include <unity.h>
+
 #include "../../../../../drivers/example/example_driver.c"
 
 void test_example_driver_init_should_return_einval_on_invalid_args(void)

@@ -8,8 +8,8 @@ set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "SDK base directory")
 # put it also in the env scope
 set(ENV{PROJECT_BASE} ${CMAKE_CURRENT_LIST_DIR})
 
-add_subdirectory(drivers)
 add_subdirectory(cmake)
+add_subdirectory(drivers)
 add_subdirectory(lib)
 add_subdirectory(testbench)
 

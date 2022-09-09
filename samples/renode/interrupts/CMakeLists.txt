@@ -8,3 +8,5 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(sample)
 
 target_sources(app PRIVATE src/main.c)
+
+check_clang_tidy(app)
