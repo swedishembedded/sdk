@@ -5,11 +5,12 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <kernel.h>
-#include <device.h>
-#include <shell/shell.h>
-#include <drivers/sensor.h>
-#include <drivers/gpio.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/kernel.h>
+#include <zephyr/shell/shell.h>
+
 #include <example/example.h>
 #include <project_version.h>
 
@@ -19,8 +20,9 @@ struct application {
 
 static struct application app;
 
-static void _irq_gpio(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
+static void irq_gpio(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	(void)cb;
 	for (unsigned int c = 0; c < 8; c++) {
 		if (((1 << c) & pins) == 0)
 			continue;
@@ -60,7 +62,7 @@ void main(void)
 		}
 	}
 
-	gpio_init_callback(&app.cb, _irq_gpio, 0x00ff);
+	gpio_init_callback(&app.cb, irq_gpio, 0x00ff);
 	if (gpio_add_callback(dev, &app.cb) != 0) {
 		printk("Error setting callback for GPIO\n");
 		return;

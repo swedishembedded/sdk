@@ -1,4 +1,5 @@
 /.clang-format		@mkschreder
+/.clang-tidy		@mkschreder
 /.githooks/  @mkschreder
 /.github/		@mkschreder
 /.gitlab-ci.yml		@mkschreder
