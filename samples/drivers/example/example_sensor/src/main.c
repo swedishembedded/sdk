@@ -5,9 +5,10 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <kernel.h>
-#include <device.h>
-#include <drivers/sensor.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/sensor.h>
+#include <zephyr/kernel.h>
+
 #include <example/example.h>
 #include <project_version.h>
 

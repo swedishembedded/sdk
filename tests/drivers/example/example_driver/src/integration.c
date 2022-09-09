@@ -5,8 +5,8 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <unity.h>
 #include <example/example.h>
+#include <unity.h>
 
 void test_something_cool(void)
 {

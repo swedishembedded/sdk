@@ -5,8 +5,8 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <unity.h>
 #include <drivers/gpio.h>
+#include <unity.h>
 
 void test_mcp23s17_is_connected(void)
 {

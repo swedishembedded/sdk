@@ -9,10 +9,11 @@
 #include "mock_gpio.h"
 #include "mock_spi.h"
 
-#include <unity.h>
-#include <example/example.h>
-#include <device.h>
 #include <cmock_unit.h>
+#include <device.h>
+#include <example/example.h>
+#include <unity.h>
+
 #include "../../../../../drivers/gpio/mcp23s17.c"
 
 struct device_state inta_state, intb_state;
