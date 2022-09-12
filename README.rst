@@ -28,15 +28,9 @@ development. It provides:
 Related Projects
 ################
 
-+==
-|Project|URL|
-+==
-|SE Control Systems Toolbox|https://github.com/swedishembedded/control|
-+==
-|SE Instruments Toolbox|https://github.com/swedishembedded/instruments|
-+==
-|CMock & Unity Testing|https://github.com/swedishembedded/testing|
-+==
+- **SE Control Systems Toolbox**: https://github.com/swedishembedded/control
+- **SE Instruments Toolbox**: https://github.com/swedishembedded/instruments
+- **CMock & Unity Testing**: https://github.com/swedishembedded/testing
 
 Easy to get started
 ###################
