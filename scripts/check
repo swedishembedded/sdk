@@ -125,4 +125,6 @@ for FILE in `git diff --cached --name-status | grep "^[R]" | cut -f 3`; do
 	}
 done
 
+${ROOT}/scripts/ci/check-links
+${ROOT}/scripts/gen-tags cscope
 robot scrum

@@ -10,8 +10,6 @@ stages:
  - check
  - build
  - test
- - release
- - deploy
 
 # This job runs all code checks, unit and integration tests
 check:
@@ -26,8 +24,6 @@ check:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
         - ./scripts/init
-        - ./scripts/gen-tags cscope
-        - ./scripts/ci/check-links
         - ./scripts/check
 
 # This job builds applications
