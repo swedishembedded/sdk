@@ -1,5 +1,5 @@
 image:
-    name: swedishembedded/build:latest
+    name: swedishembedded/build:v0.24.5
     pull_policy: if-not-present
 
 default:
