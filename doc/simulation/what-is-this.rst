@@ -3,6 +3,9 @@
    Consulting: https://swedishembedded.com/go
    Training: https://swedishembedded.com/tag/training
 
+Simulation
+##########
+
 Renode co-simulation allows you to create testbenches and simulate your
 production firmware realistically.
 
