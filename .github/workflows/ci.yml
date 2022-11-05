@@ -16,7 +16,7 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     container:
-        image: docker.io/swedishembedded/build:latest
+        image: docker.io/swedishembedded/build:v0.24.5
     steps:
     - name: Prepare
       run: |
