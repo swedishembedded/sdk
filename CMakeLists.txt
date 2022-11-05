@@ -36,7 +36,7 @@ zephyr_compile_options("-Wnonnull")
 
 # Disable old style declaration
 # Reason: zephyr pinctrl fails to compile
-zephyr_compile_options("-Wno-old-style-declaration")
+#zephyr_compile_options("-Wno-old-style-declaration")
 
 # Disable unused parameter warning
 # Reason: zephyr pm functions fail to compile
