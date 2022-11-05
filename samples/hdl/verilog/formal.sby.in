@@ -1,0 +1,13 @@
+[options]
+mode prove
+depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -formal ${CMAKE_CURRENT_SOURCE_DIR}/src/plc.v
+prep -top plc
+
+[files]
+${CMAKE_CURRENT_SOURCE_DIR}/src/plc.v

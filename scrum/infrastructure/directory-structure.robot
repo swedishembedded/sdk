@@ -23,16 +23,6 @@ Apps have proper directory structure
 		File Should Exist  ${CURDIR}/../apps/${APP}.robot
 	END
 
-Samples have proper directory structure
-	@{L1S} =	List Directories In Directory	${ROOT_DIR}/samples/
-	FOR  ${L1}  IN  @{L1S}
-		Directory Should Exist  ${ROOT_DIR}/${L1}
-		@{L2S} =	List Directories In Directory	${ROOT_DIR}/${L1}
-		FOR  ${L2}  IN  @{L2S}
-			Directory Should Exist  ${ROOT_DIR}/${L1}/${L2}
-		END
-	END
-
 Boards have proper directory structure
 	@{ARCHS} =	List Directories In Directory	${ROOT_DIR}/boards/
 	FOR  ${ARCH}  IN  @{ARCHS}

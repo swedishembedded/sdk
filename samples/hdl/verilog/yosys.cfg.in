@@ -1,0 +1,2 @@
+read_verilog ${CMAKE_CURRENT_SOURCE_DIR}/src/plc.v;
+write_cxxrtl ${CMAKE_CURRENT_BINARY_DIR}/zephyr/include/generated/plc.hpp
