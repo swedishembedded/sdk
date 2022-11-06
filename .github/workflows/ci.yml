@@ -35,7 +35,7 @@ jobs:
         ./scripts/init
         robot scrum
         # for some reason with github we must do this
-        /opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
+        /opt/toolchains/zephyr-sdk-0.15.1/setup.sh -t all -h -c
         ./scripts/gen-tags cscope
         ./scripts/check
         ./scripts/build
