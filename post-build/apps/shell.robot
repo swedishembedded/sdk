@@ -4,7 +4,7 @@
 # Training: https://swedishembedded.com/tag/training
 
 *** Settings ***
-Variables  ${CURDIR}/../../scrum/variables.py
+Variables  ${CURDIR}/../../integrity/variables.py
 
 Library  OperatingSystem
 Library  String

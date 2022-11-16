@@ -6,7 +6,7 @@
 *** Settings ***
 Variables  ${CURDIR}/../variables.py
 Library  OperatingSystem
-Library  driver.py
+Library  ${CURDIR}/driver.py
 
 *** Keywords ***
 
