@@ -8,6 +8,7 @@ import os
 
 PROJECT_ROOT = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
 ROOT_DIR = PROJECT_ROOT
+INTEGRITY_DIR = ROOT_DIR + "/integrity/"
 
 VERSION_PARTS = {
     k: int(v) for k, v in (l.split("=") for l in open(ROOT_DIR + "/VERSION"))

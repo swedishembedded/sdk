@@ -73,7 +73,6 @@ build_from_scratch:
         - bash -x ./scripts/install-sdk
         - bash -x ./scripts/init
     script:
-        - robot scrum
         - bash -x ./scripts/check
         - bash -x ./scripts/build
         - bash -x ./scripts/test

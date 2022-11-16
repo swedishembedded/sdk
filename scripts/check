@@ -127,4 +127,4 @@ done
 
 ${ROOT}/scripts/ci/check-links
 ${ROOT}/scripts/gen-tags cscope
-robot scrum
+robot integrity

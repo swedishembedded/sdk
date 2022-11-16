@@ -6,7 +6,7 @@
 *** Settings ***
 Variables  ${CURDIR}/../../variables.py
 Library  OperatingSystem
-Resource  ${ROOT_DIR}/scrum/lib/library.robot
+Resource  ${INTEGRITY_DIR}/lib/library.robot
 
 *** Variables ***
 

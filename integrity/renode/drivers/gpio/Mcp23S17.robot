@@ -6,7 +6,7 @@
 *** Settings ***
 Variables  ${CURDIR}/../../../variables.py
 Library  OperatingSystem
-Library  ${ROOT_DIR}/scrum/DocChecker.py
+Library  ${INTEGRITY_DIR}/DocChecker.py
 
 *** Variables ***
 ${FILE}  ${ROOT_DIR}/renode/drivers/gpio/Mcp23S17.cs
