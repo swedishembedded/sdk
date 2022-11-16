@@ -33,7 +33,6 @@ jobs:
     - name: Build everything
       run: |
         ./scripts/init
-        robot scrum
         # for some reason with github we must do this
         /opt/toolchains/zephyr-sdk-0.15.1/setup.sh -t all -h -c
         ./scripts/gen-tags cscope

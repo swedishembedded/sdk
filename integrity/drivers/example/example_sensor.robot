@@ -6,18 +6,17 @@
 *** Settings ***
 Variables  ${CURDIR}/../../variables.py
 Library  OperatingSystem
-Resource  ${ROOT_DIR}/scrum/drivers/driver.robot
+Resource  ${INTEGRITY_DIR}/drivers/driver.robot
 
 *** Variables ***
 
 *** Test Cases ***
 
-Driver is ready
-	Set Test Variable  ${DRIVER_TYPE}  gpio
-	Set Test Variable  ${DRIVER_NAME}  mcp23s17
+Example sensor driver is ready
+	Set Test Variable  ${DRIVER_TYPE}  example
+	Set Test Variable  ${DRIVER_NAME}  example_sensor
 	Driver has proper format
 	Driver has simulation
 	Driver has private function init
-	Driver implements GPIO api
-
-*** Keywords ***
+	Driver has private function sample_fetch
+	Driver has private function channel_get

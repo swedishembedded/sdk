@@ -17,13 +17,13 @@
 /drivers/		@mkschreder
 /dts/		@mkschreder
 /include/		@mkschreder
+/integrity/		@mkschreder
 /lib/		@mkschreder
 /platform-env.sh	@mkschreder
 /post-build/	 @mkschreder
 /renode/		@mkschreder
 /samples/		@mkschreder
 /scripts/		@mkschreder
-/scrum/		@mkschreder
 /testbench/   @mkschreder
 /tests/		@mkschreder
 /west.yml		@mkschreder
