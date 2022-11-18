@@ -76,19 +76,12 @@ Directory has drivers structure ${driversbase}
 			${PATH}  ${FILE} =  Split Path  ${DRIVER}
 			${NAME}  ${EXT} =  Split Extension  ${FILE}
 			Directory Should Exist  ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/
-			# make sure there is a scrum task for the driver
-			File Should Exist  ${INTEGRITY_DIR}/drivers/${DRIVER_TYPE}/${NAME}.robot
 			# make sure driver C file is included
 			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/CMakeLists.txt
 			Should Contain    ${STR}    ${NAME}.c
 			# check if unit test includes the file
 			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/src/unit.c
 			Should Contain    ${STR}    ${NAME}.c
-			# All drivers must have a sample
-			Set Test Variable  ${APP_SOURCE}  ${ROOT_DIR}/samples/drivers/${DRIVER_TYPE}/${NAME}
-			Directory has app files ${APP_SOURCE}
-			# Each sample should have a robot test to verify it's content
-			File Should Exist  ${CURDIR}/../samples/drivers/${DRIVER_TYPE}/${NAME}.robot
 		END
 	END
 
