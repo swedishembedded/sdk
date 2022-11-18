@@ -8,6 +8,7 @@ Library  OperatingSystem
 Library  Process
 Library  directory-structure.py
 Resource  ${CURDIR}/DirectoryStructure.robot
+Resource  ${CURDIR}/Testing.robot
 
 *** Variables ***
 ${ROOT_DIR}  ${CURDIR}/../../
@@ -33,6 +34,12 @@ Drivers have proper directory structure
         FOR    ${DRIVER}    IN    @{DRIVERS}
             ${PATH}    ${FILE} =    Split Path    ${DRIVER}
             ${NAME}    ${EXT} =    Split Extension    ${FILE}
+
+			Set Test Variable  ${TESTS_DIR}  ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/
+
+			# Drivers are required to have unit and integration tests
+			Source file should have unit test ${driverbase}/${DRIVER_TYPE}/${DRIVER}
+			Source file should have integration test ${driverbase}/${DRIVER_TYPE}/${DRIVER}
 
 			# make sure there is integrity check for driver
 			File Should Exist  ${INTEGRITY_DIR}/drivers/${DRIVER_TYPE}/${NAME}.robot

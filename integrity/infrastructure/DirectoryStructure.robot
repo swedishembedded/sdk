@@ -70,19 +70,6 @@ Directory has drivers structure ${driversbase}
 	FOR  ${DRIVER_TYPE}  IN  @{DRIVER_TYPES}
 		File Should Exist  ${driversbase}/${DRIVER_TYPE}/CMakeLists.txt
 		File Should Exist  ${driversbase}/${DRIVER_TYPE}/Kconfig
-		@{DRIVERS} =	List Files In Directory	${driversbase}/${DRIVER_TYPE}/  *.c
-		FOR  ${DRIVER}  IN  @{DRIVERS}
-			# make sure there is a test for each driver
-			${PATH}  ${FILE} =  Split Path  ${DRIVER}
-			${NAME}  ${EXT} =  Split Extension  ${FILE}
-			Directory Should Exist  ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/
-			# make sure driver C file is included
-			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/CMakeLists.txt
-			Should Contain    ${STR}    ${NAME}.c
-			# check if unit test includes the file
-			${STR}    Get File    ${ROOT_DIR}/tests/drivers/${DRIVER_TYPE}/${NAME}/src/unit.c
-			Should Contain    ${STR}    ${NAME}.c
-		END
 	END
 
 Directory has lib structure ${dir}
