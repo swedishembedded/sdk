@@ -13,7 +13,7 @@ Resource  ${CURDIR}/board.robot
 
 *** Variables ***
 ${ROOT_DIR}  ${CURDIR}/../../
-${WORKFLOW}  ${ROOT_DIR}/doc/workflow/
+${WORKFLOW}  ${ROOT_DIR}/doc/sdk/workflow/
 
 *** Test Cases ***
 

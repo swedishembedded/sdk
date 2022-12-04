@@ -216,6 +216,7 @@ apt-get update && \
 	texlive-latex-base \
 	texlive-latex-extra \
 	latexmk \
+	tex-gyre \
 	texlive-fonts-recommended \
 	ruby bundler
 
