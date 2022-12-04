@@ -1,0 +1,3 @@
+.. |SDK| replace:: Swedish Embedded SDK
+
+.. |release| replace:: v0.36.0

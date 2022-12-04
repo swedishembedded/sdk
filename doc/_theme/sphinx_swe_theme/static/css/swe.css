@@ -1,0 +1,684 @@
+/* import sphinx-rtd-theme stylesheet */
+@import "theme.css";
+
+/*******************************************************************************
+ * Base
+ ******************************************************************************/
+
+body, html {
+  overflow-x: unset;
+}
+
+a {
+  color: #00a9ce !important;
+  text-decoration: unset !important;
+}
+
+a:visited {
+  color: unset;
+}
+
+h5 {
+  font-size: 105%;
+}
+
+h6 {
+  font-size: 90%;
+}
+
+table {
+  caption-side: bottom;
+}
+
+table.hlist {
+  width: 95% !important;
+  table-layout: fixed;
+}
+
+th,
+td {
+  white-space: normal !important;
+}
+
+ul {
+  padding-left: unset !important;
+}
+
+kbd {
+  -moz-border-radius: 3px;
+  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+  color: #333;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0 0.1em;
+  padding: 0.1em 0.6em;
+  text-shadow: 0 1px 0 #fff;
+}
+
+/*******************************************************************************
+ * Structure
+ ******************************************************************************/
+
+@media (min-width: 1200px) {
+  .wy-grid-for-nav {
+    max-width: 1140px;
+  }
+
+  .wy-nav-content-wrap {
+    width: 840px;
+  }
+
+  .wy-nav-content {
+    max-width: unset !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .wy-grid-for-nav {
+    max-width: 1320px;
+  }
+
+  .wy-nav-content-wrap {
+    width: 1020px;
+  }
+
+  .wy-nav-content {
+    max-width: unset !important;
+  }
+}
+
+.wy-grid-for-nav {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  position: unset;
+}
+
+.wy-nav-side {
+  position: unset;
+  flex-direction: column;
+  background: unset;
+}
+
+@media screen and (min-width: 769px) {
+  .wy-nav-side {
+    flex: 0 0 320px;
+    position: sticky;
+    max-height: 100vh;
+  }
+  .wy-side-scroll {
+    padding: 0 0 calc(var(--header-top-height) * 1.3) 0;
+  }
+  .wy-side-scroll:hover {
+    overflow-y: auto;
+  }
+  .wy-side-scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+  .wy-side-scroll::-webkit-scrollbar-thumb {
+    background: rgb(193, 193, 193);
+    border-radius: 6px;
+    border: 1px solid rgb(237, 237, 237);
+  }
+  .wy-side-scroll::-webkit-scrollbar-track {
+    background: rgb(237, 237, 237)
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wy-nav-side {
+    position: fixed;
+  }
+}
+
+.wy-nav-content {
+  padding: 1em 2em;
+}
+
+.wy-nav-content-wrap {
+  margin-left: unset;
+  background: unset;
+  max-width: 100%;
+}
+
+/*******************************************************************************
+ * Header
+ ******************************************************************************/
+
+:root {
+  --header-top-height: 160px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-top-height: 100px;
+  }
+}
+
+.announcement {
+  background-color: #f0f0a8;
+  padding: 5px;
+  text-align: center;
+  display: none;
+}
+
+.swe-header {
+  background: url("../images/header-bg.svg");
+  background-size: cover;
+}
+
+.swe-header-top {
+  height: var(--header-top-height);
+}
+
+.swe-header-logo {
+  background-color: transparent;
+  width: 140px;
+}
+
+.swe-header-nav {
+  background-color: rgba(0, 51, 160, 0.6);
+}
+
+/* search box */
+.swe-search-input,
+.swe-search-input:focus {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid #fffffff2 !important;
+  box-shadow: none !important;
+  color: #ffffff91  !important;
+  font-style:italic;
+  font-size: 100% !important;
+  padding-left: 2.375rem !important;
+  opacity: 0.8;
+  outline: none;
+  background: transparent url("../images/search.svg") no-repeat 5px center;
+  background-size: 1rem;
+}
+
+.swe-search-input::placeholder {
+  color: #fff !important;
+}
+
+/* version switcher */
+.swe-btn-versions {
+  color: #fff !important;
+  background-color: #00a9ce !important;
+  box-shadow: none;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+}
+
+.dropdown-menu.show {
+  z-index: 1030;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 20em;
+}
+
+.navbar {
+  position: relative;
+  width: unset;
+}
+
+@media screen and (max-width: 992px) {
+  .navbar {
+    width: 100%;
+  }
+}
+
+.nav-item.active {
+  background: #fff;
+}
+
+.nav-item.active .nav-link {
+  color: #00a9ce !important;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+/*******************************************************************************
+ * Sidebar
+ ******************************************************************************/
+
+.wy-nav-side.shift {
+  min-width: 85%;
+}
+
+.wy-nav-content-wrap.shift {
+  min-width: 100%;
+  position: static;
+}
+
+@media screen and (max-width: 768px) {
+  .wy-nav-side {
+    width: 0px;
+    position: static !important;
+  }
+}
+
+.wy-nav-top {
+  background: #fcfcfc;
+  color: #00a9ce;
+}
+
+.wy-side-scroll {
+  overflow-y: hidden;
+}
+
+.wy-side-nav-search {
+  background: unset;
+  color: unset;
+  margin-bottom: unset;
+  padding: unset;
+  padding-top: 1em;
+}
+
+.wy-side-nav-search > a.icon-home {
+  color: #404040;
+}
+
+.wy-side-nav-search > a.icon-home:before {
+  content: none;
+}
+
+.wy-side-nav-search > a {
+  font-size: 150%;
+}
+
+.wy-side-nav-search > div.version {
+  color: unset;
+}
+
+.searchformwrapper {
+  display: none !important;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+  color: #00a9ce;
+}
+
+.wy-menu-vertical li.current a {
+  border-right: unset;
+}
+
+.wy-menu-vertical a:hover,
+.wy-menu-vertical li.current,
+.wy-menu-vertical li.current a:hover,
+.wy-menu-vertical li.toctree-l2.current > a,
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a,
+.wy-menu-vertical li.toctree-l3.current > a,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4 > a {
+  background: unset;
+}
+
+.wy-menu-vertical li.toctree-l1.current > a {
+  border-bottom: unset;
+  border-top: unset;
+}
+
+.wy-menu-vertical a {
+  color: #404040 !important;
+}
+
+.rst-versions {
+  display: none !important;
+}
+
+/*******************************************************************************
+ * Content
+ ******************************************************************************/
+
+.wy-breadcrumbs {
+  margin-bottom: unset;
+}
+
+div[role="navigation"] hr {
+  margin: 0.5rem 0;
+}
+
+.rst-content .toctree-wrapper > p.caption,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend {
+  font-family: unset;
+}
+
+.rst-content .admonition {
+  overflow-x: auto;
+  clear: left;
+}
+
+.rst-content td .line-block {
+  margin-bottom: 0px;
+}
+
+/* add a class for multi-column support in docs to replace use of .hlist with
+ * a .. rst-class:: rst-columns
+ */
+
+.rst-columns {
+  column-width: 18em;
+}
+
+.rst-content ol.lowerroman li {
+  list-style: lower-roman;
+}
+
+.rst-content ol.upperroman li {
+  list-style: upper-roman;
+}
+
+p.highlight-link {
+  font-size: 90%;
+  margin: 0;
+  margin-top: 5px;
+}
+
+p.highlight-link > a {
+  color: white;
+}
+
+div.version .dropdown a {
+  color: #fff;
+}
+
+div.version ul.dropdown {
+  padding-top: 10px;
+}
+
+section.numbered-step > h2::before,
+section.numbered-step > h3::before,
+section.numbered-step > h4::before,
+section.numbered-step > h5::before {
+  border-radius: 0.8em;
+  color: #ffffff;
+  background: #00a9ce;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.4em;
+  margin-right: 5px;
+  text-align: center;
+  width: 1.4em;
+}
+
+h1 {
+  counter-reset: step-count-h2;
+}
+
+h2 {
+  counter-reset: step-count-h3;
+}
+
+h3 {
+  counter-reset: step-count-h4;
+}
+
+h4 {
+  counter-reset: step-count-h5;
+}
+
+h5 {
+  counter-reset: step-count-h6;
+}
+
+section.numbered-step > h2::before {
+  counter-increment: step-count-h2;
+  content: counter(step-count-h2);
+}
+
+section.numbered-step > h3::before {
+  counter-increment: step-count-h3;
+  content: counter(step-count-h3);
+}
+
+section.numbered-step > h4::before {
+  counter-increment: step-count-h4;
+  content: counter(step-count-h4);
+}
+
+section.numbered-step > h5::before {
+  counter-increment: step-count-h5;
+  content: counter(step-count-h5);
+}
+
+section.numbered-step > h6::before {
+  counter-increment: step-count-h6;
+  content: counter(step-count-h6);
+}
+
+.grid-item h2 {
+  border: 0px;
+  padding-top: 0px;
+  line-height: unset;
+}
+
+.toctree-wrapper ul li {
+  list-style: none !important;
+}
+
+.toctree-wrapper ul li::before {
+  content: "\27A4";
+  padding-right: 10px;
+  color: #444;
+}
+
+/*******************************************************************************
+ * Footer
+ ******************************************************************************/
+
+footer table {
+  width: 100%;
+}
+
+#footerlogo {
+  width: 100px;
+}
+
+/*******************************************************************************
+ * Kconfig
+ ******************************************************************************/
+
+a.reference.internal[href*="#config-"] {
+  color: #404040 !important;
+  font-weight: 700;
+  font-size: 75%;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
+    Courier New, Courier, monospace;
+  border: 1px solid #e1e4e5;
+  background-color: white;
+}
+
+a.reference.internal[href="#sample-config"] {
+  color: #404040;
+  font-weight: 700;
+  font-size: 75%;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
+    Courier New, Courier, monospace;
+  border: 1px solid #e1e4e5;
+}
+
+.document li > ol,
+.document li > ul {
+  margin: 5px 0px !important;
+}
+
+div.figure {
+  text-align: center;
+}
+
+.caption {
+  padding-top: 10px;
+}
+
+.rst-content figure {
+  text-align: center;
+}
+
+/*******************************************************************************
+ * Doxygen tweaks
+ ******************************************************************************/
+
+/* hide a heading doxygen adds before details and the details section */
+.rst-content dl.group > dt, .rst-content dl.group > dd > p,
+/* hide the #include line for every class (aka struct) and union */
+.rst-content dl.class > dd > em, .rst-content dl.union > dd > em,
+/* hide <ul> inside description blocks */
+.rst-content dl.group > dd > ul,
+/* hide "Public Members"/"Defines"/etc heading for structs */
+.rst-content dl.class p.breathe-sectiondef-title {
+  display: none !important;
+}
+
+.rst-content dl:not(.docutils) .sig-param,
+.rst-content dl:not(.docutils).class dt > code,
+.rst-content dl:not(.docutils).function dt > code,
+.rst-content dl:not(.docutils).method dt > code {
+  padding: 0 4px !important;
+}
+
+.rst-content dl:not(.docutils) .sig-param,
+.rst-content dl:not(.docutils).class dt > em,
+.rst-content dl:not(.docutils).function dt > em,
+.rst-content dl:not(.docutils).method dt > em {
+  padding: 0 4px !important;
+}
+
+.rst-content dl:not(.docutils).c.var .pre {
+  padding-right: 4px;
+}
+
+.rst-content dl:not(.docutils).c.type a.reference.internal .pre {
+  padding-right: 4px !important;
+}
+
+.rst-content section[id="configuration-options"] dl dt {
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: table;
+  margin: 6px 0;
+  font-size: 90%;
+  line-height: normal;
+  background: #e7f2fa;
+  color: #000000;
+  border-top: 3px solid #6ab0de;
+  padding: 6px;
+  position: relative;
+}
+
+.rst-content dl.c.struct .property {
+  padding-right: 4px !important;
+}
+
+.rst-content dl.group {
+  margin: 0 0 12px 0px;
+}
+
+.rst-content dl.group > dd {
+  margin-left: 0 !important;
+}
+
+.rst-content p.breathe-sectiondef-title {
+  text-decoration: underline; /* dbk for API sub-headings */
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.rst-content div.breathe-sectiondef {
+  padding-left: 0 !important;
+}
+
+/*******************************************************************************
+ * Local ToC
+ ******************************************************************************/
+
+.contents.local {
+  float: right;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  padding: 10px 10px 0px 0px;
+  margin: 0px 0px 25px 25px;
+  max-width: 30%;
+}
+
+.contents.local a {
+  font-size: 13px;
+  line-height: 13px;
+}
+
+.contents.local ul p {
+  margin-bottom: 0px;
+}
+
+.rst-content table.docutils td p {
+  margin-bottom: 0.6rem !important;
+}
+
+.rst-content table.docutils td p:last-child {
+  font-size: .9rem;
+  margin-bottom: 0 !important;
+}
+
+.rst-content h2 {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  line-height: 40px;
+}
+
+.grid-item h2 {
+  border: 0px;
+  padding-top: 0px;
+  line-height: unset;
+}
+
+span.guilabel {
+  white-space: nowrap;
+}
+
+/*******************************************************************************
+ * Scroll to top
+ ******************************************************************************/
+
+#scroll-container {
+  position: relative;
+}
+
+#scroll-btn {
+  background-color: #00a9ce;
+  box-shadow: none;
+  color: #fff;
+  visibility: hidden;
+  position: fixed;
+  bottom: 40px;
+  right: 25px;
+  z-index: 20;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}

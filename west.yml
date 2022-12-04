@@ -10,6 +10,10 @@ manifest:
     - name: renode
       url-base: https://github.com/renode
   projects:
+    - name: develop
+      remote: swedishembedded
+      revision: v0.24.6
+      path: docker-image
     - name: zephyr
       remote: swedishembedded
       revision: v3.1.0-swe
@@ -18,6 +22,10 @@ manifest:
       path: renode
       revision: v1.13.1
       submodules: true
+      remote: renode
+    - name: renode-docs
+      path: renode-docs
+      revision: master
       remote: renode
     - name: control
       path: modules/lib/control

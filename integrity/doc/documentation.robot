@@ -20,7 +20,7 @@ Documentation generation has been setup
 	Documentation infrastructure is in place
 
 Documentation is in good order
-	Doxygen main page has been written
+	Set Test Variable  ${DOC_SDK_BASE}  ${ROOT_DIR}/doc/sdk
 	PDF header has been created
 	Drivers have been documented
 	Libraries have been documented
@@ -29,20 +29,27 @@ Documentation is in good order
 *** Keywords ***
 
 Documentation infrastructure is in place
-	Directory Should Exist  ${ROOT_DIR}/doc/_doxygen/
+	# Sphinx extensions
 	Directory Should Exist  ${ROOT_DIR}/doc/_extensions/
+	# Documentation utility scripts used during build process
 	Directory Should Exist  ${ROOT_DIR}/doc/_scripts/
+	# Static files that are shared across all docsets
 	Directory Should Exist  ${ROOT_DIR}/doc/_static/
-	Directory Should Exist  ${ROOT_DIR}/doc/_templates/
-	File Should Exist  ${ROOT_DIR}/doc/Makefile
+	# Main theme directory used for all doc pages
+	Directory Should Exist  ${ROOT_DIR}/doc/_theme/sphinx_swe_theme
+	# New cmake driven doc build process
 	File Should Exist  ${ROOT_DIR}/doc/CMakeLists.txt
-	File Should Exist  ${ROOT_DIR}/doc/conf.py
-	File Should Exist  ${ROOT_DIR}/doc/zephyr.doxyfile.in
-	File Should Exist  ${ROOT_DIR}/doc/index.rst
-	File Should Exist  ${ROOT_DIR}/doc/index-tex.rst
 
-Doxygen main page has been written
-	File Should Exist  ${ROOT_DIR}/doc/_doxygen/mainpage.md
+	# Configuration files for all docsets
+	File Should Exist  ${ROOT_DIR}/doc/zephyr/conf.py
+	File Should Exist  ${ROOT_DIR}/doc/mcuboot/conf.py
+	File Should Exist  ${ROOT_DIR}/doc/renode-docs/conf.py
+	File Should Exist  ${ROOT_DIR}/doc/sdk/conf.py
+
+	# Main SDK doxygen file used to generate docs for sdk APIs
+	File Should Exist  ${ROOT_DIR}/doc/sdk/sdk.doxyfile.in
+	File Should Exist  ${ROOT_DIR}/doc/sdk/index.rst
+	File Should Exist  ${ROOT_DIR}/doc/sdk/index-tex.rst
 
 PDF header has been created
 	File Should Exist  ${ROOT_DIR}/doc/_static/latex/title.tex
@@ -50,13 +57,13 @@ PDF header has been created
 Drivers have been documented
 	@{DRIVER_CLASSES} =	List Directories In Directory	${ROOT_DIR}/drivers/
 	FOR  ${DRIVER_CLASS}  IN  @{DRIVER_CLASSES}
-		Directory Should Exist  ${ROOT_DIR}/doc/drivers/${DRIVER_CLASS}/
+		Directory Should Exist  ${DOC_SDK_BASE}/drivers/${DRIVER_CLASS}/
 		@{DRIVERS} =	List Files In Directory  ${ROOT_DIR}/drivers/${DRIVER_CLASS}/  *.c
 		FOR  ${DRIVER}  IN  @{DRIVERS}
 			${PATH}  ${FILE}  Split Path  ${DRIVER}
 			${SECTION}  ${EXT}  Split Extension  ${FILE}
-			Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/drivers/${DRIVER_CLASS}/${SECTION}/
-			File Should Exist  ${ROOT_DIR}/doc/drivers/${DRIVER_CLASS}/${SECTION}.rst
+			Set Test Variable  ${CHAPTER_FILES}  ${DOC_SDK_BASE}/drivers/${DRIVER_CLASS}/${SECTION}/
+			File Should Exist  ${DOC_SDK_BASE}/drivers/${DRIVER_CLASS}/${SECTION}.rst
 			Chapter follows reference structure
 		END
 		# find invalid directories
@@ -70,19 +77,19 @@ Drivers have been documented
 Subsystems have been documented
 	@{SUBSYSTS} =	List Directories In Directory	${ROOT_DIR}/subsys/
 	FOR  ${SUBSYS}  IN  @{SUBSYSTS}
-		File Should Exist  ${ROOT_DIR}/doc/subsys/${SUBSYS}.rst
-		Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/subsys/${SUBSYS}/
+		File Should Exist  ${DOC_SDK_BASE}/subsys/${SUBSYS}.rst
+		Set Test Variable  ${CHAPTER_FILES}  ${DOC_SDK_BASE}/subsys/${SUBSYS}/
 		Chapter follows reference structure
 	END
 
 Libraries have been documented
 	@{LIBRARIES} =	List Directories In Directory	${ROOT_DIR}/lib/
 	FOR  ${LIB}  IN  @{LIBRARIES}
-		File Should Exist  ${ROOT_DIR}/doc/lib/${LIB}/index.rst
+		File Should Exist  ${DOC_SDK_BASE}/lib/${LIB}/index.rst
 		Check Page Contains Text
-			...  ${ROOT_DIR}/doc/lib/index.rst
+			...  ${DOC_SDK_BASE}/lib/index.rst
 			...  ${LIB}/index.rst
-		Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/doc/lib/${LIB}/
+		Set Test Variable  ${CHAPTER_FILES}  ${DOC_SDK_BASE}/lib/${LIB}/
 		Chapter follows reference structure
 	END
 
@@ -92,9 +99,6 @@ Boards have been documented
 		@{BOARDS} =	List Directories In Directory	${ROOT_DIR}/boards/${ARCH}/
 		FOR  ${BOARD}  IN  @{BOARDS}
 			File Should Exist  ${ROOT_DIR}/boards/${ARCH}/${BOARD}/doc/index.rst
-			Check Page Contains Text
-			...  ${ROOT_DIR}/doc/boards/index.rst
-			...  ${ARCH}/${BOARD}/doc/index.rst
 			Set Test Variable  ${CHAPTER_FILES}  ${ROOT_DIR}/boards/${ARCH}/${BOARD}/doc/
 			Chapter follows board reference structure
 		END

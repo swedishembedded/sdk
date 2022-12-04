@@ -33,7 +33,7 @@ build:
         - check
     artifacts:
         paths:
-            - doc/_build/zephyr.pdf
+            - build-doc/**/*.pdf
             - build-apps/**/zephyr.elf
             - build-release/**/release/
             - release/*
@@ -42,7 +42,10 @@ build:
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
+        # for docs. Move to docker image.
+        - apt-get update && apt-get install -qy tex-gyre
         - ./scripts/init
+        - ./scripts/build-doc --sdk-only
         - ./scripts/build
 
 # This job runs all system tests on built applications

@@ -1,0 +1,119 @@
+{% extends "sphinx_rtd_theme/layout.html" %} {% block scripts %} {{ super() }}
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KNJ9693');</script>
+<!-- End Google Tag Manager -->
+<script
+  type="text/javascript"
+  src="{{ pathto('_static/js/swe.js', 1) }}"
+></script>
+<script src="{{ pathto('_static/js/bootstrap.bundle.min.js', 1) }}"></script>
+{% endblock %} {% block extrahead %}
+<link
+  href="{{ pathto('_static/css/bootstrap.min.css', 1) }}"
+  rel="stylesheet"
+/>
+<link
+  href="{{ pathto('_static/css/swe.css', 1) }}"
+  rel="stylesheet"
+/>
+<link
+  rel="shortcut icon"
+  href="{{ pathto('_static/images/favicon.png', 1) }}"
+/>
+{% endblock %} {%- block extrabody %}
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KNJ9693"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="announcement"></div>
+<div class="d-print-none swe-header">
+  <div class="container-xl swe-header-top">
+    <div class="row h-100">
+      <div class="d-none d-md-block col-2">
+        <div class="py-4 px-3 ml-2 swe-header-logo">
+          <img
+            class="swe-header-logo"
+            src="{{ pathto('_static/images/swelogo.svg', 1) }}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div
+        class="col-8 col-md-7 pl-md-4 d-flex align-self-center justify-content-center"
+      >
+        <form class="w-75" action="{{ pathto('search') }}" method="get">
+          <div class="form-group">
+            <input
+              type="text"
+              name="q"
+              class="swe-search-input form-control"
+              placeholder="Search all docs..."
+            />
+          </div>
+        </form>
+      </div>
+      {%- if not theme_standalone|tobool %}
+      <div class="col-4 col-md-3 d-md-block p-3 text-end">
+        <div class="dropdown">
+          <button
+            class="btn dropdown-toggle swe-btn-versions"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span class="d-none d-md-inline">SWE SDK</span>
+            <span id="sdkversion" class="d-inline"></span>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+        </div>
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+  {%- if not theme_standalone|tobool %}
+  <div class="swe-header-nav">
+    <div class="container-xl">
+      <div class="row">
+        <div class="col col-12 d-flex justify-content-center">
+          <nav class="navbar navbar-dark navbar-expand-lg p-0">
+            <span class="navbar-brand d-block d-lg-none py-2 pl-1"
+              >Documentation sets</span
+            >
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <ul class="navbar-nav">
+                {%- for name, config in theme_docsets.items() %}
+                <li class="nav-item {{ 'active' if name == theme_docset else '' }} py-1 px-3">
+                  <a
+                    class="nav-link"
+                    href="{{ pathto('', 1) }}../{{ name }}/{{ config[1] }}.html"
+                    >{{ config[0] }}</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                {%- endfor %}
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif %}
+</div>
+{% endblock %}
