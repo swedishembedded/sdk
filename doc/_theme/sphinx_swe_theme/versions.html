@@ -1,0 +1,17 @@
+{# Add rst-badge after rst-versions for small badge style. #}
+{%- if theme_docsets %}
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> {{ project }}</span>
+       <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      {%- for name, config in theme_docsets.items() %}
+      {%- set css_class = name %}
+      <div class="rst-other-version {{ css_class }}">
+        <a href="{{ pathto('', 1) }}../{{ name }}/{{ config[1] }}.html">{{ config[0] }}</a>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+{%- endif %}

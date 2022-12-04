@@ -26,12 +26,6 @@ $ROOT/../zephyr/scripts/twister \
 	exit 1
 }
 
-# Build documentation
-${ROOT}/scripts/build-doc || {
-	echo "ERROR: documentation build failed. There are warnings."
-	exit 1
-}
-
 # Build releases
 ${ROOT}/scripts/release -b custom_board -s apps/shell
 

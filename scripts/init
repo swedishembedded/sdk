@@ -30,6 +30,7 @@ export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 
 # Install python requirements
 pip3 install -r ../zephyr/scripts/requirements.txt
+pip3 install -r ./scripts/requirements-doc.txt
 
 # Install cmake tools for cmake-format
 pip3 install cmakelang
