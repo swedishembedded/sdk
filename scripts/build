@@ -6,6 +6,9 @@
 
 ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 
+export CMAKE_PREFIX_PATH=/opt/toolchains
+export PATH=/opt/oss-cad-suite/bin/:$PATH
+
 set -e
 
 . ${ROOT}/VERSION

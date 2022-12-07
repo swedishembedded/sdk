@@ -1,7 +1,8 @@
 ---
-Checks:    'bugprone-*,cert-*,clang-analyzer-*,google-*,llvm-*,misc-*,modernize-*,performance-*,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-google-readability-braces-around-statements,-google-readability-todo,-llvm-header-guard,-modernize-use-trailing-return-type,-readability-misleading-indentation,-cert-msc30*,-cert-msc51*,-cert-msc32*,-cert-msc50*,-bugprone-reserved-identifier*,-cert-dcl37-c*,-cert-dcl51-cpp*,-bugprone-macro-parentheses'
+Checks:    'bugprone-*,cert-*,clang-analyzer-*,google-*,llvm-*,misc-*,modernize-*,performance-*,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-google-readability-braces-around-statements,-google-readability-todo,-llvm-header-guard,-modernize-use-trailing-return-type,-readability-misleading-indentation,-cert-msc30*,-cert-msc51*,-cert-msc32*,-cert-msc50*,-bugprone-reserved-identifier*,-cert-dcl37-c*,-cert-dcl51-cpp*,-bugprone-macro-parentheses,-misc-redundant-expression*,-misc-unused-parameters*,-google-readability-function-size*,-bugprone-branch-clone*,-performance-no-int-to-ptr*,-clang-analyzer-deadcode.DeadStores,-bugprone-suspicious-include*,-clang-diagnostic-unused-variable*,-llvm-else-after-return*,-misc-no-recursion*,-cert-err34-c*,-modernize-macro-to-enum*,-bugprone-easily-swappable-parameters*,-bugprone-implicit-widening-of-multiplication-result*,-cert-err33-c*,-readability-identifier-length*,-hicpp-signed-bitwise*,-altera-id-dependent-backward-branch*,-altera-unroll-loops*,-hicpp-no-assembler*,-readability-function-cognitive-complexity*,-cppcoreguidelines-avoid-magic-numbers*,-llvm-include-order*'
 WarningsAsErrors:   '*'
 AnalyzeTemporaryDtors: false
+UseColor: false
 CheckOptions:
   - key:             cert-msc32-c.DisallowedSeedTypes
     value:           ''

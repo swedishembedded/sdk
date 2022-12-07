@@ -7,6 +7,7 @@ sample:
   name: Verilog integration sample
 tests:
   samples.lib.renode.interrupts:
+    build_only: true
     integration_platforms:
       - custom_board
       - native_posix
