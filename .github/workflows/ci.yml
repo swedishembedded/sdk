@@ -21,7 +21,7 @@ jobs:
     - name: Prepare
       run: |
           apt-get update
-          apt-get install git-lfs
+          apt-get install -qy tex-gyre
     - name: Configure git to trust the workspace despite the different owner
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -37,6 +37,7 @@ jobs:
         /opt/toolchains/zephyr-sdk-0.15.1/setup.sh -t all -h -c
         ./scripts/gen-tags cscope
         ./scripts/check
+        ./scripts/build-doc --sdk-only
         ./scripts/build
         ./scripts/test
         robot post-build
