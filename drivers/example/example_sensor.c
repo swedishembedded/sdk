@@ -58,7 +58,7 @@ static int _example_sensor_spi_read_reg(struct example_sensor *self, uint8_t reg
 		return -EIO;
 	}
 
-	return count;
+	return (int)count;
 }
 
 static void _example_sensor_irq_work(struct k_work *item)
@@ -71,7 +71,7 @@ static void _example_sensor_irq_work(struct k_work *item)
 		return;
 	}
 
-	self->temperature = (int16_t)rx[0] << 8 | rx[1];
+	self->temperature = (int16_t)((int16_t)rx[0] << 8 | rx[1]);
 	k_sem_give(&self->sample_ready);
 }
 
