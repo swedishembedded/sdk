@@ -37,6 +37,6 @@ manifest:
       remote: swedishembedded
     - name: testing
       path: modules/test/testing
-      revision: v0.34.0
+      revision: v0.34.3
       remote: swedishembedded
       import: true
