@@ -1,0 +1,13 @@
+[options]
+mode prove
+depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -formal src/plc.v
+prep -top src/plc
+
+[files]
+src/plc.v

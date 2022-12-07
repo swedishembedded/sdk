@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2022 Martin Schröder <info@swedishembedded.com>
+
+# This is a small helper script that simplifies using clang-tidy with zephyr It
+# filters out the compile commands, cleans up compilation flags unknown to
+# clang-tidy and then runs clang-tidy explicitly on each file that was part of
+# the build.
+
+import json
+import os
+import re
+import argparse
+import traceback
+import subprocess
+
+if os.path.exists("/usr/bin/run-clang-tidy-15"):
+    CLANG_TIDY="/usr/bin/run-clang-tidy-15"
+elif os.path.exists("/usr/bin/run-clang-tidy-12"):
+    CLANG_TIDY="/usr/bin/run-clang-tidy-12"
+elif os.path.exists("/usr/bin/run-clang-tidy"):
+    CLANG_TIDY="/usr/bin/run-clang-tidy"
+else:
+    print("run-clang-tidy utility not found. Install clang-tidy package")
+    os._exit(1)
+
+ROOT_DIR = os.path.realpath(os.path.dirname(os.path.realpath(__file__))+"/../")
+parser = argparse.ArgumentParser()
+parser.add_argument('--build-dir', help='Path to build directory containing compile commands')
+parser.add_argument('--path', help='Only check sources under path (relative to root dir)')
+parser.add_argument('--fix', action="store_true", help='Apply fixes')
+args = parser.parse_args()
+
+if args.build_dir is None:
+    print("Usage: run-clang-tidy --build-dir <dir>")
+    os._exit(1)
+
+BUILD_DIR=ROOT_DIR+"/"+args.build_dir if not os.path.isabs(args.build_dir) else args.build_dir
+COMPILE_COMMANDS=BUILD_DIR+"/compile_commands.json"
+COMPILE_COMMANDS_FULL=BUILD_DIR+"/compile_commands_full.json"
+
+if not os.path.exists(COMPILE_COMMANDS):
+    print("Compilation databse doesn't exist (expected to find it in %s)" % (COMPILE_COMMANDS))
+    print("Either build the project before running this command or ensure that compilation database is generated!")
+    os._exit(1)
+
+print("Running static analysis using %s" % (COMPILE_COMMANDS))
+
+# We have to filter the compile commands file so we will back it up and then copy it back again
+os.rename(COMPILE_COMMANDS, COMPILE_COMMANDS_FULL)
+try:
+    with open(COMPILE_COMMANDS_FULL, "r") as fp:
+        db = json.load(fp)
+        # Filter out files we want (by default project only files)
+        project_files = [i for i in db if re.match(r"^%s/%s" % (ROOT_DIR, args.path or ""), i["file"])]
+        # Filter out zephyr generated files
+        project_files = [i for i in project_files if not re.match(r"^%s/.*/zephyr/" % (ROOT_DIR), i["file"])]
+        commands = []
+        for i in project_files:
+            i["command"] = i["command"].replace("-fno-reorder-functions", "")
+            i["command"] = i["command"].replace("-mfp16-format=ieee", "")
+            i["command"] = i["command"].replace("-fno-defer-pop", "")
+            i["command"] = i["command"].replace("--param=min-pagesize=0", "")
+            i["command"] = i["command"].replace("-specs=nano.specs", "")
+            i["command"] = i["command"].replace("-Wno-old-style-declaration", "")
+            i["command"] = i["command"].replace("-Wformat-truncation", "")
+            commands.append(i)
+        with open(COMPILE_COMMANDS, 'w') as outfile:
+            json.dump(commands, outfile)
+
+        # Now run clang tidy and get result of the process execution
+        subprocess.check_call("(cd %s; %s -j 4 -quiet -header-filter=%s %s )" % (
+            BUILD_DIR,
+            CLANG_TIDY,
+            ROOT_DIR+"/.*",
+            "-fix" if args.fix else ""
+        ), shell=True, stdout=None, stderr=subprocess.STDOUT)
+
+        # Copy back the original compilation database
+        os.rename(COMPILE_COMMANDS_FULL, COMPILE_COMMANDS)
+except Exception as e:
+    traceback.print_exc()
+    os.rename(COMPILE_COMMANDS_FULL, COMPILE_COMMANDS)
+    os._exit(1)
+
+os._exit(0)

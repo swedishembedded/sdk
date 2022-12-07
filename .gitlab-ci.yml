@@ -6,6 +6,9 @@ default:
   tags:
     - docker
 
+cache:
+    key: $CI_COMMIT_REF_SLUG
+
 stages:
  - check
  - build
@@ -31,6 +34,7 @@ build:
     stage: build
     dependencies:
         - check
+    coverage: /^\s*lines:\s*\d+.\d+\%/
     artifacts:
         paths:
             - build-doc/**/*.pdf
@@ -39,6 +43,13 @@ build:
             - release/*
         expire_in: 1 week
         when: always
+        reports:
+            coverage_report:
+                coverage_format: cobertura
+                path: build-tests/coverage.xml
+            junit:
+                # Report from unit and integration testing
+                - build-tests/twister_report.xml
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:

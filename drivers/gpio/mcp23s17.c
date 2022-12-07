@@ -157,7 +157,7 @@ static int _mcp23s17_read_regs(const struct device *dev, uint8_t reg, uint8_t *b
 			.len = sizeof(buffer_tx),
 		},
 		{
-			.buf = (uint8_t *)buf,
+			.buf = buf,
 			.len = size,
 		},
 	};
@@ -228,7 +228,8 @@ static int _mcp23s17_write_regs(const struct device *dev, uint8_t reg, uint8_t *
  *
  * @return 0 if successful, failed otherwise
  */
-static int _mcp23s17_pin_configure_direction(const struct device *dev, uint32_t pin, int flags)
+static int _mcp23s17_pin_configure_direction(const struct device *dev, uint32_t pin,
+					     gpio_flags_t flags)
 {
 	struct mcp23s17 *self = (struct mcp23s17 *)dev->data;
 
@@ -280,7 +281,8 @@ static int _mcp23s17_pin_configure_direction(const struct device *dev, uint32_t 
  *
  * @return 0 if successful, failed otherwise
  */
-static int _mcp23s17_pin_configure_pullup(const struct device *dev, uint32_t pin, int flags)
+static int _mcp23s17_pin_configure_pullup(const struct device *dev, uint32_t pin,
+					  gpio_flags_t flags)
 {
 	struct mcp23s17 *self = (struct mcp23s17 *)dev->data;
 
@@ -657,7 +659,7 @@ static int _mcp23s17_init(const struct device *dev)
 		}
 	}
 
-	LOG_INF("MCP23S17 initialized (%p)", self->dev);
+	LOG_INF("ready");
 	return 0;
 }
 
