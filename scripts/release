@@ -70,7 +70,6 @@ mkdir -p release
 cp -r spdx release
 cp -r zephyr/zephyr.* release
 cp zephyr/.config release
-cp $ROOT/build-doc/latex/sdk/Swedish-Embedded-Platform-SDK-v$VERSION.pdf release/reference.pdf
 # Pack release
 tar -czf $OUTPUT_ARCHIVE release/*
 popd

@@ -27,8 +27,9 @@ Gitlab merge request template has been added
 	File Should Exist  ${CURDIR}/../../.gitlab/merge_request_templates/default.md
 
 Gitlab CI has all required jobs
-	Gitlab CI has a check job
-	Gitlab CI has a build job
+	Gitlab CI has a integrity job
+	Gitlab CI has a documentation job
+	Gitlab CI has a applications job
 	Gitlab CI has a test job
 	Gitlab CI has a build_from_scratch job
 
