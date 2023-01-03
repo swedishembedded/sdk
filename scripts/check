@@ -59,7 +59,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo -e "Checking COMMIT_RANGE: ${COMMIT_RANGE}"
-git log --oneline --graph --decorate --abbrev-commit ${COMMIT_RANGE}
+PAGER=cat git log --oneline --graph --decorate --abbrev-commit ${COMMIT_RANGE}
 echo -e "---------------------------------------------------"
 
 ${ZEPHYR_BASE}/scripts/ci/check_compliance.py \
