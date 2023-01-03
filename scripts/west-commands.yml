@@ -1,0 +1,6 @@
+west-commands:
+  - file: scripts/west/simulate.py
+    commands:
+      - name: simulate
+        class: Simulate
+        help: run local renode simulation
