@@ -5,8 +5,10 @@
 # Training: https://swedishembedded.com/tag/training
 
 import os
+import pathlib
 
 PROJECT_ROOT = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
+SWEDISH_EMBEDDED_SDK = pathlib.Path(PROJECT_ROOT)
 ROOT_DIR = PROJECT_ROOT
 INTEGRITY_DIR = ROOT_DIR + "/integrity/"
 

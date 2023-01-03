@@ -10,9 +10,11 @@ sys.path.insert(1, "../zephyr/scripts/west_commands")
 import pathlib
 import subprocess
 
+from build import Build
 from textwrap import dedent
 from west.commands import WestCommand  # your extension must subclass this
 from west import log  # use this for user output
+from west.configuration import config
 from run_common import get_build_dir, rebuild
 
 
@@ -28,6 +30,7 @@ class Simulate(WestCommand):
                 than existing SUPPORTED_EMU option for simulating on renode"""
             ),
         )
+        self.build = Build()
 
     def do_add_parser(self, parser_adder):
         parser = parser_adder.add_parser(
@@ -35,11 +38,11 @@ class Simulate(WestCommand):
         )
 
         parser.add_argument("-s", "--source_dir", help="an optional argument")
-        parser.add_argument("-b", "--build_dir", help="build directory")
+        parser.add_argument("-d", "--build_dir", help="build directory")
         parser.add_argument(
-            "-p",
-            "--platform",
-            default="bl654_dvk",
+            "-b",
+            "--board",
+            default='',
             help="platform for simulation (boards/<platform>/<config>.resc)",
         )
         parser.add_argument(
@@ -56,6 +59,6 @@ class Simulate(WestCommand):
         rebuild(self, build_dir, args)
         run_base = ["renode"]
         run_base.extend(
-            [str(pathlib.Path("boards") / args.platform / str(args.config + ".resc"))]
+            [str(pathlib.Path("boards") / args.board / str(args.config + ".resc"))]
         )
         subprocess.check_call(run_base)
