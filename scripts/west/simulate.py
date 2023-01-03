@@ -42,7 +42,7 @@ class Simulate(WestCommand):
         parser.add_argument(
             "-b",
             "--board",
-            default='',
+            default="",
             help="platform for simulation (boards/<platform>/<config>.resc)",
         )
         parser.add_argument(

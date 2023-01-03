@@ -19,6 +19,7 @@ from west import log
 from west.configuration import config
 from run_common import get_build_dir, rebuild
 
+
 class Integrity(WestCommand):
     def __init__(self):
         super(Integrity, self).__init__(
@@ -43,7 +44,17 @@ class Integrity(WestCommand):
     def do_run(self, args, unknown_args):
         run_base = ["robot"]
         run_base.extend(["-V", str(pathlib.Path("integrity") / "variables.py")])
-        run_base.extend([str(pathlib.Path("..") / "sdk" / "integrity" / "directory-structure" / "basic.robot")])
+        run_base.extend(
+            [
+                str(
+                    pathlib.Path("..")
+                    / "sdk"
+                    / "integrity"
+                    / "directory-structure"
+                    / "basic.robot"
+                )
+            ]
+        )
         subprocess.check_call(run_base)
 
         run_base = [str(pathlib.Path(PROJECT_ROOT) / "scripts" / "check")]
