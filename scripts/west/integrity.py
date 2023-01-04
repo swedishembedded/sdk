@@ -42,20 +42,20 @@ class Integrity(WestCommand):
         return parser  # gets stored as self.parser
 
     def do_run(self, args, unknown_args):
-        run_base = ["robot"]
-        run_base.extend(["-V", str(pathlib.Path("integrity") / "variables.py")])
-        run_base.extend(
-            [
-                str(
-                    pathlib.Path("..")
-                    / "sdk"
-                    / "integrity"
-                    / "directory-structure"
-                    / "basic.robot"
-                )
-            ]
-        )
-        subprocess.check_call(run_base)
+        if pathlib.Path(SWEDISH_EMBEDDED_SDK) != pathlib.Path(PROJECT_ROOT):
+            run_base = ["robot"]
+            run_base.extend(["-V", str(pathlib.Path("integrity") / "variables.py")])
+            run_base.extend(
+                [
+                    str(
+                        pathlib.Path(SWEDISH_EMBEDDED_SDK)
+                        / "integrity"
+                        / "directory-structure"
+                        / "basic.robot"
+                    )
+                ]
+            )
+            subprocess.check_call(run_base)
 
         run_base = [str(pathlib.Path(PROJECT_ROOT) / "scripts" / "check")]
         run_base.extend(["-c", "origin/main..HEAD"])
