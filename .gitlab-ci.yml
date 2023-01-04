@@ -26,7 +26,7 @@ integrity:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
         - ./scripts/init
-        - ./scripts/check
+        - west integrity
 
 # This job builds applications
 documentation:

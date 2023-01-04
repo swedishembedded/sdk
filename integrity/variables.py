@@ -7,8 +7,10 @@
 import os
 import pathlib
 
-PROJECT_ROOT = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
-SWEDISH_EMBEDDED_SDK = pathlib.Path(PROJECT_ROOT)
+PROJECT_ROOT = os.getcwd()
+SWEDISH_EMBEDDED_SDK = pathlib.Path(
+    os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + "/../")
+)
 ROOT_DIR = PROJECT_ROOT
 INTEGRITY_DIR = ROOT_DIR + "/integrity/"
 
