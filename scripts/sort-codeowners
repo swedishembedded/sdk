@@ -4,7 +4,7 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+ROOT="$PWD"
 
 LC_ALL=C sort -u -o \
 	${ROOT}/CODEOWNERS \
