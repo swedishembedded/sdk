@@ -6,6 +6,7 @@
 /latex*/
 /CMakeCache.txt
 /doc/_build/
+/samples/**/build/
 *.so
 *.elf
 

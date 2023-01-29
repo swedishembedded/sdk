@@ -7,6 +7,8 @@
 set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "SDK base directory")
 # put it also in the env scope
 set(ENV{PROJECT_BASE} ${CMAKE_CURRENT_LIST_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/rust/")
+enable_language(Rust)
 
 add_subdirectory(cmake)
 add_subdirectory(drivers)
