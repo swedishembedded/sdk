@@ -3,12 +3,6 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-get_cmake_property(_variableNames VARIABLES)
-list(SORT _variableNames)
-foreach(_variableName ${_variableNames})
-  message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
-
 if(NOT CMAKE_Rust_COMPILER)
   find_package(Rust)
   if(RUST_FOUND)

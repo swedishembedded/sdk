@@ -9,8 +9,9 @@ sample:
   name: rust hello world
 common:
     tags: introduction
+    platform_allow: qemu_cortex_m3
     integration_platforms:
-      - native_posix
+      - qemu_cortex_m3
     harness: console
     harness_config:
       type: one_line
