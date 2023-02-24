@@ -23,7 +23,7 @@ development. It provides:
 - **Application development**: infrastructure for easily importing this SDK into
   your application and using it to build your next product.
 
-.. image:: doc/introduction/sdk-overview.png
+.. image:: doc/img/sdk-overview.png
 
 Related Projects
 ################
