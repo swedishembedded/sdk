@@ -2,6 +2,8 @@
 
 Describe what has been done and what problems are being solved by this MR.
 
+%{first_commit}
+
 ## Proof
 
 Proof in form of screenshots or commands that can be executed to prove that
@@ -15,5 +17,4 @@ this mr is correct (for example for running specific unit/integration tests)
   Make sure you create tickets for any outstanding tasks and paste links to
   these tasks here.
 
-Closes #xxx
-Related to #xxx
+Closes #xxx or Related to #xxx
