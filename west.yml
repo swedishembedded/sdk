@@ -3,6 +3,7 @@
 manifest:
   self:
     path: sdk
+    west-commands: scripts/west-commands.yml
 
   remotes:
     - name: swedishembedded

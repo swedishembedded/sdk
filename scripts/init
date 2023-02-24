@@ -10,6 +10,9 @@ ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
 # return codes every single time!)
 set -e
 
+# Show commands being executed
+set -x
+
 # Configure git hook
 git config core.hooksPath .githooks
 

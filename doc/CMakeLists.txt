@@ -224,6 +224,7 @@ add_dependencies(zephyr-all zephyr-devicetree)
 add_docset(sdk)
 
 add_docset(renode-docs)
+<<<<<<< HEAD
 
 add_docset(mcuboot)
 
@@ -231,6 +232,17 @@ add_docset(develop)
 
 add_docset(userspace)
 
+=======
+
+add_docset(mcuboot)
+
+add_docset(develop)
+
+add_docset(userspace)
+
+add_docset(testing)
+
+>>>>>>> origin/main
 add_custom_target(
   copy-content
   COMMAND ${CMAKE_COMMAND} -E copy
@@ -251,7 +263,7 @@ add_dependencies(
   merge-search-indexes
   sdk-pdf
   mcuboot-pdf
-  zephyr-pdf
+  # zephyr-pdf
   develop-pdf
   userspace-pdf
   # renode-docs-pdf
@@ -267,4 +279,5 @@ add_dependencies(
   zephyr-all
   develop-all
   userspace-all
-  renode-docs-all)
+  renode-docs-all
+  testing-all)

@@ -1,11 +1,6 @@
-#!/bin/bash
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-ROOT="$PWD"
-
-LC_ALL=C sort -u -o \
-	${ROOT}/CODEOWNERS \
-	${ROOT}/CODEOWNERS
+cargo_build(NAME rust_lib)

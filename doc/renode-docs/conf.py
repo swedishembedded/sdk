@@ -49,6 +49,7 @@ templates_path = [str(SWE_BASE / "doc" / "_theme" / "sphinx_swe_theme")]
 
 latex_logo = str(RENODE_DOCS_BASE / "source" / "renode-sphinx" / "logo-latex.pdf")
 latex_additional_files = [
+    str(RENODE_DOCS_BASE / "source" / "**" / "img" / "*.png"),
     str(RENODE_DOCS_BASE / "source" / "renode-sphinx" / "renode.sty"),
     latex_logo,
 ]

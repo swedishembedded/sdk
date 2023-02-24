@@ -23,7 +23,6 @@ Boards have proper directory structure
 	Directory has boards structure ${ROOT_DIR}/boards
 CMake have proper directory structure
 	Directory has cmake structure ${ROOT_DIR}/cmake
-
 Drivers have proper directory structure
 	Set Test Variable  ${driverbase}  ${ROOT_DIR}/drivers
 	Directory has drivers structure ${driverbase}
