@@ -32,9 +32,7 @@ jobs:
         # Workaround to provide additional free space.
         # https://github.com/actions/runner-images/issues/2840
         df -h
-        sudo apt-get remove -y '^dotnet-.*'
-        sudo apt-get remove -y 'php.*'
-        sudo apt-get remove -y azure-cli google-cloud-sdk google-chrome-stable firefox powershell mono-devel android-sdk
+        sudo apt-get remove -y dotnet-* php* azure-cli google-cloud-sdk google-chrome-stable firefox powershell mono-devel android-sdk
         sudo apt-get autoremove -y
         sudo apt-get clean
         sudo rm -rf /usr/share/dotnet
