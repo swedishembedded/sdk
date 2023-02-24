@@ -224,15 +224,6 @@ add_dependencies(zephyr-all zephyr-devicetree)
 add_docset(sdk)
 
 add_docset(renode-docs)
-<<<<<<< HEAD
-
-add_docset(mcuboot)
-
-add_docset(develop)
-
-add_docset(userspace)
-
-=======
 
 add_docset(mcuboot)
 
@@ -242,7 +233,6 @@ add_docset(userspace)
 
 add_docset(testing)
 
->>>>>>> origin/main
 add_custom_target(
   copy-content
   COMMAND ${CMAKE_COMMAND} -E copy
