@@ -25,22 +25,6 @@ jobs:
     - name: Configure git to trust the workspace despite the different owner
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
-    - name: Free up disk space
-      run: |
-        set -x
-        # Delete unnecessary files to free up space
-        # Workaround to provide additional free space.
-        # https://github.com/actions/runner-images/issues/2840
-        df -h
-        sudo apt-get remove -y dotnet-* php* azure-cli google-cloud-sdk google-chrome-stable firefox powershell mono-devel android-sdk
-        sudo apt-get autoremove -y
-        sudo apt-get clean
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /opt/ghc
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "/usr/local/lib/android"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-        df -h
     - name: Checkout
       uses: actions/checkout@v2
       with:
