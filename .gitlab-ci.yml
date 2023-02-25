@@ -1,6 +1,5 @@
 image:
     name: swedishembedded/build:v0.24.6
-    pull_policy: if-not-present
 
 default:
   tags:
