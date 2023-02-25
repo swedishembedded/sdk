@@ -20,6 +20,7 @@ ALL_DOCSETS = {
     "mcuboot": ("Bootloader", "index", "mcuboot"),
     "zephyr": ("Kernel", "index", "zephyr"),
     # "userspace": ("Libraries", "index", "userspace"),
+    "testing": ("CMock/Unity", "index", "testing"),
     "renode-docs": ("Simulator", "index", "renode-docs"),
     # "docker-image": ("Docker Image", "index", "docker-image"),
 }

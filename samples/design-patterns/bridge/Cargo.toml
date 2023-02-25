@@ -1,0 +1,11 @@
+[package]
+name = "rust_lib"
+version = "0.1.0"
+authors = ["Martin Schröder <martin.schroder@swedishembedded.com>"]
+edition = "2021"
+
+[lib]
+path = "rust/lib.rs"
+crate-type = ["staticlib"]
+
+[dependencies]

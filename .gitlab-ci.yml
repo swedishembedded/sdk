@@ -1,5 +1,5 @@
 image:
-    name: swedishembedded/build:v0.24.5
+    name: swedishembedded/build:v0.24.6
     pull_policy: if-not-present
 
 default:
@@ -10,13 +10,12 @@ cache:
     key: $CI_COMMIT_REF_SLUG
 
 stages:
- - check
  - build
  - test
 
 # This job runs all code checks, unit and integration tests
-check:
-    stage: check
+integrity:
+    stage: build
     artifacts:
         paths:
             - report.html
@@ -27,17 +26,28 @@ check:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
         - ./scripts/init
-        - ./scripts/check
+        - west integrity
 
 # This job builds applications
-build:
+documentation:
     stage: build
-    dependencies:
-        - check
-    coverage: /^\s*lines:\s*\d+.\d+\%/
     artifacts:
         paths:
             - build-doc/**/*.pdf
+        expire_in: 1 week
+        when: always
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    script:
+        # for docs. Move to docker image.
+        - apt-get update && apt-get install -qy tex-gyre
+        - ./scripts/init
+        - ./scripts/build-doc --sdk-only
+
+applications:
+    stage: build
+    artifacts:
+        paths:
             - build-apps/**/zephyr.elf
             - build-release/**/release/
             - release/*
@@ -53,22 +63,25 @@ build:
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
-        # for docs. Move to docker image.
-        - apt-get update && apt-get install -qy tex-gyre
         - ./scripts/init
-        - ./scripts/build-doc --sdk-only
         - ./scripts/build
 
 # This job runs all system tests on built applications
 test:
     stage: test
-    dependencies:
-        - build
+    coverage: /^\s*lines:\s*\d+.\d+\%/
     artifacts:
         paths:
             - build-tests/coverage*
         expire_in: 1 week
         when: always
+        reports:
+            coverage_report:
+                coverage_format: cobertura
+                path: build-tests/coverage.xml
+            junit:
+                # Report from unit and integration testing
+                - build-tests/twister_report.xml
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:
@@ -79,7 +92,7 @@ test:
 # where we start with a fresh ubuntu image
 build_from_scratch:
     image: ubuntu:latest
-    stage: check
+    stage: build
     rules:
         - if: $CI_PIPELINE_SOURCE == "web"
         - if: $CI_PIPELINE_SOURCE == "schedule"

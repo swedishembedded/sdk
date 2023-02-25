@@ -5,3 +5,4 @@
 
 include(version.cmake)
 include(clang-tidy.cmake)
+include(CMakeCargo)

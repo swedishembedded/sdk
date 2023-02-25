@@ -31,4 +31,3 @@ App release contains all necessary files
 	File Should Exist  ${RELEASE_BUILD_DIR}/release/spdx/build.spdx
 	File Should Exist  ${RELEASE_BUILD_DIR}/release/zephyr.elf
 	File Should Exist  ${RELEASE_BUILD_DIR}/release/zephyr.hex
-	File Should Exist  ${RELEASE_BUILD_DIR}/release/reference.pdf
