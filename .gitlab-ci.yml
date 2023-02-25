@@ -1,5 +1,5 @@
 image:
-    name: swedishembedded/build:v0.24.5
+    name: swedishembedded/build:v0.24.6
 
 default:
   tags:
@@ -52,6 +52,13 @@ applications:
             - release/*
         expire_in: 1 week
         when: always
+        reports:
+            coverage_report:
+                coverage_format: cobertura
+                path: build-tests/coverage.xml
+            junit:
+                # Report from unit and integration testing
+                - build-tests/twister_report.xml
     rules:
         - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     script:

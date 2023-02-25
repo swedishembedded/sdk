@@ -13,7 +13,6 @@ sphinx-ncs-theme>=1.0.3,<1.1
 pygments>=2.9
 sphinx-notfound-page
 sphinx-copybutton
-
 recommonmark==0.6.0
 CommonMark>=0.9.1
 m2r2>=0.3.2

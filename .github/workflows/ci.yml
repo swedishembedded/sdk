@@ -16,12 +16,12 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     container:
-        image: docker.io/swedishembedded/build:latest
+        image: docker.io/swedishembedded/build:v0.24.6
     steps:
     - name: Prepare
       run: |
           apt-get update
-          apt-get install git-lfs
+          apt-get install -qy tex-gyre
     - name: Configure git to trust the workspace despite the different owner
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -33,11 +33,11 @@ jobs:
     - name: Build everything
       run: |
         ./scripts/init
-        robot scrum
         # for some reason with github we must do this
-        /opt/toolchains/zephyr-sdk-0.14.2/setup.sh -t all -h -c
+        /opt/toolchains/zephyr-sdk-0.15.1/setup.sh -t all -h -c
         ./scripts/gen-tags cscope
         ./scripts/check
+        ./scripts/build-doc --sdk-only
         ./scripts/build
         ./scripts/test
         robot post-build
