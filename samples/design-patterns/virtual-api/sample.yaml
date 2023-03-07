@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
+
+sample:
+  name: Virtual API Pattern
+tests:
+  samples.patterns.virtualapi:
+    platform_allow: qemu_cortex_m3
+    build_only: true
+    integration_platforms:
+      - qemu_cortex_m3
+      - qemu_x86_64
