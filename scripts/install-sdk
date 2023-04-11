@@ -26,11 +26,11 @@ fi
 
 # Based on the docker image script
 # When updating this script, consult the docker script
-ZSDK_VERSION=0.14.2
+ZSDK_VERSION=0.15.2
 DOXYGEN_VERSION=1.9.4
 CMAKE_VERSION=3.20.5
 RENODE_VERSION=1.13.0
-LLVM_VERSION=12
+LLVM_VERSION=14
 BSIM_VERSION=v1.0.3
 WGET_ARGS="-q --show-progress --progress=bar:force:noscroll --no-check-certificate"
 
@@ -72,6 +72,7 @@ apt-get -y update && \
 		lcov \
 		libglib2.0-dev \
 		libgtk2.0-0 \
+		gettext \
 		liblocale-gettext-perl \
 		libncurses5-dev \
 		libpcap-dev \
@@ -244,7 +245,9 @@ gem install \
 # Dependencies for code checking
 apt-get update && \
 	apt-get -qy install --no-install-recommends \
-	clang-format libclang-12-dev
+	clang-format \
+	clang-tidy \
+	libclang-14-dev
 
 # Dependencies for ledger
 apt-get update && \
@@ -261,11 +264,15 @@ apt-get update && \
 	apt-get -qy install --no-install-recommends \
 	octave
 
+# Install rust packages
+apt-get -qy install rust-all
+
 # Clean up stale packages
 apt-get clean -y && \
 	apt-get autoremove --purge -y
 
 # Install sdk for the user running this script using sudo
+sudo chown -R $SUDO_USER:$SUDO_GROUP /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/
 sudo -u $SUDO_USER /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -t all -h -c
 
 # Set the locale
