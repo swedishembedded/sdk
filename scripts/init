@@ -13,9 +13,6 @@ set -e
 # Show commands being executed
 set -x
 
-# Configure git hook
-git config core.hooksPath .githooks
-
 # Remove any existing west config (since we are reinitializing)
 if [[ -d ../.west ]]; then
 	rm -rf ../.west
@@ -35,11 +32,17 @@ export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 pip3 install -r ../zephyr/scripts/requirements.txt
 pip3 install -r ./scripts/requirements-doc.txt
 
+pip3 install pre-commit
+
 # Install cmake tools for cmake-format
 pip3 install cmakelang
 
 # Install robot framework
 pip3 install robotframework
+
+# Install pre commit instead of local hooks
+git config --unset-all core.hooksPath || true
+pre-commit install
 
 . ../zephyr/zephyr-env.sh
 

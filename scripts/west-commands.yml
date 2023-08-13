@@ -4,8 +4,3 @@ west-commands:
       - name: simulate
         class: Simulate
         help: run local renode simulation
-  - file: scripts/west/integrity.py
-    commands:
-      - name: integrity
-        class: Integrity
-        help: check repository integrity

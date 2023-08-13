@@ -26,14 +26,10 @@ description: |
 
 compatible: "example-sensor"
 
-include: [ "base.yaml", "spi-device.yaml" ]
+include: ["base.yaml", "spi-device.yaml"]
 
 properties:
   gpios:
     type: phandle-array
     required: true
     description: GPIO connected to the sensor
-  label:
-    required: true
-    type: string
-    description: Driver label

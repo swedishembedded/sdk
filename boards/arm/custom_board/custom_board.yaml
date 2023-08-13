@@ -24,4 +24,4 @@ supported:
   - watchdog
 ram: 96
 flash: 512
-simulation: robotbench
+simulation: renode

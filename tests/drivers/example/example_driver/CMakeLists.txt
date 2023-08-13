@@ -1,6 +1,5 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright 2022 Martin Schröder <info@swedishembedded.com>
-# Consulting: https://swedishembedded.com/go
+# SPDX-License-Identifier: Apache-2.0 Copyright 2022 Martin Schröder
+# <info@swedishembedded.com> Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
 cmake_minimum_required(VERSION 3.20.0)
@@ -9,7 +8,7 @@ project(test)
 
 if(CONFIG_CMOCK)
   unity_generate_test_runner(src/unit.c)
-  cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/device.h .)
+  # cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/device.h .)
   cmock_generate_mocks(${ZEPHYR_BASE}/include/zephyr/kernel.h .)
   target_sources(app PRIVATE src/unit.c)
 else()

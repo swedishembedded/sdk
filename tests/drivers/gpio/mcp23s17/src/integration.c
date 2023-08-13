@@ -5,13 +5,13 @@
  * Training: https://swedishembedded.com/tag/training
  **/
 
-#include <drivers/gpio.h>
+#include <zephyr/drivers/gpio.h>
 #include <unity.h>
 
 void test_mcp23s17_is_connected(void)
 {
 	// we can check whether the device works by setting a pin and then getting it
-	const struct device *gpio = device_get_binding("GPIO_E0");
+	const struct device *gpio = device_get_binding("mcp23s17@0");
 
 	TEST_ASSERT_NOT_NULL(gpio);
 	TEST_ASSERT_EQUAL(0, gpio_pin_get(gpio, 1));

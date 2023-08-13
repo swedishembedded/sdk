@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: MIT
+# ~~~
 # Copyright (c) 2018 Andrew Gaspar
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
+# ~~~
 
-set(_CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${CMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
+set(_backup_program_path ${CMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)
-set(_CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${CMAKE_FIND_ROOT_PATH_MODE_INCLUDE})
+set(_backup_include_path ${CMAKE_FIND_ROOT_PATH_MODE_INCLUDE})
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH)
 
 if(CMAKE_HOST_WIN32)
@@ -64,14 +66,14 @@ find_program(
   PATH_SUFFIXES "bin")
 mark_as_advanced(RUSTUP_EXECUTABLE)
 
-set(RUST_FOUND
+set(_RUST_FOUND
     FALSE
     CACHE INTERNAL "")
 
 if(CARGO_EXECUTABLE
    AND RUSTC_EXECUTABLE
    AND RUSTDOC_EXECUTABLE)
-  set(RUST_FOUND
+  set(_RUST_FOUND
       TRUE
       CACHE INTERNAL "")
 
@@ -87,9 +89,10 @@ if(CARGO_EXECUTABLE
                        "${RUSTC_VERSION}")
 endif()
 
-if(NOT RUST_FOUND)
+if(NOT _RUST_FOUND)
   message(FATAL_ERROR "Could not find Rust!")
 endif()
 
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${_CMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${_CMAKE_FIND_ROOT_PATH_MODE_INCLUDE})
+set(RUST_FOUND ${_RUST_FOUND})
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${_backup_program_path})
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${_backup_include_path})

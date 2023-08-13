@@ -66,7 +66,7 @@ static void irq_handler(const struct device *dev, struct gpio_callback *cb, uint
 	printk("IRQ triggered (INTF: %08x)\n", intf);
 }
 
-void main(void)
+int main(void)
 {
 	int ret;
 
@@ -78,35 +78,35 @@ void main(void)
 
 	if (!device_is_ready(pwm)) {
 		printk("Error: PWM device %s is not ready\n", pwm->name);
-		return;
+		return -1;
 	}
 
 	ret = pwm_set(pwm, 1, 1000, 500, 0);
 	if (ret < 0) {
 		printk("Error %d: failed to set pulse width\n", ret);
-		return;
+		return -1;
 	}
 
 	const struct device *dev = device_get_binding("GPIOB");
 
 	if (!dev) {
 		printk("Could not get GPIO\n");
-		return;
+		return -1;
 	}
 
 	if (gpio_pin_configure(dev, IRQ_PIN, GPIO_INPUT) != 0) {
 		printk("Error initializing INTA gpio\n");
-		return;
+		return -1;
 	}
 	if (gpio_pin_interrupt_configure(dev, IRQ_PIN, GPIO_INT_EDGE_TO_ACTIVE) != 0) {
 		printk("Error configuring interrupt on INTA gpio\n");
-		return;
+		return -1;
 	}
 
 	gpio_init_callback(&app.irq_cb, irq_handler, BIT(IRQ_PIN));
 	if (gpio_add_callback(dev, &app.irq_cb) != 0) {
 		printk("Error setting callback for GPIO\n");
-		return;
+		return -1;
 	}
 
 	//struct pid pid;
@@ -161,4 +161,5 @@ void main(void)
 		vdev->tick = 1;
 		k_sleep(K_MSEC(10));
 	}
+	return 0;
 }

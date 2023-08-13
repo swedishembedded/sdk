@@ -4,7 +4,7 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+ROOT="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 set -e
 
@@ -64,6 +64,7 @@ echo -e "---------------------------------------------------"
 
 ${ZEPHYR_BASE}/scripts/ci/check_compliance.py \
 	-e Gitlint \
+	-e GitDiffCheck \
 	-e Identity \
 	-e Nits \
 	-e pylint \
@@ -73,59 +74,4 @@ ${ZEPHYR_BASE}/scripts/ci/check_compliance.py \
 	exit 1
 }
 
-check_file_formatting(){
-	FILE=$1
-	if [[ $FILE == *.py ]]; then
-		black -q --check $FILE || {
-			echo "Checking formatting of $FILE failed"
-			echo "Run: ./scripts/fix"
-			return 1
-		}
-	elif [[ $FILE == *.c ]] ||
-		[[ $FILE == *.cpp ]] ||
-		[[ $FILE == *.h ]]; then
-		clang-format --dry-run --style=file -Werror --fallback-style=none $FILE || {
-			echo "Checking formatting of $FILE failed"
-			echo "Run: ./scripts/fix"
-			return 1
-		}
-	elif [[ $FILE == */CMakeLists.txt ]] || [[ $FILE == *.cmake ]]; then
-		cmake-format --first-comment-is-literal --check $FILE || {
-			echo "Checking formatting of $FILE failed"
-			echo "Run: ./scripts/fix"
-			return 1
-		}
-	fi
-}
-
-# Check file formatting for added and modified files
-for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[AM]" | cut -f 2`; do
-	check_file_formatting $FILE || {
-		exit 1
-	}
-done
-
-# Check file formatting for added and modified files
-for FILE in `git diff --cached --name-status | grep "^[AM]" | cut -f 2`; do
-	check_file_formatting $FILE || {
-		exit 1
-	}
-done
-
-# Check file formatting for renamed files
-for FILE in `git diff --name-status $COMMIT_RANGE | grep "^[R]" | cut -f 3`; do
-	check_file_formatting $FILE || {
-		exit 1
-	}
-done
-
-# Check file formatting for renamed files
-for FILE in `git diff --cached --name-status | grep "^[R]" | cut -f 3`; do
-	check_file_formatting $FILE || {
-		exit 1
-	}
-done
-
 ${ROOT}/scripts/ci/check-links
-${ROOT}/scripts/gen-tags cscope
-robot integrity

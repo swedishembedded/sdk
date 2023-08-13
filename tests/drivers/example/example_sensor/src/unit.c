@@ -11,7 +11,7 @@
 
 #include <unity.h>
 #include <example/example.h>
-#include <device.h>
+#include <zephyr/device.h>
 #include <cmock_unit.h>
 #include "../../../../../drivers/example/example_sensor.c"
 

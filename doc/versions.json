@@ -1,14 +1,14 @@
 {
-  "VERSIONS": [
-    "latest",
-    "0.36.0"
-  ],
-  "COMPONENTS_BY_VERSION": {
-    "latest": {
-      "zephyr": "3.1.99"
-    },
-    "0.36.0": {
-      "zephyr": "3.1.99"
-    }
-  }
+	"VERSIONS": [
+		"latest",
+		"0.36.0"
+	],
+	"COMPONENTS_BY_VERSION": {
+		"latest": {
+			"zephyr": "3.1.99"
+		},
+		"0.36.0": {
+			"zephyr": "3.1.99"
+		}
+	}
 }

@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: MIT
+# ~~~
 # Copyright (c) 2018 Andrew Gaspar
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
-
+# ~~~
 #
 # Usage: rustc [OPTIONS] INPUT
 #
@@ -16,10 +17,11 @@
 # of crates for the compiler to emit --crate-name NAME   Specify the name of the
 # crate being built --emit [asm|llvm-bc|llvm-ir|obj|link|dep-info] Comma
 # separated list of types of output for the compiler to emit --print
-# [crate-name|file-names|sysroot|cfg|target-list|target-cpus|target-features|relocation-models|code-models]
-# Comma separated list of compiler information to print on stdout -g Equivalent
-# to -C debuginfo=2 -O                  Equivalent to -C opt-level=2 -o FILENAME
-# Write output to <filename> --out-dir DIR       Write output to compiler-chosen
+# [crate-name|file-names| sysroot|cfg|target-list|
+# target-cpus|target-features|relocation-models|code-models] Comma separated
+# list of compiler information to print on stdout -g Equivalent to -C
+# debuginfo=2 -O                  Equivalent to -C opt-level=2 -o FILENAME Write
+# output to <filename> --out-dir DIR       Write output to compiler-chosen
 # filename in <dir> --explain OPT       Provide a detailed explanation of an
 # error message --test              Build a test harness --target TARGET Target
 # triple for which the code is compiled -W --warn OPT       Set lint warnings -A
@@ -48,11 +50,11 @@ endif()
 
 set(CMAKE_Rust_ECHO_ALL "echo \"TARGET: <TARGET> TARGET_BASE: <TARGET_BASE> ")
 set(CMAKE_Rust_ECHO_ALL
-    "${CMAKE_Rust_ECHO_ALL} OBJECT: <OBJECT> OBJECTS: <OBJECTS> OBJECT_DIR: <OBJECT_DIR> SOURCE: <SOURCE> SOURCES: <SOURCES> "
-)
+    "${CMAKE_Rust_ECHO_ALL} OBJECT: <OBJECT> OBJECTS: <OBJECTS>"
+    "OBJECT_DIR: <OBJECT_DIR> SOURCE: <SOURCE> SOURCES: <SOURCES> ")
 set(CMAKE_Rust_ECHO_ALL
-    "${CMAKE_Rust_ECHO_ALL} LINK_LIBRARIES: <LINK_LIBRARIES> FLAGS: <FLAGS> LINK_FLAGS: <LINK_FLAGS> \""
-)
+    "${CMAKE_Rust_ECHO_ALL} LINK_LIBRARIES: <LINK_LIBRARIES>"
+    "FLAGS: <FLAGS> LINK_FLAGS: <LINK_FLAGS> \"")
 
 if(NOT CMAKE_Rust_CREATE_SHARED_LIBRARY)
   set(CMAKE_Rust_CREATE_SHARED_LIBRARY

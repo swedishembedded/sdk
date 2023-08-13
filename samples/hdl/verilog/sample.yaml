@@ -6,7 +6,7 @@
 sample:
   name: Verilog integration sample
 tests:
-  samples.lib.renode.interrupts:
+  samples.hdl.verilog:
     build_only: true
     integration_platforms:
       - custom_board

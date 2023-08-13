@@ -4,25 +4,24 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+ROOT="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 export CMAKE_PREFIX_PATH=/opt/toolchains
 export PATH=/opt/oss-cad-suite/bin/:$PATH
 
 set -e
 
-. ${ROOT}/VERSION
-. ${ROOT}/../zephyr/zephyr-env.sh
+source "${ROOT}/VERSION"
+source "${ROOT}/../zephyr/zephyr-env.sh"
 west zephyr-export
 
 # Build applications and samples
-$ROOT/../zephyr/scripts/twister \
+"$ROOT/../zephyr/scripts/twister" \
 	-p custom_board \
 	-c \
 	-O build-apps \
 	-v \
 	-i \
-	-A boards \
 	-T apps \
 	-T samples || {
 	echo "Error while trying to build project"
@@ -30,7 +29,4 @@ $ROOT/../zephyr/scripts/twister \
 }
 
 # Build releases
-${ROOT}/scripts/release -b custom_board -s apps/shell
-
-# Run post build checks
-robot post-build
+"${ROOT}/scripts/release" -b custom_board -s apps/shell

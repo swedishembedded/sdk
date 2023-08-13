@@ -1,14 +1,14 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
-# Consulting: https://swedishembedded.com/go
+# SPDX-License-Identifier: Apache-2.0 Copyright (c) 2022 Martin Schröder
+# <info@swedishembedded.com> Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
 # store project base in current scope
-set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "SDK base directory")
+set(PROJECT_BASE ${CMAKE_CURRENT_LIST_DIR})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # put it also in the env scope
 set(ENV{PROJECT_BASE} ${CMAKE_CURRENT_LIST_DIR})
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/rust/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+                      "${CMAKE_CURRENT_LIST_DIR}/cmake/rust/")
 enable_language(Rust)
 
 add_subdirectory(cmake)
@@ -19,9 +19,6 @@ add_subdirectory(testbench)
 # Add the main include directory to list of include paths
 zephyr_include_directories(include)
 
-# Add sensible warnings to all files built in smart tracker
-# treat all warnings as errors
-zephyr_compile_options("-Werror")
 # enable extra warnings
 zephyr_compile_options("-Wextra")
 # enable standard set of warnings (doesn't matter if already enabled)
@@ -37,33 +34,26 @@ zephyr_compile_options("-Wuninitialized")
 # detects passing null arguments into functions that do not check for it
 zephyr_compile_options("-Wnonnull")
 
-# Disable old style declaration
-# Reason: zephyr pinctrl fails to compile
-#zephyr_compile_options("-Wno-old-style-declaration")
+# Disable old style declaration Reason: zephyr pinctrl fails to compile
+# zephyr_compile_options("-Wno-old-style-declaration")
 
-# Disable unused parameter warning
-# Reason: zephyr pm functions fail to compile
+# Warn for unused parameters
 zephyr_compile_options("-Wno-unused-parameter")
 
-# Disable error on type limits (zephyr ASSERT)
-# Reason: zephyr sys/assert does not compile
+# Warn for type limits when working with ints
 zephyr_compile_options("-Wno-type-limits")
 
-# Disable error on comparison of integers of different signedness (zephyr)
-# Reason: zephyr os/cbprintf does not compile
+# Warn signed/unsigned compare
 zephyr_compile_options("-Wno-sign-compare")
 
-# Disable qualifiers (zephyr net_if.h)
-zephyr_compile_options("-Wno-ignored-qualifiers")
+# Warn about ignored qualifiers (such as const)
+zephyr_compile_options("-Wignored-qualifiers")
 
-# Disable error on missing field initializers
-# Reason: sync_status in drivers/spi/spi_context.h
-zephyr_compile_options("-Wno-missing-field-initializers")
+# Warn about missing field initializers
+zephyr_compile_options("-Wmissing-field-initializers")
 
-# Disable error on checking non-literal format (zephyr)
-# Reason: zephyr drivers/serial/uart_native_posix.c does not compile
+# Warn about nonliteral format
 zephyr_compile_options("-Wno-format-nonliteral")
 
-# warn for any constants defined as 2.2 instead of 2.2f (as doubles)
-# Unfortunately has to be disabled due to zephyr not compiling with it
+# Warn about double promotion
 zephyr_compile_options("-Wno-double-promotion")

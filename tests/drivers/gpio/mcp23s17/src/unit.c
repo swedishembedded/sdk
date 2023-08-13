@@ -10,7 +10,7 @@
 #include "mock_spi.h"
 
 #include <cmock_unit.h>
-#include <device.h>
+#include <zephyr/device.h>
 #include <example/example.h>
 #include <unity.h>
 
@@ -543,8 +543,8 @@ void test_mcp23s17_manage_callback_should_return_success(void)
 	// should still only be called once
 	TEST_ASSERT_EQUAL(1, callback_called);
 	TEST_ASSERT_EQUAL(0, _mcp23s17_manage_callback(&dev, &cb, false));
-	// call it second time
-	TEST_ASSERT_EQUAL(0, _mcp23s17_manage_callback(&dev, &cb, false));
+	// call it second time (it should fail)
+	TEST_ASSERT_EQUAL(-22, _mcp23s17_manage_callback(&dev, &cb, false));
 }
 
 void test_mcp23s17_get_pending_int_should_return_ewouldblock_if_in_isr(void)

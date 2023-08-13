@@ -20,7 +20,7 @@ void tick(cxxrtl_design::p_plc &plc)
 	plc.step();
 }
 
-void main(void)
+int main(void)
 {
 	cxxrtl_design::p_plc plc;
 
@@ -105,4 +105,6 @@ void main(void)
 	assert(plc.p_valve.get<bool>() == false);
 
 	printk("ALL CHECKS SUCCESSFUL!\n");
+
+	return 0;
 }

@@ -12,13 +12,14 @@
 	<p>Expects HTML like:</p>
 	<pre>&lt;div>&lt;/div></pre>
 	@module SVGManager */
-function SVGManager() {
+function SVGManager()
+{
 	this._settings = []; // Settings to be remembered per SVG object
 	this._extensions = []; // List of SVG extensions added to SVGWrapper
 		// for each entry [0] is extension name, [1] is extension class (function)
 		// the function takes one parameter - the SVGWrapper instance
 	this.regional = []; // Localisations, indexed by language, '' for default (English)
-	this.regional[''] = {errorLoadingText: 'Error loading'};
+	this.regional[''] = { errorLoadingText: 'Error loading' };
 	this.local = this.regional['']; // Current localisation
 	this._uuid = new Date().getTime();
 	this._ie = !!window.ActiveXObject;
@@ -39,35 +40,60 @@ $.extend(SVGManager.prototype, {
 	_wrapperClass: SVGWrapper,
 
 	/* Camel-case versions of attribute names containing dashes or are reserved words. */
-	_attrNames: {class_: 'class', in_: 'in',
-		alignmentBaseline: 'alignment-baseline', baselineShift: 'baseline-shift',
-		clipPath: 'clip-path', clipRule: 'clip-rule',
+	_attrNames: {
+		class_: 'class',
+		in_: 'in',
+		alignmentBaseline: 'alignment-baseline',
+		baselineShift: 'baseline-shift',
+		clipPath: 'clip-path',
+		clipRule: 'clip-rule',
 		colorInterpolation: 'color-interpolation',
 		colorInterpolationFilters: 'color-interpolation-filters',
-		colorRendering: 'color-rendering', dominantBaseline: 'dominant-baseline',
-		enableBackground: 'enable-background', fillOpacity: 'fill-opacity',
-		fillRule: 'fill-rule', floodColor: 'flood-color',
-		floodOpacity: 'flood-opacity', fontFamily: 'font-family',
-		fontSize: 'font-size', fontSizeAdjust: 'font-size-adjust',
-		fontStretch: 'font-stretch', fontStyle: 'font-style',
-		fontVariant: 'font-variant', fontWeight: 'font-weight',
+		colorRendering: 'color-rendering',
+		dominantBaseline: 'dominant-baseline',
+		enableBackground: 'enable-background',
+		fillOpacity: 'fill-opacity',
+		fillRule: 'fill-rule',
+		floodColor: 'flood-color',
+		floodOpacity: 'flood-opacity',
+		fontFamily: 'font-family',
+		fontSize: 'font-size',
+		fontSizeAdjust: 'font-size-adjust',
+		fontStretch: 'font-stretch',
+		fontStyle: 'font-style',
+		fontVariant: 'font-variant',
+		fontWeight: 'font-weight',
 		glyphOrientationHorizontal: 'glyph-orientation-horizontal',
 		glyphOrientationVertical: 'glyph-orientation-vertical',
-		horizAdvX: 'horiz-adv-x', horizOriginX: 'horiz-origin-x',
-		imageRendering: 'image-rendering', letterSpacing: 'letter-spacing',
-		lightingColor: 'lighting-color', markerEnd: 'marker-end',
-		markerMid: 'marker-mid', markerStart: 'marker-start',
-		stopColor: 'stop-color', stopOpacity: 'stop-opacity',
+		horizAdvX: 'horiz-adv-x',
+		horizOriginX: 'horiz-origin-x',
+		imageRendering: 'image-rendering',
+		letterSpacing: 'letter-spacing',
+		lightingColor: 'lighting-color',
+		markerEnd: 'marker-end',
+		markerMid: 'marker-mid',
+		markerStart: 'marker-start',
+		stopColor: 'stop-color',
+		stopOpacity: 'stop-opacity',
 		strikethroughPosition: 'strikethrough-position',
 		strikethroughThickness: 'strikethrough-thickness',
-		strokeDashArray: 'stroke-dasharray', strokeDashOffset: 'stroke-dashoffset',
-		strokeLineCap: 'stroke-linecap', strokeLineJoin: 'stroke-linejoin',
-		strokeMiterLimit: 'stroke-miterlimit', strokeOpacity: 'stroke-opacity',
-		strokeWidth: 'stroke-width', textAnchor: 'text-anchor',
-		textDecoration: 'text-decoration', textRendering: 'text-rendering',
-		underlinePosition: 'underline-position', underlineThickness: 'underline-thickness',
-		vertAdvY: 'vert-adv-y', vertOriginY: 'vert-origin-y',
-		wordSpacing: 'word-spacing', writingMode: 'writing-mode'},
+		strokeDashArray: 'stroke-dasharray',
+		strokeDashOffset: 'stroke-dashoffset',
+		strokeLineCap: 'stroke-linecap',
+		strokeLineJoin: 'stroke-linejoin',
+		strokeMiterLimit: 'stroke-miterlimit',
+		strokeOpacity: 'stroke-opacity',
+		strokeWidth: 'stroke-width',
+		textAnchor: 'text-anchor',
+		textDecoration: 'text-decoration',
+		textRendering: 'text-rendering',
+		underlinePosition: 'underline-position',
+		underlineThickness: 'underline-thickness',
+		vertAdvY: 'vert-adv-y',
+		vertOriginY: 'vert-origin-y',
+		wordSpacing: 'word-spacing',
+		writingMode: 'writing-mode'
+	},
 
 	/* Add the SVG object to its container. */
 	_attachSVG: function(container, settings) {
@@ -77,10 +103,9 @@ $.extend(SVGManager.prototype, {
 			return;
 		}
 		if (typeof settings === 'string') {
-			settings = {loadURL: settings};
-		}
-		else if (typeof settings === 'function') {
-			settings = {onLoad: settings};
+			settings = { loadURL: settings };
+		} else if (typeof settings === 'function') {
+			settings = { onLoad: settings };
 		}
 		$(container || svg).addClass(this.markerClassName);
 		try {
@@ -96,8 +121,7 @@ $.extend(SVGManager.prototype, {
 				container.appendChild(svg);
 			}
 			this._afterLoad(container, svg, settings || {});
-		}
-		catch (e) {
+		} catch (e) {
 			$(container).html('<p>SVG is not supported natively on this browser</p>');
 		}
 	},
@@ -118,8 +142,7 @@ $.extend(SVGManager.prototype, {
 			if (settings.onLoad && !settings.loadURL) { // Onload callback
 				settings.onLoad.apply(container || svg, [wrapper]);
 			}
-		}
-		catch (e) {
+		} catch (e) {
 			alert(e);
 		}
 	},
@@ -166,7 +189,8 @@ $.extend(SVGManager.prototype, {
 /** The main SVG interface, which encapsulates the SVG element.
 	<p>Obtain a reference from $().svg('get')</p>
 	@module SVGWrapper */
-function SVGWrapper(svg, container) {
+function SVGWrapper(svg, container)
+{
 	this._svg = svg; // The SVG root node
 	this._container = container; // The containing div
 	for (var i = 0; i < $.svg._extensions.length; i++) {
@@ -210,14 +234,15 @@ $.extend(SVGWrapper.prototype, {
 		if (clear) {
 			for (var i = node.attributes.length - 1; i >= 0; i--) {
 				var attr = node.attributes.item(i);
-				if (!(attr.nodeName === 'onload' || attr.nodeName === 'version' || 
-						attr.nodeName.substring(0, 5) === 'xmlns')) {
+				if (!(attr.nodeName === 'onload' || attr.nodeName === 'version' ||
+				      attr.nodeName.substring(0, 5) === 'xmlns')) {
 					node.attributes.removeNamedItem(attr.nodeName);
 				}
 			}
 		}
 		for (var attrName in settings) {
-			node.setAttribute($.svg._attrNames[attrName] || attrName, settings[attrName]);
+			node.setAttribute($.svg._attrNames[attrName] || attrName,
+					  settings[attrName]);
 		}
 		return this;
 	},
@@ -238,9 +263,9 @@ $.extend(SVGWrapper.prototype, {
 			for (var name in settings) {
 				if (settings[name] == null) {
 					element.removeAttribute($.svg._attrNames[name] || name);
-				}
-				else {
-					element.setAttribute($.svg._attrNames[name] || name, settings[name]);
+				} else {
+					element.setAttribute($.svg._attrNames[name] || name,
+							     settings[name]);
 				}
 			}
 		}
@@ -310,7 +335,9 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new definitions node. */
 	defs: function(parent, id, settings) {
 		var args = this._args(arguments, ['id'], ['id']);
-		return this._makeNode(args.parent, 'defs', $.extend((args.id ? {id: args.id} : {}), args.settings || {}));
+		return this._makeNode(args.parent, 'defs',
+				      $.extend((args.id ? { id: args.id } : {}),
+					       args.settings || {}));
 	},
 
 	/** Add a symbol definition.
@@ -324,8 +351,13 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new symbol node. */
 	symbol: function(parent, id, x1, y1, width, height, settings) {
 		var args = this._args(arguments, ['id', 'x1', 'y1', 'width', 'height']);
-		return this._makeNode(args.parent, 'symbol', $.extend({id: args.id,
-				viewBox: args.x1 + ' ' + args.y1 + ' ' + args.width + ' ' + args.height}, args.settings || {}));
+		return this._makeNode(args.parent, 'symbol',
+				      $.extend({
+					      id: args.id,
+					      viewBox: args.x1 + ' ' + args.y1 + ' ' + args.width +
+							       ' ' + args.height
+				      },
+					       args.settings || {}));
 	},
 
 	/** Add a marker definition.
@@ -339,10 +371,19 @@ $.extend(SVGWrapper.prototype, {
 		@param [settings] {object} Additional settings for this node.
 		@return {SVGElement} The new marker node. */
 	marker: function(parent, id, refX, refY, mWidth, mHeight, orient, settings) {
-		var args = this._args(arguments, ['id', 'refX', 'refY', 'mWidth', 'mHeight', 'orient'], ['orient']);
-		return this._makeNode(args.parent, 'marker', $.extend(
-			{id: args.id, refX: args.refX, refY: args.refY, markerWidth: args.mWidth, 
-			markerHeight: args.mHeight, orient: args.orient || 'auto'}, args.settings || {}));
+		var args =
+			this._args(arguments, ['id', 'refX', 'refY', 'mWidth', 'mHeight', 'orient'],
+				   ['orient']);
+		return this._makeNode(args.parent, 'marker',
+				      $.extend({
+					      id: args.id,
+					      refX: args.refX,
+					      refY: args.refY,
+					      markerWidth: args.mWidth,
+					      markerHeight: args.mHeight,
+					      orient: args.orient || 'auto'
+				      },
+					       args.settings || {}));
 	},
 
 	/** Add a style node.
@@ -352,7 +393,8 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new style node. */
 	style: function(parent, styles, settings) {
 		var args = this._args(arguments, ['styles']);
-		var node = this._makeNode(args.parent, 'style', $.extend({type: 'text/css'}, args.settings || {}));
+		var node = this._makeNode(args.parent, 'style',
+					  $.extend({ type: 'text/css' }, args.settings || {}));
 		node.appendChild(this._svg.ownerDocument.createTextNode(args.styles));
 		return node;
 	},
@@ -365,8 +407,9 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new script node. */
 	script: function(parent, script, type, settings) {
 		var args = this._args(arguments, ['script', 'type'], ['type']);
-		var node = this._makeNode(args.parent, 'script', $.extend(
-			{type: args.type || 'text/javascript'}, args.settings || {}));
+		var node = this._makeNode(args.parent, 'script',
+					  $.extend({ type: args.type || 'text/javascript' },
+						   args.settings || {}));
 		node.appendChild(this._svg.ownerDocument.createTextNode(args.script));
 		if ($.svg._ie) {
 			$.globalEval(args.script);
@@ -388,9 +431,12 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new linear gradient node. */
 	linearGradient: function(parent, id, stops, x1, y1, x2, y2, settings) {
 		var args = this._args(arguments, ['id', 'stops', 'x1', 'y1', 'x2', 'y2'], ['x1']);
-		var sets = $.extend({id: args.id},
-				(args.x1 != null ? {x1: args.x1, y1: args.y1, x2: args.x2, y2: args.y2} : {}));
-		return this._gradient(args.parent, 'linearGradient', $.extend(sets, args.settings || {}), args.stops);
+		var sets = $.extend(
+			{ id: args.id },
+			(args.x1 != null ? { x1: args.x1, y1: args.y1, x2: args.x2, y2: args.y2 } :
+						 {}));
+		return this._gradient(args.parent, 'linearGradient',
+				      $.extend(sets, args.settings || {}), args.stops);
 	},
 
 	/** Add a radial gradient definition.
@@ -408,10 +454,15 @@ $.extend(SVGWrapper.prototype, {
 		@param [settings] {object} Additional settings for this node.
 		@return {SVGElement} The new radial gradient node. */
 	radialGradient: function(parent, id, stops, cx, cy, r, fx, fy, settings) {
-		var args = this._args(arguments, ['id', 'stops', 'cx', 'cy', 'r', 'fx', 'fy'], ['cx']);
-		var sets = $.extend({id: args.id},
-			(args.cx != null ? {cx: args.cx, cy: args.cy, r: args.r, fx: args.fx, fy: args.fy} : {}));
-		return this._gradient(args.parent, 'radialGradient', $.extend(sets, args.settings || {}), args.stops);
+		var args =
+			this._args(arguments, ['id', 'stops', 'cx', 'cy', 'r', 'fx', 'fy'], ['cx']);
+		var sets = $.extend(
+			{ id: args.id },
+			(args.cx != null ?
+				 { cx: args.cx, cy: args.cy, r: args.r, fx: args.fx, fy: args.fy } :
+				       {}));
+		return this._gradient(args.parent, 'radialGradient',
+				      $.extend(sets, args.settings || {}), args.stops);
 	},
 
 	/** Add a gradient node.
@@ -425,8 +476,9 @@ $.extend(SVGWrapper.prototype, {
 		var node = this._makeNode(parent, name, settings);
 		for (var i = 0; i < stops.length; i++) {
 			var stop = stops[i];
-			this._makeNode(node, 'stop', $.extend({offset: stop[0], stopColor: stop[1]}, 
-				(stop[2] != null ? {stopOpacity: stop[2]} : {})));
+			this._makeNode(node, 'stop',
+				       $.extend({ offset: stop[0], stopColor: stop[1] },
+						(stop[2] != null ? { stopOpacity: stop[2] } : {})));
 		}
 		return node;
 	},
@@ -447,9 +499,22 @@ $.extend(SVGWrapper.prototype, {
 		@param [settings] {object} Additional settings for this node.
 		@return {SVGElement} The new pattern definition node. */
 	pattern: function(parent, id, x, y, width, height, vx, vy, vwidth, vheight, settings) {
-		var args = this._args(arguments, ['id', 'x', 'y', 'width', 'height', 'vx', 'vy', 'vwidth', 'vheight'], ['vx']);
-		var sets = $.extend({id: args.id, x: args.x, y: args.y, width: args.width, height: args.height},
-			(args.vx != null ? {viewBox: args.vx + ' ' + args.vy + ' ' + args.vwidth + ' ' + args.vheight} : {}));
+		var args = this._args(
+			arguments,
+			['id', 'x', 'y', 'width', 'height', 'vx', 'vy', 'vwidth', 'vheight'],
+			['vx']);
+		var sets = $.extend({
+			id: args.id,
+			x: args.x,
+			y: args.y,
+			width: args.width,
+			height: args.height
+		},
+				    (args.vx != null ? {
+					    viewBox: args.vx + ' ' + args.vy + ' ' + args.vwidth +
+							     ' ' + args.vheight
+				    } :
+							     {}));
 		return this._makeNode(args.parent, 'pattern', $.extend(sets, args.settings || {}));
 	},
 
@@ -462,8 +527,9 @@ $.extend(SVGWrapper.prototype, {
 	clipPath: function(parent, id, units, settings) {
 		var args = this._args(arguments, ['id', 'units']);
 		args.units = args.units || 'userSpaceOnUse';
-		return this._makeNode(args.parent, 'clipPath', $.extend(
-			{id: args.id, clipPathUnits: args.units}, args.settings || {}));
+		return this._makeNode(args.parent, 'clipPath',
+				      $.extend({ id: args.id, clipPathUnits: args.units },
+					       args.settings || {}));
 	},
 
 	/** Add a mask definition.
@@ -477,8 +543,15 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new mask definition node. */
 	mask: function(parent, id, x, y, width, height, settings) {
 		var args = this._args(arguments, ['id', 'x', 'y', 'width', 'height']);
-		return this._makeNode(args.parent, 'mask', $.extend(
-			{id: args.id, x: args.x, y: args.y, width: args.width, height: args.height}, args.settings || {}));
+		return this._makeNode(args.parent, 'mask',
+				      $.extend({
+					      id: args.id,
+					      x: args.x,
+					      y: args.y,
+					      width: args.width,
+					      height: args.height
+				      },
+					       args.settings || {}));
 	},
 
 	/** Create a new path object.
@@ -508,9 +581,17 @@ $.extend(SVGWrapper.prototype, {
 		@param [settings] {object} Additional settings for this node.
 		@return {SVGElement} The new svg node. */
 	svg: function(parent, x, y, width, height, vx, vy, vwidth, vheight, settings) {
-		var args = this._args(arguments, ['x', 'y', 'width', 'height', 'vx', 'vy', 'vwidth', 'vheight'], ['vx']);
-		var sets = $.extend({x: args.x, y: args.y, width: args.width, height: args.height}, 
-			(args.vx != null ? {viewBox: args.vx + ' ' + args.vy + ' ' + args.vwidth + ' ' + args.vheight} : {}));
+		var args =
+			this._args(arguments,
+				   ['x', 'y', 'width', 'height', 'vx', 'vy', 'vwidth', 'vheight'],
+				   ['vx']);
+		var sets =
+			$.extend({ x: args.x, y: args.y, width: args.width, height: args.height },
+				 (args.vx != null ? {
+					 viewBox: args.vx + ' ' + args.vy + ' ' + args.vwidth +
+							  ' ' + args.vheight
+				 } :
+							  {}));
 		return this._makeNode(args.parent, 'svg', $.extend(sets, args.settings || {}));
 	},
 
@@ -521,7 +602,8 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new group node. */
 	group: function(parent, id, settings) {
 		var args = this._args(arguments, ['id'], ['id']);
-		return this._makeNode(args.parent, 'g', $.extend({id: args.id}, args.settings || {}));
+		return this._makeNode(args.parent, 'g',
+				      $.extend({ id: args.id }, args.settings || {}));
 	},
 
 	/** Add a usage reference.
@@ -541,8 +623,10 @@ $.extend(SVGWrapper.prototype, {
 			args.settings = args.y;
 			args.x = args.y = args.width = args.height = null;
 		}
-		var node = this._makeNode(args.parent, 'use', $.extend(
-			{x: args.x, y: args.y, width: args.width, height: args.height}, args.settings || {}));
+		var node = this._makeNode(
+			args.parent, 'use',
+			$.extend({ x: args.x, y: args.y, width: args.width, height: args.height },
+				 args.settings || {}));
 		node.setAttributeNS($.svg.xlinkNS, 'href', args.ref);
 		return node;
 	},
@@ -570,8 +654,10 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new image node. */
 	image: function(parent, x, y, width, height, ref, settings) {
 		var args = this._args(arguments, ['x', 'y', 'width', 'height', 'ref']);
-		var node = this._makeNode(args.parent, 'image', $.extend(
-			{x: args.x, y: args.y, width: args.width, height: args.height}, args.settings || {}));
+		var node = this._makeNode(
+			args.parent, 'image',
+			$.extend({ x: args.x, y: args.y, width: args.width, height: args.height },
+				 args.settings || {}));
 		node.setAttributeNS($.svg.xlinkNS, 'href', args.ref);
 		return node;
 	},
@@ -583,8 +669,10 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new path node. */
 	path: function(parent, path, settings) {
 		var args = this._args(arguments, ['path']);
-		return this._makeNode(args.parent, 'path', $.extend(
-			{d: (args.path.path ? args.path.path() : args.path)}, args.settings || {}));
+		return this._makeNode(
+			args.parent, 'path',
+			$.extend({ d: (args.path.path ? args.path.path() : args.path) },
+				 args.settings || {}));
 	},
 
 	/** Draw a rectangle.
@@ -600,9 +688,11 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new rectangle node. */
 	rect: function(parent, x, y, width, height, rx, ry, settings) {
 		var args = this._args(arguments, ['x', 'y', 'width', 'height', 'rx', 'ry'], ['rx']);
-		return this._makeNode(args.parent, 'rect', $.extend(
-			{x: args.x, y: args.y, width: args.width, height: args.height},
-			(args.rx ? {rx: args.rx, ry: args.ry} : {}), args.settings || {}));
+		return this._makeNode(
+			args.parent, 'rect',
+			$.extend({ x: args.x, y: args.y, width: args.width, height: args.height },
+				 (args.rx ? { rx: args.rx, ry: args.ry } : {}),
+				 args.settings || {}));
 	},
 
 	/** Draw a circle.
@@ -614,8 +704,9 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new circle node. */
 	circle: function(parent, cx, cy, r, settings) {
 		var args = this._args(arguments, ['cx', 'cy', 'r']);
-		return this._makeNode(args.parent, 'circle', $.extend(
-			{cx: args.cx, cy: args.cy, r: args.r}, args.settings || {}));
+		return this._makeNode(args.parent, 'circle',
+				      $.extend({ cx: args.cx, cy: args.cy, r: args.r },
+					       args.settings || {}));
 	},
 
 	/** Draw an ellipse.
@@ -628,8 +719,10 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new ellipse node. */
 	ellipse: function(parent, cx, cy, rx, ry, settings) {
 		var args = this._args(arguments, ['cx', 'cy', 'rx', 'ry']);
-		return this._makeNode(args.parent, 'ellipse', $.extend(
-			{cx: args.cx, cy: args.cy, rx: args.rx, ry: args.ry}, args.settings || {}));
+		return this._makeNode(
+			args.parent, 'ellipse',
+			$.extend({ cx: args.cx, cy: args.cy, rx: args.rx, ry: args.ry },
+				 args.settings || {}));
 	},
 
 	/** Draw a line.
@@ -642,8 +735,10 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement} The new line node. */
 	line: function(parent, x1, y1, x2, y2, settings) {
 		var args = this._args(arguments, ['x1', 'y1', 'x2', 'y2']);
-		return this._makeNode(args.parent, 'line', $.extend(
-			{x1: args.x1, y1: args.y1, x2: args.x2, y2: args.y2}, args.settings || {}));
+		return this._makeNode(
+			args.parent, 'line',
+			$.extend({ x1: args.x1, y1: args.y1, x2: args.x2, y2: args.y2 },
+				 args.settings || {}));
 	},
 
 	/** Draw a polygonal line.
@@ -678,7 +773,8 @@ $.extend(SVGWrapper.prototype, {
 		for (var i = 0; i < points.length; i++) {
 			ps += points[i].join() + ' ';
 		}
-		return this._makeNode(parent, name, $.extend({points: $.trim(ps)}, settings || {}));
+		return this._makeNode(parent, name,
+				      $.extend({ points: $.trim(ps) }, settings || {}));
 	},
 
 	/** Draw text.
@@ -696,9 +792,13 @@ $.extend(SVGWrapper.prototype, {
 			args.settings = args.y;
 			args.x = args.y = null;
 		}
-		return this._text(args.parent, 'text', args.value, $.extend(
-			{x: (args.x && $.isArray(args.x) ? args.x.join(' ') : args.x),
-			y: (args.y && $.isArray(args.y) ? args.y.join(' ') : args.y)}, args.settings || {}));
+		return this._text(
+			args.parent, 'text', args.value,
+			$.extend({
+				x: (args.x && $.isArray(args.x) ? args.x.join(' ') : args.x),
+				y: (args.y && $.isArray(args.y) ? args.y.join(' ') : args.y)
+			},
+				 args.settings || {}));
 	},
 
 	/** Draw text along a path.
@@ -725,30 +825,29 @@ $.extend(SVGWrapper.prototype, {
 		var node = this._makeNode(parent, name, settings);
 		if (typeof value === 'string') {
 			node.appendChild(node.ownerDocument.createTextNode(value));
-		}
-		else {
+		} else {
 			for (var i = 0; i < value._parts.length; i++) {
 				var part = value._parts[i];
 				if (part[0] === 'tspan') {
 					var child = this._makeNode(node, part[0], part[2]);
-					child.appendChild(node.ownerDocument.createTextNode(part[1]));
+					child.appendChild(
+						node.ownerDocument.createTextNode(part[1]));
 					node.appendChild(child);
-				}
-				else if (part[0] === 'tref') {
+				} else if (part[0] === 'tref') {
 					var child = this._makeNode(node, part[0], part[2]);
 					child.setAttributeNS($.svg.xlinkNS, 'href', part[1]);
 					node.appendChild(child);
-				}
-				else if (part[0] === 'textpath') {
+				} else if (part[0] === 'textpath') {
 					var set = $.extend({}, part[2]);
 					set.href = null;
 					var child = this._makeNode(node, part[0], set);
 					child.setAttributeNS($.svg.xlinkNS, 'href', part[2].href);
-					child.appendChild(node.ownerDocument.createTextNode(part[1]));
+					child.appendChild(
+						node.ownerDocument.createTextNode(part[1]));
 					node.appendChild(child);
-				}
-				else { // straight text
-					node.appendChild(node.ownerDocument.createTextNode(part[1]));
+				} else { // straight text
+					node.appendChild(
+						node.ownerDocument.createTextNode(part[1]));
 				}
 			}
 		}
@@ -790,14 +889,14 @@ $.extend(SVGWrapper.prototype, {
 				the jQuery selector for the node or the set of nodes to add.
 		@return {SVGWrapper} This wrapper. */
 	add: function(parent, node) {
-		var args = this._args((arguments.length === 1 ? [null, parent] : arguments), ['node']);
+		var args =
+			this._args((arguments.length === 1 ? [null, parent] : arguments), ['node']);
 		var svg = this;
 		args.parent = args.parent || this._svg;
 		args.node = (args.node.jquery ? args.node : $(args.node));
 		try {
 			args.parent.appendChild(args.node.cloneNode(true));
-		}
-		catch (e) {
+		} catch (e) {
 			args.node.each(function() {
 				var child = svg._cloneAsSVG(this);
 				if (child) {
@@ -815,7 +914,8 @@ $.extend(SVGWrapper.prototype, {
 		@return {SVGElement[]} The collection of new nodes. */
 	clone: function(parent, node) {
 		var svg = this;
-		var args = this._args((arguments.length === 1 ? [null, parent] : arguments), ['node']);
+		var args =
+			this._args((arguments.length === 1 ? [null, parent] : arguments), ['node']);
 		args.parent = args.parent || this._svg;
 		args.node = (args.node.jquery ? args.node : $(args.node));
 		var newNodes = [];
@@ -837,15 +937,19 @@ $.extend(SVGWrapper.prototype, {
 	_cloneAsSVG: function(node) {
 		var newNode = null;
 		if (node.nodeType === 1) { // element
-			newNode = this._svg.ownerDocument.createElementNS($.svg.svgNS, this._checkName(node.nodeName));
+			newNode = this._svg.ownerDocument.createElementNS(
+				$.svg.svgNS, this._checkName(node.nodeName));
 			for (var i = 0; i < node.attributes.length; i++) {
 				var attr = node.attributes.item(i);
 				if (attr.nodeName !== 'xmlns' && attr.nodeValue) {
 					if (attr.prefix === 'xlink') {
-						newNode.setAttributeNS($.svg.xlinkNS, attr.localName || attr.baseName, attr.nodeValue);
-					}
-					else {
-						newNode.setAttribute(this._checkName(attr.nodeName), attr.nodeValue);
+						newNode.setAttributeNS($.svg.xlinkNS,
+								       attr.localName ||
+									       attr.baseName,
+								       attr.nodeValue);
+					} else {
+						newNode.setAttribute(this._checkName(attr.nodeName),
+								     attr.nodeValue);
 					}
 				}
 			}
@@ -855,20 +959,20 @@ $.extend(SVGWrapper.prototype, {
 					newNode.appendChild(child);
 				}
 			}
-		}
-		else if (node.nodeType === 3) { // text
+		} else if (node.nodeType === 3) { // text
 			if ($.trim(node.nodeValue)) {
 				newNode = this._svg.ownerDocument.createTextNode(node.nodeValue);
 			}
-		}
-		else if (node.nodeType === 4) { // CDATA
+		} else if (node.nodeType === 4) { // CDATA
 			if ($.trim(node.nodeValue)) {
 				try {
-					newNode = this._svg.ownerDocument.createCDATASection(node.nodeValue);
-				}
-				catch (e) {
+					newNode = this._svg.ownerDocument.createCDATASection(
+						node.nodeValue);
+				} catch (e) {
 					newNode = this._svg.ownerDocument.createTextNode(
-						node.nodeValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+						node.nodeValue.replace(/&/g, '&amp;')
+							.replace(/</g, '&lt;')
+							.replace(/>/g, '&gt;'));
 				}
 			}
 		}
@@ -880,7 +984,9 @@ $.extend(SVGWrapper.prototype, {
 		@param name {string} The name to check.
 		@return {string} The corrected name. */
 	_checkName: function(name) {
-		name = (name.substring(0, 1) >= 'A' && name.substring(0, 1) <= 'Z' ? name.toLowerCase() : name);
+		name = (name.substring(0, 1) >= 'A' && name.substring(0, 1) <= 'Z' ?
+				name.toLowerCase() :
+				      name);
 		return (name.substring(0, 4) === 'svg:' ? name.substring(4) : name);
 	},
 
@@ -899,11 +1005,19 @@ $.extend(SVGWrapper.prototype, {
 				defaults to top-level svg element.
 		@return {SVGWrapper} This wrapper. */
 	load: function(url, settings) {
-		settings = (typeof settings === 'boolean' ? {addTo: settings} :
-				(typeof settings === 'function' ? {onLoad: settings} :
-				(typeof settings === 'string' ? {parent: settings} : 
-				(typeof settings === 'object' && settings.nodeName ? {parent: settings} :
-				(typeof settings === 'object' && settings.jquery ? {parent: settings} : settings || {})))));
+		settings = (typeof settings === 'boolean' ?
+				    { addTo: settings } :
+					  (typeof settings === 'function' ?
+					     { onLoad: settings } :
+						   (typeof settings === 'string' ?
+						      { parent: settings } :
+							    (typeof settings === 'object' &&
+								       settings.nodeName ?
+							       { parent: settings } :
+								     (typeof settings === 'object' &&
+										settings.jquery ?
+									{ parent: settings } :
+									      settings || {})))));
 		if (!settings.parent && !settings.addTo) {
 			this.clear(false);
 		}
@@ -913,9 +1027,9 @@ $.extend(SVGWrapper.prototype, {
 		var reportError = function(message) {
 			message = $.svg.local.errorLoadingText + ': ' + message;
 			if (settings.onLoad) {
-				settings.onLoad.apply(wrapper._container || wrapper._svg, [wrapper, message]);
-			}
-			else {
+				settings.onLoad.apply(wrapper._container || wrapper._svg,
+						      [wrapper, message]);
+			} else {
 				wrapper.text(null, 10, 20, message);
 			}
 		};
@@ -939,15 +1053,21 @@ $.extend(SVGWrapper.prototype, {
 			}
 			if (data.documentElement.nodeName !== 'svg') {
 				var errors = data.getElementsByTagName('parsererror');
-				var messages = (errors.length ? errors[0].getElementsByTagName('div') : []); // Safari
-				reportError(!errors.length ? '???' : (messages.length ? messages[0] : errors[0]).firstChild.nodeValue);
+				var messages =
+					(errors.length ? errors[0].getElementsByTagName('div') :
+							       []); // Safari
+				reportError(!errors.length ?
+						    '???' :
+							  (messages.length ? messages[0] : errors[0])
+							    .firstChild.nodeValue);
 				return;
 			}
 			var parent = (settings.parent ? $(settings.parent)[0] : wrapper._svg);
 			var attrs = {};
 			for (var i = 0; i < data.documentElement.attributes.length; i++) {
 				var attr = data.documentElement.attributes.item(i);
-				if (!(attr.nodeName === 'version' || attr.nodeName.substring(0, 5) === 'xmlns')) {
+				if (!(attr.nodeName === 'version' ||
+				      attr.nodeName.substring(0, 5) === 'xmlns')) {
 					attrs[attr.nodeName] = attr.nodeValue;
 				}
 			}
@@ -955,12 +1075,12 @@ $.extend(SVGWrapper.prototype, {
 			var nodes = data.documentElement.childNodes;
 			for (var i = 0; i < nodes.length; i++) {
 				try {
-					parent.appendChild(wrapper._svg.ownerDocument.importNode(nodes[i], true));
+					parent.appendChild(wrapper._svg.ownerDocument.importNode(
+						nodes[i], true));
 					if (nodes[i].nodeName === 'script') {
 						$.globalEval(nodes[i].textContent);
 					}
-				}
-				catch (e) {
+				} catch (e) {
 					wrapper.add(parent, nodes[i]);
 				}
 			}
@@ -968,16 +1088,19 @@ $.extend(SVGWrapper.prototype, {
 				var base = url.replace(/\/[^\/]*$/, '/');
 				$('*', parent).each(function() {
 					var href = $(this).attr('xlink:href');
-					if (href && !href.match(/(^[a-z][-a-z0-9+.]*:.*$)|(^\/.*$)|(^#.*$)/i)) {
+					if (href &&
+					    !href.match(
+						    /(^[a-z][-a-z0-9+.]*:.*$)|(^\/.*$)|(^#.*$)/i)) {
 						$(this).attr('xlink:href', base + href);
 					}
 				});
 			}
 			if (!settings.changeSize) {
-				wrapper.configure(parent, {width: size[0], height: size[1]});
+				wrapper.configure(parent, { width: size[0], height: size[1] });
 			}
 			if (settings.onLoad) {
-				settings.onLoad.apply(wrapper._container || wrapper._svg, [wrapper]);
+				settings.onLoad.apply(wrapper._container || wrapper._svg,
+						      [wrapper]);
 			}
 		};
 		if (url.match('<svg')) { // Inline SVG
@@ -986,14 +1109,17 @@ $.extend(SVGWrapper.prototype, {
 			} catch (e) {
 				reportError(e);
 			}
-		}
-		else { // Remote SVG
-			$.ajax({url: url, dataType: 'xml',
+		} else { // Remote SVG
+			$.ajax({
+				url: url,
+				dataType: 'xml',
 				success: function(xml) {
 					loadSVG(xml);
-				}, error: function(http, message, exc) {
+				},
+				error: function(http, message, exc) {
 					reportError(message + (exc ? ' ' + exc.message : ''));
-				}});
+				}
+			});
 		}
 		return this;
 	},
@@ -1026,7 +1152,9 @@ $.extend(SVGWrapper.prototype, {
 		@return {string} The SVG as text. */
 	toSVG: function(node) {
 		node = node || this._svg;
-		return (typeof XMLSerializer === 'undefined' ? this._toSVG(node) : new XMLSerializer().serializeToString(node));
+		return (typeof XMLSerializer === 'undefined' ?
+				this._toSVG(node) :
+				      new XMLSerializer().serializeToString(node));
 	},
 
 	/** Serialise one node in the SVG hierarchy.
@@ -1040,22 +1168,25 @@ $.extend(SVGWrapper.prototype, {
 		}
 		if (node.nodeType === 3) { // Text
 			svgDoc = node.nodeValue;
-		}
-		else if (node.nodeType === 4) { // CDATA
+		} else if (node.nodeType === 4) { // CDATA
 			svgDoc = '<![CDATA[' + node.nodeValue + ']]>';
-		}
-		else { // Element
+		} else { // Element
 			svgDoc = '<' + node.nodeName;
 			if (node.attributes) {
 				for (var i = 0; i < node.attributes.length; i++) {
 					var attr = node.attributes.item(i);
-					if (!($.trim(attr.nodeValue) === '' || attr.nodeValue.match(/^\[object/) ||
-							attr.nodeValue.match(/^function/))) {
-						svgDoc += ' ' + (attr.namespaceURI === $.svg.xlinkNS ? 'xlink:' : '') +
-							attr.nodeName + '="' + attr.nodeValue + '"';
+					if (!($.trim(attr.nodeValue) === '' ||
+					      attr.nodeValue.match(/^\[object/) ||
+					      attr.nodeValue.match(/^function/))) {
+						svgDoc += ' ' +
+							  (attr.namespaceURI === $.svg.xlinkNS ?
+								   'xlink:' :
+									 '') +
+							  attr.nodeName + '="' + attr.nodeValue +
+							  '"';
 					}
 				}
-			}	
+			}
 			if (node.firstChild) {
 				svgDoc += '>';
 				var child = node.firstChild;
@@ -1064,8 +1195,7 @@ $.extend(SVGWrapper.prototype, {
 					child = child.nextSibling;
 				}
 				svgDoc += '</' + node.nodeName + '>';
-			}
-				else {
+			} else {
 				svgDoc += '/>';
 			}
 		}
@@ -1081,7 +1211,8 @@ $.extend(SVGWrapper.prototype, {
    root.path(null, path.move(100, 100).line(300, 100).line(200, 300).close(), {fill: 'red'});
  // or
    root.path(null, path.move(100, 100).line([[300, 100], [200, 300]]).close(), {fill: 'red'}); */
-function SVGPath() {
+function SVGPath()
+{
 	this._path = '';
 }
 
@@ -1206,13 +1337,20 @@ $.extend(SVGPath.prototype, {
 		if ($.isArray(x1)) {
 			for (var i = 0; i < x1.length; i++) {
 				var cs = x1[i];
-				this._path += (i === 0 ? cmd : ' ') + cs[0] + ',' + cs[1] + (cs.length < 4 ? '' :
-						' ' + cs[2] + ',' + cs[3] + (cs.length < 6 ? '': ' ' + cs[4] + ',' + cs[5]));
+				this._path += (i === 0 ? cmd : ' ') + cs[0] + ',' + cs[1] +
+					      (cs.length < 4 ?
+						       '' :
+							     ' ' + cs[2] + ',' + cs[3] +
+							       (cs.length < 6 ?
+									'' :
+									      ' ' + cs[4] + ',' + cs[5]));
 			}
-		}
-		else {
-			this._path += cmd + x1 + ',' + y1 + 
-				(x2 == null ? '' : ' ' + x2 + ',' + y2 + (x3 == null ? '' : ' ' + x3 + ',' + y3));
+		} else {
+			this._path +=
+				cmd + x1 + ',' + y1 +
+				(x2 == null ? '' :
+						    ' ' + x2 + ',' + y2 +
+						      (x3 == null ? '' : ' ' + x3 + ',' + y3));
 		}
 		return this;
 	},
@@ -1237,12 +1375,12 @@ $.extend(SVGPath.prototype, {
 			for (var i = 0; i < rx.length; i++) {
 				var cs = rx[i];
 				this._path += (i === 0 ? '' : ' ') + cs[0] + ',' + cs[1] + ' ' +
-					cs[2] + ' ' + (cs[3] ? '1' : '0') + ',' + (cs[4] ? '1' : '0') + ' ' + cs[5] + ',' + cs[6];
+					      cs[2] + ' ' + (cs[3] ? '1' : '0') + ',' +
+					      (cs[4] ? '1' : '0') + ' ' + cs[5] + ',' + cs[6];
 			}
-		}
-		else {
-			this._path += rx + ',' + ry + ' ' + xRotate + ' ' +
-				(large ? '1' : '0') + ',' + (clockwise ? '1' : '0') + ' ' + x + ',' + y;
+		} else {
+			this._path += rx + ',' + ry + ' ' + xRotate + ' ' + (large ? '1' : '0') +
+				      ',' + (clockwise ? '1' : '0') + ' ' + x + ',' + y;
 		}
 		return this;
 	},
@@ -1278,7 +1416,8 @@ SVGPath.prototype.arcTo = SVGPath.prototype.arc;
 	@example var text = root.createText();
    root.text(null, x, y, text.string('This is ').
      span('red', {fill: 'red'}).string('!'), {fill: 'blue'}); */
-function SVGText() {
+function SVGText()
+{
 	this._parts = []; // The components of the text object
 }
 
@@ -1322,7 +1461,7 @@ $.extend(SVGText.prototype, {
 		@param settings {object} The settings for this text.
 		@return {SVGText} This text object. */
 	path: function(id, value, settings) {
-		this._parts.push(['textpath', value, $.extend({href: id}, settings || {})]);
+		this._parts.push(['textpath', value, $.extend({ href: id }, settings || {})]);
 		return this;
 	}
 });
@@ -1339,10 +1478,9 @@ $.fn.svg = function(options) {
 	return this.each(function() {
 		if (typeof options === 'string') {
 			$.svg['_' + options + 'SVG'].apply($.svg, [this].concat(otherArgs));
-		}
-		else {
+		} else {
 			$.svg._attachSVG(this, options || {});
-		} 
+		}
 	});
 };
 

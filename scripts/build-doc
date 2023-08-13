@@ -4,7 +4,7 @@
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
-ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
+ROOT="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 set -e
 
@@ -43,7 +43,7 @@ cat ${BUILD_DIR}/build.log | \
 [[ -f ${BUILD_DIR}/latex/sdk/swedishembedded.pdf ]] && {
 	VERSION="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 	DOC=$BUILD_DIR/latex/sdk/Swedish-Embedded-Platform-SDK-v$VERSION.pdf
-	mv $BUILD_DIR/latex/sdk/swedishembedded.pdf $DOC
+	mv "$BUILD_DIR/latex/sdk/swedishembedded.pdf" "$DOC"
 	echo "Documentation ready in $DOC"
 }
 

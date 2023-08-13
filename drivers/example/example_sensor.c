@@ -9,11 +9,11 @@
 #define DT_DRV_COMPAT example_sensor
 
 #include <errno.h>
-#include <device.h>
-#include <logging/log.h>
-#include <drivers/gpio.h>
-#include <drivers/spi.h>
-#include <drivers/sensor.h>
+#include <zephyr/device.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/spi.h>
+#include <zephyr/drivers/sensor.h>
 
 /** Create a logger */
 LOG_MODULE_REGISTER(example_sensor);

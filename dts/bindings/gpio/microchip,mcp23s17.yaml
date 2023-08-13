@@ -5,31 +5,27 @@
 # Training: https://swedishembedded.com/tag/training
 
 description: |
-    This is a representation of the Microchip MCP23S17 SPI Gpio Expander.
+  This is a representation of the Microchip MCP23S17 SPI Gpio Expander.
 
 compatible: "microchip,mcp23s17v2"
 
 include: [gpio-controller.yaml, spi-device.yaml]
 
 properties:
-    label:
-      required: true
-    "#gpio-cells":
-      const: 2
+  "#gpio-cells":
+    const: 2
 
-    ngpios:
-      type: int
-      required: true
-      const: 16
-      description: Number of gpios supported
-    inta-gpios:
-      type: phandle-array
-      required: false
-      description: Interrupt for PORTA
-    intb-gpios:
-      type: phandle-array
-      required: false
-      description: Interrupt for PORTB
+  ngpios:
+    type: int
+    required: true
+    const: 16
+    description: Number of gpios supported
+  inta-gpios:
+    type: phandle-array
+    description: Interrupt for PORTA
+  intb-gpios:
+    type: phandle-array
+    description: Interrupt for PORTB
 
 gpio-cells:
   - pin

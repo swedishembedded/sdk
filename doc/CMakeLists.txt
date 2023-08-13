@@ -1,7 +1,9 @@
-# Copyright (c) 2022 Martin Schröder
 # SPDX-License-Identifier: Apache-2.0
+# ~~~
+# Copyright (c) 2022 Martin Schröder
 # Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
+# ~~~
 
 cmake_minimum_required(VERSION 3.20.0)
 project(doc LANGUAGES NONE)
@@ -14,9 +16,9 @@ set(SPHINXOPTS_DEFAULT
 set(LATEXMKOPTS
     "-halt-on-error -no-shell-escape"
     CACHE STRING "Default latexmk options")
-separate_arguments(SPHINXOPTS_DEFAULT)
-separate_arguments(SPHINXOPTS_EXTRA)
-separate_arguments(LATEXMKOPTS)
+separate_arguments(SPHINXOPTS_DEFAULT UNIX_COMMAND ${SPHINXOPTS_DEFAULT})
+separate_arguments(SPHINXOPTS_EXTRA UNIX_COMMAND ${SPHINXOPTS_EXTRA})
+separate_arguments(LATEXMKOPTS UNIX_COMMAND ${LATEXMKOPTS})
 
 # Set Swedish Embedded SDK base
 get_filename_component(SWE_BASE ${CMAKE_CURRENT_LIST_DIR}../ DIRECTORY)
@@ -67,26 +69,34 @@ add_custom_target(
   VERBATIM USES_TERMINAL
   COMMENT "Generating Devicetree bindings documentation...")
 
+# Add a documentation target
 function(add_doc_target name)
-  add_custom_target(${name} ${ARGN})
-  add_custom_target(${name}-all ${ARGN})
+  add_custom_target(
+    ${name}
+    ${ARGN}
+    COMMENT "Building ${name}")
+  add_custom_target(
+    ${name}-all
+    ${ARGN}
+    COMMENT "Building ${name}-all")
 endfunction()
 
+# Add a docset
 function(add_docset name)
   cmake_parse_arguments(DOCSET "DODGY" "" "" ${ARGN})
 
-  set(DOCSET_CFG_DIR ${CMAKE_CURRENT_LIST_DIR}/${name})
-  set(DOCSET_BUILD_DIR ${CMAKE_BINARY_DIR}/${name})
-  set(DOCSET_SRC_DIR ${CMAKE_BINARY_DIR}/${name}/src)
-  set(DOCSET_DOCTREE_DIR ${CMAKE_BINARY_DIR}/${name}/doctree)
-  set(DOCSET_HTML_DIR ${CMAKE_BINARY_DIR}/html/${name})
-  set(DOCSET_LATEX_DIR ${CMAKE_BINARY_DIR}/latex/${name})
-  set(DOCSET_MAKE_DIRS ${DOCSET_BUILD_DIR};${DOCSET_SRC_DIR})
-  set(DOCSET_CLEAN_DIRS ${DOCSET_BUILD_DIR};${DOCSET_HTML_DIR})
-  set(DOCSET_ENV DOXYGEN_EXECUTABLE=${DOXYGEN_EXECUTABLE})
+  set(docset_cfg_dir ${CMAKE_CURRENT_LIST_DIR}/${name})
+  set(docset_build_dir ${CMAKE_BINARY_DIR}/${name})
+  set(docset_src_dir ${CMAKE_BINARY_DIR}/${name}/src)
+  set(docset_doctree_dir ${CMAKE_BINARY_DIR}/${name}/doctree)
+  set(docset_html_dir ${CMAKE_BINARY_DIR}/html/${name})
+  set(docset_latex_dir ${CMAKE_BINARY_DIR}/latex/${name})
+  set(docset_make_dirs ${docset_build_dir};${docset_src_dir})
+  set(docset_clean_dirs ${docset_build_dir};${docset_html_dir})
+  set(docset_env DOXYGEN_EXECUTABLE=${DOXYGEN_EXECUTABLE})
 
   if(NOT ${DOCSET_DODGY})
-    set(EXTRA_ARGS ${SPHINXOPTS_EXTRA})
+    set(extra_args ${SPHINXOPTS_EXTRA})
   endif()
 
   add_doc_target(
@@ -95,24 +105,24 @@ function(add_docset name)
     ${CMAKE_COMMAND}
     -E
     make_directory
-    ${DOCSET_MAKE_DIRS}
+    ${docset_make_dirs}
     COMMAND
     ${CMAKE_COMMAND}
     -E
     env
-    ${DOCSET_ENV}
+    ${docset_env}
     ${SPHINXBUILD}
     -b
     inventory
     -c
-    ${DOCSET_CFG_DIR}
+    ${docset_cfg_dir}
     -d
-    ${DOCSET_DOCTREE_DIR}
+    ${docset_doctree_dir}
     -w
-    ${DOCSET_BUILD_DIR}/inventory.log
+    ${docset_build_dir}/inventory.log
     ${SPHINXOPTS_DEFAULT}
-    ${DOCSET_SRC_DIR}
-    ${DOCSET_HTML_DIR}
+    ${docset_src_dir}
+    ${docset_html_dir}
     USES_TERMINAL
     COMMENT
     "Building ${name} inventory...")
@@ -123,31 +133,28 @@ function(add_docset name)
     ${CMAKE_COMMAND}
     -E
     make_directory
-    ${DOCSET_MAKE_DIRS}
+    ${docset_make_dirs}
     COMMAND
     ${CMAKE_COMMAND}
     -E
     env
-    ${DOCSET_ENV}
+    ${docset_env}
     ${SPHINXBUILD}
     -b
     html
     -c
-    ${DOCSET_CFG_DIR}
+    ${docset_cfg_dir}
     -d
-    ${DOCSET_DOCTREE_DIR}
+    ${docset_doctree_dir}
     -w
-    ${DOCSET_BUILD_DIR}/html.log
+    ${docset_build_dir}/html.log
     ${SPHINXOPTS_DEFAULT}
-    ${EXTRA_ARGS}
-    ${DOCSET_SRC_DIR}
-    ${DOCSET_HTML_DIR}
+    ${extra_args}
+    ${docset_src_dir}
+    ${docset_html_dir}
     USES_TERMINAL
     COMMENT
     "Building ${name} docset...")
-
-  # -------------------------------------------------------------------------------
-  # pdf
 
   add_doc_target(
     ${name}-latex
@@ -160,16 +167,16 @@ function(add_docset name)
     -b
     latex
     -c
-    ${DOCSET_CFG_DIR}
+    ${docset_cfg_dir}
     -d
-    ${DOCSET_DOCTREE_DIR}
+    ${docset_doctree_dir}
     -w
-    ${DOCSET_BUILD_DIR}/latex.log
+    ${docset_build_dir}/latex.log
     -t
     svgconvert
     ${SPHINXOPTS}
-    ${DOCSET_SRC_DIR}
-    ${DOCSET_LATEX_DIR}
+    ${docset_src_dir}
+    ${docset_latex_dir}
     USES_TERMINAL
     COMMENT
     "Running Sphinx LaTeX build...")
@@ -177,20 +184,20 @@ function(add_docset name)
   set_target_properties(
     ${name}-latex
     PROPERTIES ADDITIONAL_CLEAN_FILES
-               "${DOCSET_SRC_DIR};${DOCSET_LATEX_DIR};${DOCSET_DOCTREE_DIR}")
+               "${docset_src_dir};${docset_latex_dir};${docset_doctree_dir}")
 
   if(LATEX_PDFLATEX_FOUND AND LATEXMK)
     find_program(MAKE make)
     if(NOT MAKE)
       message(FATAL_ERROR "The 'make' command was not found")
     endif()
-    set(PDF_BUILD_COMMAND ${MAKE})
+    set(pdf_build_command ${MAKE})
 
     add_custom_target(
       ${name}-pdf
       COMMAND ${CMAKE_COMMAND} -E env LATEXMKOPTS="${LATEXMKOPTS}"
-              ${PDF_BUILD_COMMAND}
-      WORKING_DIRECTORY ${DOCSET_LATEX_DIR}
+              ${pdf_build_command}
+      WORKING_DIRECTORY ${docset_latex_dir}
       COMMENT "Building PDF file..."
       USES_TERMINAL)
 
@@ -199,21 +206,23 @@ function(add_docset name)
 
   add_custom_target(
     ${name}-linkcheck
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${DOCSET_MAKE_DIRS}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${docset_make_dirs}
     COMMAND
-      ${CMAKE_COMMAND} -E env ${DOCSET_ENV} ${SPHINXBUILD} -b linkcheck -c
-      ${DOCSET_CFG_DIR} -d ${DOCSET_DOCTREE_DIR} -w
-      ${DOCSET_BUILD_DIR}/linkcheck.log ${SPHINXOPTS_DEFAULT} ${EXTRA_ARGS}
-      ${DOCSET_SRC_DIR} ${DOCSET_BUILD_DIR}
+      ${CMAKE_COMMAND} -E env ${docset_env} ${SPHINXBUILD} -b linkcheck -c
+      ${docset_cfg_dir} -d ${docset_doctree_dir} -w
+      ${docset_build_dir}/linkcheck.log ${SPHINXOPTS_DEFAULT} ${extra_args}
+      ${docset_src_dir} ${docset_build_dir}
     USES_TERMINAL
     COMMENT "Checking links for ${name} docset...")
 
   set_target_properties(
     ${name}-inventory ${name}-inventory-all ${name} ${name}-all
-    ${name}-linkcheck PROPERTIES ADDITIONAL_CLEAN_FILES "${DOCSET_CLEAN_DIRS}")
+    ${name}-linkcheck PROPERTIES ADDITIONAL_CLEAN_FILES "${docset_clean_dirs}")
 
-  add_custom_target(${name}-clean COMMAND ${CMAKE_COMMAND} -E rm -rf
-                                          ${DOCSET_CLEAN_DIRS})
+  add_custom_target(
+    ${name}-clean
+    COMMENT "Cleaning the build"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${docset_clean_dirs})
 endfunction()
 
 add_docset(zephyr DODGY)
@@ -235,6 +244,7 @@ add_docset(testing)
 
 add_custom_target(
   copy-content
+  COMMENT "Copying content"
   COMMAND ${CMAKE_COMMAND} -E copy
           ${CMAKE_CURRENT_LIST_DIR}/_static/html/index.html ${HTML_DIR}
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/versions.json
@@ -246,7 +256,7 @@ add_custom_target(
           -b ${CMAKE_BINARY_DIR}
   COMMENT "Merging search indexes...")
 
-add_custom_target(pdf ALL)
+add_custom_target(pdf ALL COMMENT "Building all PDFs")
 add_dependencies(
   pdf
   copy-content
@@ -259,7 +269,7 @@ add_dependencies(
   # renode-docs-pdf
 )
 
-add_custom_target(build-all ALL)
+add_custom_target(build-all ALL COMMENT "Building all docs")
 add_dependencies(
   build-all
   copy-content

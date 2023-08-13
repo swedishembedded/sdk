@@ -1,6 +1,5 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
-# Consulting: https://swedishembedded.com/go
+# SPDX-License-Identifier: Apache-2.0 Copyright (c) 2022 Martin Schröder
+# <info@swedishembedded.com> Consulting: https://swedishembedded.com/go
 # Training: https://swedishembedded.com/tag/training
 
 find_program(RENODE renode)
@@ -9,9 +8,7 @@ find_program(RENODE_TEST renode-test)
 add_subdirectory_ifdef(CONFIG_TESTBENCH_NUCLEO401RE_MCP23S17
                        nucleo401re_mcp23s17)
 
-set(TESTBENCH_DIR
-    "${CMAKE_CURRENT_LIST_DIR}/${TESTBENCH}"
-    CACHE INTERNAL "TESTBENCH_DIR")
+set(TESTBENCH_DIR "${CMAKE_CURRENT_LIST_DIR}/${TESTBENCH}" "TESTBENCH_DIR")
 
 set(RENODE_COMMANDS "path add @${PROJECT_BASE}/renode\;")
 string(APPEND RENODE_COMMANDS
@@ -35,19 +32,22 @@ if(EXISTS ${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.resc)
     testbench
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}" -e
             "${BENCH_COMMANDS}"
+    COMMENT "Running standard testbench"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
   add_custom_target(
     testbench_xwt
     COMMAND ${RENODE} -e "${RENODE_COMMANDS}" -e "${BENCH_COMMANDS}"
+    COMMENT "Running testbench with xwt enabled"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
   add_custom_target(
     testbench_debugserver
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
-            "machine StartGdbServer 3333\;" -e "${BENCH_COMMANDS}"
+            "${BENCH_COMMANDS}" -e "machine StartGdbServer 3333\;"
+    COMMENT "Running testbench with debugserver"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -61,6 +61,7 @@ if(EXISTS ${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.resc)
       APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
       ${RENODE_TEST} --show-log
       ${PROJECT_BASE}/testbench/${TESTBENCH}/testbench.robot
+    COMMENT "Running default testbench"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -68,11 +69,13 @@ else()
   add_custom_target(
     testbench
     COMMAND echo "No testbench is configured for this project."
+    COMMENT "Error"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     USES_TERMINAL)
   add_custom_target(
     robotbench
     COMMAND echo "No testbench is configured for this project."
+    COMMENT "Error"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     USES_TERMINAL)
 endif()
@@ -83,6 +86,7 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
     boardbench
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
             "${BENCH_COMMANDS}" -e "start\;"
+    COMMENT "Running board specific testbench"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -90,6 +94,7 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
     boardbench_xwt
     COMMAND ${RENODE} -e "${RENODE_COMMANDS}" -e "${BENCH_COMMANDS}" -e
             "start\;"
+    COMMENT "Running board specific testbench with xwt enabled"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -97,6 +102,7 @@ if(EXISTS ${BOARD_DIR}/${BOARD}.resc)
     boardbench_debugserver
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
             "${BENCH_COMMANDS}" -e "machine StartGdbServer 3333\;"
+    COMMENT "Running board specific testbench with debugserver enabled"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -104,6 +110,7 @@ else()
   add_custom_target(
     boardbench
     COMMAND echo "No board level simulation script defined for this board"
+    COMMENT "Error"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     USES_TERMINAL)
 endif()
@@ -115,6 +122,7 @@ if(EXISTS ${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc)
     appbench
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}" -e
             "${BENCH_COMMANDS}" -e "start\;"
+    COMMENT "Running application specific testbench"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -122,6 +130,7 @@ if(EXISTS ${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc)
     appbench_xwt
     COMMAND ${RENODE} -e "${RENODE_COMMANDS}" -e "${BENCH_COMMANDS}" -e
             "start\;"
+    COMMENT "Running application specific testbench with xwt"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -131,6 +140,7 @@ if(EXISTS ${APPLICATION_SOURCE_DIR}/boards/${BOARD}.resc)
     appbench_debugserver
     COMMAND ${RENODE} --console --disable-xwt -e "${RENODE_COMMANDS}\;" -e
             "machine StartGdbServer 3333\;" -e "${BENCH_COMMANDS}"
+    COMMENT "Running application specific testbench with debugserver"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
     USES_TERMINAL)
@@ -138,6 +148,7 @@ else()
   add_custom_target(
     appbench
     COMMAND echo "No application level simulation script defined for this board"
+    COMMENT "Error"
     WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
     USES_TERMINAL)
 endif()
@@ -151,6 +162,7 @@ add_custom_target(
     APPLICATION_BINARY_DIR=${APPLICATION_BINARY_DIR}
     APPLICATION_SOURCE_DIR=${APPLICATION_SOURCE_DIR} BOARD=${BOARD}
     ${RENODE_TEST} --show-log ${APPLICATION_SOURCE_DIR}/sample.robot
+  COMMENT "Running default robot script"
   WORKING_DIRECTORY ${APPLICATION_BINARY_DIR}
   DEPENDS ${APPLICATION_BINARY_DIR}/zephyr/${KERNEL_ELF_NAME}
   USES_TERMINAL)

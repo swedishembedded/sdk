@@ -12,7 +12,6 @@ __version__ = "0.1.0"
 
 
 class DoxygenIdentifierReferenceResolver(SphinxPostTransform):
-
     # must run before sphinx ReferenceResolver
     default_priority = 5
     # only resolve identifier xrefs for these domains

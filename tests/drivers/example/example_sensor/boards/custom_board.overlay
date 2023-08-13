@@ -16,7 +16,6 @@
 	example_sensor: example_sensor@0{
 		reg = <0>;
 		compatible = "example-sensor";
-		label = "EXAMPLE_SENSOR";
 		gpios = <&gpioa 4 GPIO_ACTIVE_LOW>;
 		spi-max-frequency = <1000000>;
 		status = "okay";

@@ -9,8 +9,8 @@
 #define DT_DRV_COMPAT example_driver
 
 #include <errno.h>
-#include <device.h>
-#include <logging/log.h>
+#include <zephyr/device.h>
+#include <zephyr/logging/log.h>
 #include <drivers/example/example_driver.h>
 
 /** Create a logger */
@@ -28,11 +28,11 @@ struct example_driver_config {
 };
 
 /** Driver initialization */
-static int _example_driver_init(const struct device *dev)
+static int example_driver_init(const struct device *dev)
 {
-	if (!dev)
+	if (!dev) {
 		return -EINVAL;
-	printk("Example driver initialized!\n");
+	}
 	LOG_INF("Example driver initialized!");
 	return 0;
 }
@@ -43,7 +43,7 @@ static int _example_driver_init(const struct device *dev)
 	static const struct example_driver_config _example_config_##n = {                          \
 		.custom_variable = DT_INST_PROP(n, custom_variable),                               \
 	};                                                                                         \
-	DEVICE_DT_INST_DEFINE(n, _example_driver_init, NULL, &_example_##n, &_example_config_##n,  \
+	DEVICE_DT_INST_DEFINE(n, example_driver_init, NULL, &_example_##n, &_example_config_##n,   \
 			      POST_KERNEL, CONFIG_APPLICATION_INIT_PRIORITY, NULL)
 
 /** Instantiate the driver */

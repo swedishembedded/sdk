@@ -1,104 +1,83 @@
 image:
-    name: swedishembedded/build:v0.24.6
+  name: swedishembedded/build:v0.26.4-1
 
 default:
   tags:
     - docker
 
 cache:
-    key: $CI_COMMIT_REF_SLUG
+  key: $CI_COMMIT_REF_SLUG
 
 stages:
- - build
- - test
+  - build
+  - unit_tests
+  - integration_tests
+  - system_tests
 
 # This job runs all code checks, unit and integration tests
 integrity:
-    stage: build
-    artifacts:
-        paths:
-            - report.html
-            - log.html
-        expire_in: 1 week
-        when: always
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    script:
-        - ./scripts/init
-        - west integrity
+  stage: build
+  artifacts:
+    paths:
+      - report.html
+      - log.html
+    expire_in: 1 week
+    when: always
+  script:
+    - ./scripts/init
+    - ./scripts/check
+    - pre-commit run --all-files
 
 # This job builds applications
 documentation:
-    stage: build
-    artifacts:
-        paths:
-            - build-doc/**/*.pdf
-        expire_in: 1 week
-        when: always
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    script:
-        # for docs. Move to docker image.
-        - apt-get update && apt-get install -qy tex-gyre
-        - ./scripts/init
-        - ./scripts/build-doc --sdk-only
+  stage: build
+  artifacts:
+    paths:
+      - build-doc/**/*.pdf
+    expire_in: 1 week
+    when: always
+  script:
+    # for docs. Move to docker image.
+    - apt-get update && apt-get install -qy tex-gyre
+    - ./scripts/init
+    - ./scripts/build-doc --sdk-only
 
 applications:
-    stage: build
-    artifacts:
-        paths:
-            - build-apps/**/zephyr.elf
-            - build-release/**/release/
-            - release/*
-        expire_in: 1 week
-        when: always
-        reports:
-            coverage_report:
-                coverage_format: cobertura
-                path: build-tests/coverage.xml
-            junit:
-                # Report from unit and integration testing
-                - build-tests/twister_report.xml
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    script:
-        - ./scripts/init
-        - ./scripts/build
+  stage: build
+  artifacts:
+    paths:
+      - build-apps/**/zephyr.elf
+      - build-release/**/release/
+      - release/*
+    expire_in: 1 week
+    when: always
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: build-tests/coverage.xml
+      junit:
+        # Report from unit and integration testing
+        - build-tests/twister_report.xml
+  script:
+    - ./scripts/init
+    - ./scripts/build
 
 # This job runs all system tests on built applications
 test:
-    stage: test
-    coverage: /^\s*lines:\s*\d+.\d+\%/
-    artifacts:
-        paths:
-            - build-tests/coverage*
-        expire_in: 1 week
-        when: always
-        reports:
-            coverage_report:
-                coverage_format: cobertura
-                path: build-tests/coverage.xml
-            junit:
-                # Report from unit and integration testing
-                - build-tests/twister_report.xml
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    script:
-        - ./scripts/init
-        - ./scripts/test
-
-# This is a job that does the "long build"
-# where we start with a fresh ubuntu image
-build_from_scratch:
-    image: ubuntu:latest
-    stage: build
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "web"
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-    before_script:
-        - bash -x ./scripts/install-sdk
-        - bash -x ./scripts/init
-    script:
-        - bash -x ./scripts/check
-        - bash -x ./scripts/build
-        - bash -x ./scripts/test
+  stage: unit_tests
+  coverage: /^\s*lines:\s*\d+.\d+\%/
+  artifacts:
+    paths:
+      - build-tests/coverage*
+    expire_in: 1 week
+    when: always
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: build-tests/coverage.xml
+      junit:
+        # Report from unit and integration testing
+        - build-tests/twister_report.xml
+  script:
+    - ./scripts/init
+    - ./scripts/test

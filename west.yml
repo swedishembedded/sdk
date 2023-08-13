@@ -8,24 +8,26 @@ manifest:
   remotes:
     - name: swedishembedded
       url-base: https://github.com/swedishembedded
+    - name: zephyr
+      url-base: https://github.com/zephyrproject-rtos
     - name: renode
       url-base: https://github.com/renode
   projects:
-    - name: develop
+    - name: workstation
       remote: swedishembedded
-      revision: v0.24.6
-      path: docker-image
+      revision: v0.26.4-0
+      path: workstation
     - name: zephyr
-      remote: swedishembedded
-      revision: v3.1.0-swe
+      remote: zephyr
+      revision: v3.4.0
       import: true
     - name: renode
-      path: renode
+      path: tools/renode
       revision: v1.13.1
       submodules: true
       remote: renode
     - name: renode-docs
-      path: renode-docs
+      path: tools/renode/docs
       revision: master
       remote: renode
     - name: control
@@ -38,6 +40,6 @@ manifest:
       remote: swedishembedded
     - name: testing
       path: modules/test/testing
-      revision: v0.34.3
+      revision: fc85f31
       remote: swedishembedded
       import: true

@@ -8,15 +8,14 @@
 
 #define DT_DRV_COMPAT microchip_mcp23s17v2
 
-#include <device.h>
-#include <kernel.h>
-#include <logging/log.h>
-#include <drivers/gpio.h>
-#include <drivers/spi.h>
-#include <drivers/gpio/gpio_utils.h>
-
-#include <sys/byteorder.h>
-#include <sys/util.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/gpio/gpio_utils.h>
+#include <zephyr/drivers/spi.h>
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/sys/byteorder.h>
+#include <zephyr/sys/util.h>
 
 /** Register log module */
 LOG_MODULE_REGISTER(mcp23s17);

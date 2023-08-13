@@ -6,7 +6,7 @@
 sample:
   name: Example sensor sample
 tests:
-  samples.drivers.example.example_sensor.release:
+  samples.drivers.example.example_driver.release:
     build_only: true
     integration_platforms:
       - native_posix

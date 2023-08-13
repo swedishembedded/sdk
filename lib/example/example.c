@@ -6,7 +6,7 @@
  **/
 
 #include <string.h>
-#include <kernel.h>
+#include <zephyr/kernel.h>
 #include <example/example.h>
 
 int example_object_init(struct example_object *self)

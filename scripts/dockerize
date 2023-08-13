@@ -1,17 +1,17 @@
 #!/bin/bash
 # SPDX-License-Identifier: Apache-2.0
 
-ROOT="$(realpath $(dirname $BASH_SOURCE)/..)"
-WORKSPACE="$(realpath $ROOT/..)"
+ROOT="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
+WORKSPACE="$(realpath "$ROOT/..")"
 
-DOCKER_IMAGE="swedishembedded/build:v0.24.5"
+DOCKER_IMAGE="swedishembedded/build:v0.26.4-1"
 
 HOST_UID=$(id -u)
 HOST_GID=$(id -g)
 
 PARAMETERS="$@"
 
-docker run -t --rm \
+docker run -it --rm \
         -v $WORKSPACE:$WORKSPACE \
         -v $HOME/.ssh/:/home/user/.ssh \
 		$DOCKER_IMAGE /bin/bash -c \

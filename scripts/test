@@ -19,7 +19,6 @@ $ROOT/../zephyr/scripts/twister \
 	-O build-tests \
 	-v \
 	-i \
-	-A boards \
 	-T tests || {
 	echo "Error while trying to build project"
 	exit 1
